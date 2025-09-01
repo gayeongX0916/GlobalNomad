@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import ArrowDown from "@/assets/arrow_down.svg";
 
 export type MenuItem = { label: string };
@@ -25,6 +25,8 @@ export function Dropdown({ children, items, onSelect }: DropdownProps) {
     return () => document.removeEventListener("click", handleonClick);
   });
 
+  const handleIsOpen = useCallback(() => setIsOpen((prev) => !prev), []);
+
   return (
     <>
       <div
@@ -32,10 +34,7 @@ export function Dropdown({ children, items, onSelect }: DropdownProps) {
         className="flex items-center w-full justify-between px-[20px] py-[16px] rounded-[15px] text-2lg text-green-900 border border-green-900 relative"
       >
         {children}
-        <button
-          className="cursor-pointer"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
+        <button className="cursor-pointer" onClick={handleIsOpen}>
           <Image src={ArrowDown} alt="더보기" width={22} height={22} />
         </button>
       </div>
