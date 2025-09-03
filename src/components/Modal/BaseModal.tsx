@@ -19,7 +19,7 @@ export function BaseModal({
 }: BaseModalProps) {
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <div className="bg-white px-[24px] pt-[28px] pb-[32px] rounded-[24px] w-[327px] border border-gray-200">
+      <div className="bg-white px-[23px] pt-[24px] pb-[32px] rounded-[24px] min-w-[327px] border border-gray-200 w-full">
         <div className="flex items-center justify-between w-full">
           <span
             className={`font-bold text-black ${
