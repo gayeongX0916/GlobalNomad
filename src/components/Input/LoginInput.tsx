@@ -27,7 +27,7 @@ export function LoginInput({
 
   return (
     <div className="flex flex-col gap-y-[8px]">
-      <span className="text-lg text-black">{label}</span>
+      <label className="text-lg text-black">{label}</label>
       <div className="relative">
         <input
           type={type}
@@ -53,7 +53,7 @@ export function LoginInput({
         )}
       </div>
       {errorMessage && (
-        <span className="text-xs text-red-500 pl-[8px]">{errorMessage}</span>
+        <p className="text-xs text-red-500 pl-[8px]">{errorMessage}</p>
       )}
     </div>
   );

@@ -14,7 +14,7 @@ type DateInputProps = {
 export function DateInput({ value, onChange, placeholder }: DateInputProps) {
   return (
     <div className="flex flex-col gap-y-[10px]">
-      <span className="text-xl text-gray-900">날짜</span>
+      <label className="text-xl text-gray-900">날짜</label>
       <div className="relative w-full [&_.react-datepicker-wrapper]:w-full">
         <DatePicker
           selected={value ? new Date(value) : null}
