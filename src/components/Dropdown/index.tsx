@@ -41,12 +41,13 @@ export function Dropdown({ children, items, onSelect }: DropdownProps) {
       {isOpen && (
         <ul className="text-md w-full rounded-[5px] border border-gray-300 text-gray-900 flex flex-col divide-y divide-gray-200 md:text-2lg absolute mt-[8px] bg-white z-20">
           {items.map((item) => (
-            <li
-              key={item.label}
-              onClick={() => onSelect(item.label)}
-              className="cursor-pointer px-[12px] py-[18px]  hover:bg-gray-200 text-center"
-            >
-              {item.label}
+            <li key={item.label}>
+              <button
+                onClick={() => onSelect(item.label)}
+                className="cursor-pointer px-[12px] py-[18px]  hover:bg-gray-200 w-full"
+              >
+                {item.label}
+              </button>
             </li>
           ))}
         </ul>
