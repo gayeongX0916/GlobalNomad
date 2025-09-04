@@ -38,7 +38,10 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
       onClose={onClose}
       title="후기 작성"
     >
-      <article className="flex flex-col gap-y-[24px] pt-[41px]">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-y-[24px] pt-[41px]"
+      >
         <header className="flex gap-x-[24px] items-center">
           <Image
             src={exampleImage}
@@ -48,9 +51,9 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
             className="rounded-[12px] object-cover w-[126px] h-[126px]"
           />
           <div className="flex flex-col gap-y-[12px]">
-            <h2 className="text-xl font-bold text-nomadBlack whitespace-nowrap">
+            <h3 className="text-xl font-bold text-nomadBlack whitespace-nowrap">
               함께 배우면 즐거운 스트릿 댄스
-            </h2>
+            </h3>
             <p className="text-2lg text-nomadBlack">
               2023.2.14 · 11:00 - 12:30 · 10명
             </p>
@@ -59,7 +62,7 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
           </div>
         </header>
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-[24px]">
+        <fieldset className="flex flex-col gap-[24px]">
           <div className="flex gap-x-[8px] justify-center">
             {Array.from({ length: 5 }, (_, i) => {
               const starValue = i + 1;
@@ -83,25 +86,23 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
               );
             })}
           </div>
+        </fieldset>
 
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="후기를 작성해주세요."
-            className="w-full rounded-[4px] bg-white border border-gray-800 resize-none py-[8px] px-[16px] min-h-[240px]"
-          />
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="후기를 작성해주세요."
+          className="w-full rounded-[4px] bg-white border border-gray-800 resize-none py-[8px] px-[16px] min-h-[240px]"
+        />
 
-          <footer>
-            <button
-              type="submit"
-              className="rounded-[4px] bg-nomadBlack text-white text-lg font-bold py-[8px] w-full cursor-pointer"
-              disabled={rating === 0 || content.length === 0}
-            >
-              작성하기
-            </button>
-          </footer>
-        </form>
-      </article>
+        <button
+          type="submit"
+          className="rounded-[4px] bg-nomadBlack text-white text-lg font-bold py-[8px] w-full cursor-pointer"
+          disabled={rating === 0 || content.length === 0}
+        >
+          작성하기
+        </button>
+      </form>
     </BaseModal>
   );
 }

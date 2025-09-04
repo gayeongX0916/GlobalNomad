@@ -5,7 +5,7 @@ import ChevronUp from "@/assets/chevron_up.svg";
 import CheckIcon from "@/assets/check_icon.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { MenuItem } from "../Dropdown/Dropdown";
+import { MenuItem } from "../Dropdown";
 
 type SelectInputProps = {
   placeholder: string;
@@ -53,9 +53,9 @@ export function SelectInput({ placeholder, items }: SelectInputProps) {
         </button>
       </div>
       {isOpen && (
-        <div className="w-full px-[8px] py-[8px] rounded-[6px] shadow-md flex flex-col gap-y-[2px] mt-[8px] bg-white border border-gray-100">
+        <ul className="w-full px-[8px] py-[8px] rounded-[6px] shadow-md flex flex-col gap-y-[2px] mt-[8px] bg-white border border-gray-100">
           {items.map((item) => (
-            <button
+            <li
               key={item.label}
               className={`flex items-center gap-x-[8px] rounded-[6px] py-[8px] pl-[8px] cursor-pointer ${
                 value === item.label ? "bg-nomadBlack" : "bg-white"
@@ -74,9 +74,9 @@ export function SelectInput({ placeholder, items }: SelectInputProps) {
               >
                 {item.label}
               </span>
-            </button>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </>
   );

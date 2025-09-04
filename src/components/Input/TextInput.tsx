@@ -13,7 +13,7 @@ export function TextInput({ label, placehoder, value }: TextInputProps) {
 
   return (
     <div className="flex flex-col gap-y-[16px]">
-      <span className="text-2xl text-black font-bold">{label}</span>
+      <label className="text-2xl text-black font-bold">{label}</label>
       <input
         placeholder={placehoder}
         value={newValue}
