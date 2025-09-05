@@ -20,7 +20,7 @@ export function BaseModal({
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <div
-        className={`min-w-[327px] border border-gray-200 w-full ${
+        className={`min-w-[327px] border border-gray-200 w-full z-50 fixed inset-0 ${
           mode === "action"
             ? "bg-white px-[23px] pt-[24px] pb-[32px] rounded-[24px]"
             : "bg-green-100 px-[20px] py-[24px] rounded-[10px]"
