@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 type TextInputProps = {
-  label: string;
+  label?: string;
   placehoder?: string;
   value?: string;
 };
@@ -13,7 +13,7 @@ export function TextInput({ label, placehoder, value }: TextInputProps) {
 
   return (
     <div className="flex flex-col gap-y-[16px]">
-      <label className="text-2xl text-black font-bold">{label}</label>
+      <label className="text-2xl text-black font-bold">{label && ""}</label>
       <input
         placeholder={placehoder}
         value={newValue}
