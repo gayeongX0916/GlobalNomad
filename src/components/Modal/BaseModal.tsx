@@ -5,7 +5,7 @@ import CloseIcon from "@/assets/close_icon.svg";
 import Image from "next/image";
 
 interface BaseModalProps extends ModalProps {
-  mode: "action" | "alert";
+  mode: "action" | "notification";
   title: string;
   children: ReactNode;
 }
@@ -19,7 +19,13 @@ export function BaseModal({
 }: BaseModalProps) {
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <div className="bg-white px-[23px] pt-[24px] pb-[32px] rounded-[24px] min-w-[327px] border border-gray-200 w-full">
+      <div
+        className={`min-w-[327px] border border-gray-200 w-full ${
+          mode === "action"
+            ? "bg-white px-[23px] pt-[24px] pb-[32px] rounded-[24px]"
+            : "bg-green-100 px-[20px] py-[24px] rounded-[10px]"
+        }`}
+      >
         <div className="flex items-center justify-between w-full">
           <span
             className={`font-bold text-black ${
@@ -34,7 +40,7 @@ export function BaseModal({
               alt="닫기"
               width={40}
               height={40}
-              className={`${mode === "alert" && "w-[24px] h-[24px]"}`}
+              className={`${mode === "notification" && "w-[24px] h-[24px]"}`}
             />
           </button>
         </div>
