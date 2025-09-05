@@ -1,7 +1,6 @@
 import { format } from "date-fns";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import { DayPicker } from "react-day-picker";
 import { CalendarHeader } from "./CalendarHeader";
 
 type Slot = {
