@@ -1,8 +1,4 @@
-import { MenuItem } from "../Dropdown";
-import { DateInput } from "../Input/DateInput";
-import { SelectInput } from "../Input/SelectInput";
-import { TextInput } from "../Input/TextInput";
-import { TimeInput } from "../Input/TimeInput";
+import { MenuItem } from "../ui/Dropdown";
 import PlusIcon from "@/assets/plus_icon.svg";
 import MinusIcon from "@/assets/minus_icon.svg";
 import Image from "next/image";
@@ -10,6 +6,10 @@ import AddIcon from "@/assets/add_icon.svg";
 import { useRef, useState } from "react";
 import example from "@/assets/example.svg";
 import DeleteIcon from "@/assets/delete_icon.svg";
+import { TextInput } from "../ui/Input/TextInput";
+import { SelectInput } from "../ui/Input/SelectInput";
+import { DateInput } from "../ui/Input/DateInput";
+import { TimeInput } from "../ui/Input/TimeInput";
 
 const items: MenuItem[] = [
   { label: "액티비티" },

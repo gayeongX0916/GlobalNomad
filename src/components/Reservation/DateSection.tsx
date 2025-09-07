@@ -1,4 +1,4 @@
-import { Dropdown, MenuItem } from "../Dropdown";
+import { Dropdown, MenuItem } from "../ui/Dropdown";
 import { SelectInput } from "../Input/SelectInput";
 
 export function DateSection() {

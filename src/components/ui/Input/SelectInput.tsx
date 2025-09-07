@@ -5,7 +5,7 @@ import ChevronUp from "@/assets/chevron_up.svg";
 import CheckIcon from "@/assets/check_icon.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { MenuItem } from "../Dropdown";
+import type { MenuItem } from "../ui/Dropdown";
 
 type SelectInputProps = {
   placeholder: string;
