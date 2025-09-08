@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 
 // Icons
 import VisibilityOff from "@/assets/svgs/visibility_off.svg";
@@ -12,16 +12,21 @@ type LoginInputProps = {
   label: string;
   placeholder: string;
   errorMessage?: string;
+  value: string;
+  onChange: (v: string) => void;
+  onBlur?: () => void;
 };
 
-export function LoginInput({
+const LoginInputBase = ({
   mode,
   label,
   placeholder,
   errorMessage,
-}: LoginInputProps) {
+  value,
+  onChange,
+  onBlur,
+}: LoginInputProps) => {
   const [show, setShow] = useState(false);
-  const [value, setValue] = useState("");
 
   const type = mode === "password" ? (show ? "text" : "password") : "email";
 
@@ -36,7 +41,8 @@ export function LoginInput({
           type={type}
           placeholder={placeholder}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
           className={`px-[20px] py-[16px] rounded-[6px] border w-full ${
             errorMessage ? "border-red-500" : "border-gray-800"
           }`}
@@ -59,8 +65,18 @@ export function LoginInput({
         )}
       </div>
       {errorMessage && (
-        <p className="text-xs text-red-500 pl-[8px]">{errorMessage}</p>
+        <p className="text-md text-red-500 pl-[8px]">{errorMessage}</p>
       )}
     </div>
   );
-}
+};
+
+export const LoginInput = memo(
+  LoginInputBase,
+  (prev, next) =>
+    prev.value === next.value &&
+    prev.errorMessage === next.errorMessage &&
+    prev.label === next.label &&
+    prev.placeholder === next.placeholder &&
+    prev.mode === next.mode
+);
