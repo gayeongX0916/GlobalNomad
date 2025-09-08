@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 // Icons
-import Logo from "@/assets/logo/logo.svg";
+import Logo from "@/assets/logo/logo_horizontal.svg";
 import NotificationIcon from "@/assets/svgs/notification_icon.svg";
 import example from "@/assets/svgs/example.svg";
 
