@@ -1,6 +1,9 @@
-import NextIcon from "@/assets/next_icon.svg";
-import PrevIcon from "@/assets/prev_icon.svg";
 import Image from "next/image";
+
+// Icons
+import NextIcon from "@/assets/svgs/next_icon.svg";
+import PrevIcon from "@/assets/svgs/prev_icon.svg";
+
 
 type CalenderHeaderProps = {
   date: Date;
@@ -33,12 +36,34 @@ export function CalendarHeader({
 
   return (
     <div className="bg-white flex items-center justify-between px-[27px]">
-      <button onClick={onPrevMonth} type="button" className="cursor-pointer">
-        <Image src={PrevIcon} alt="이전" width={16} height={16} />
+      <button
+        onClick={onPrevMonth}
+        type="button"
+        className="cursor-pointer"
+        aria-label="이전 달"
+      >
+        <Image
+          src={PrevIcon}
+          alt=""
+          aria-hidden="true"
+          width={16}
+          height={16}
+        />
       </button>
       <p className="text-md font-bold text-black">{`${monthName} ${year}`}</p>
-      <button onClick={onNextMonth} type="button" className="cursor-pointer">
-        <Image src={NextIcon} alt="다음" width={16} height={16} />
+      <button
+        onClick={onNextMonth}
+        type="button"
+        className="cursor-pointer"
+        aria-label="다음 달"
+      >
+        <Image
+          src={NextIcon}
+          alt=""
+          aria-hidden="true"
+          width={16}
+          height={16}
+        />
       </button>
     </div>
   );

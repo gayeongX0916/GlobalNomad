@@ -1,3 +1,5 @@
+"use client";
+
 import { format } from "date-fns";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
@@ -29,7 +31,13 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
 
   return (
     <div>
-      <div className="px-[15px] flex justify-center">
+      <section
+        className="px-[15px] flex justify-center"
+        aria-labelledby="date-picker-title"
+      >
+        <h3 id="date-picker-title" className="sr-only">
+          날짜 선택
+        </h3>
         <DatePicker
           selected={selectedDate}
           onSelect={(day) => {
@@ -46,9 +54,16 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
             />
           )}
         />
-      </div>
-      <div className="mt-[16px]">
-        <h3 className="text-2lg font-bold text-nomadBlack">예약 가능한 시간</h3>
+      </section>
+
+      <section className="mt-[16px]" aria-labelledby="available-times-title">
+        <h3
+          id="available-times-title"
+          className="text-2lg font-bold text-nomadBlack"
+        >
+          예약 가능한 시간
+        </h3>
+
         {slotsForDate.length === 0 ? (
           <p className="mt-[8px] text-lg text-gray-800">
             예약 가능한 시간이 없습니다.
@@ -61,7 +76,7 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
                 selectedSlot?.startTime === slot.startTime;
 
               return (
-                <li key={i}>
+                <li key={`${slot.date}-${slot.startTime}-${slot.endTime}`}>
                   <button
                     type="button"
                     onClick={() => handleSelectSlot(slot)}
@@ -69,7 +84,7 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
                       ${
                         isSelected
                           ? "bg-nomadBlack text-white"
-                          : "border-nomadBlack bg-wthie text-nomadBlack"
+                          : "border-nomadBlack bg-white text-nomadBlack"
                       }
                     `}
                   >
@@ -80,7 +95,7 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
             })}
           </ul>
         )}
-      </div>
+      </section>
     </div>
   );
 }
