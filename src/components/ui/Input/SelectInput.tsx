@@ -55,9 +55,10 @@ export function SelectInput({ placeholder, items }: SelectInputProps) {
       >
         <Image
           src={isOpen ? ChevronUp : ChevronDown}
-          alt="더보기"
+          alt=""
           width={24}
           height={24}
+          aria-hidden="true"
         />
       </button>
 

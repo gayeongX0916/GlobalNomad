@@ -1,9 +1,11 @@
 "use client";
 
-import VisibilityOff from "@/assets/visibility_off.svg";
-import VisibilityOn from "@/assets/visibility_on.svg";
 import Image from "next/image";
 import { useCallback, useState } from "react";
+
+// Icons
+import VisibilityOff from "@/assets/svgs/visibility_off.svg";
+import VisibilityOn from "@/assets/svgs/visibility_on.svg";
 
 type LoginInputProps = {
   mode: "email" | "password";
@@ -28,6 +30,7 @@ export function LoginInput({
   return (
     <div className="flex flex-col gap-y-[8px]">
       <label className="text-lg text-black">{label}</label>
+
       <div className="relative">
         <input
           type={type}
@@ -40,12 +43,15 @@ export function LoginInput({
         />
         {mode === "password" && (
           <button
+            type="button"
             className="flex absolute cursor-pointer right-[12px] top-1/2 -translate-y-1/2"
             onClick={handleSetShow}
+            aria-label={show ? "비밀번호 보기" : "비밀번호 숨기기"}
           >
             <Image
               src={show ? VisibilityOn : VisibilityOff}
-              alt="보기"
+              alt=""
+              aria-hidden="true"
               width={24}
               height={24}
             />

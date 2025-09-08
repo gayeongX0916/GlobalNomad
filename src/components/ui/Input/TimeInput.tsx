@@ -1,6 +1,6 @@
 "use client";
 
-import ChevronDown from "@/assets/chevron_down.svg";
+import ChevronDown from "@/assets/svgs/chevron_down.svg";
 import {
   Listbox,
   ListboxButton,
@@ -50,13 +50,14 @@ export function TimeInput({
         onChange={(v: string) => onChange?.(v === "" ? null : v)}
       >
         <div className="relative">
-          <ListboxButton className="pl-[16px] py-[15px] pr-[40px] text-left border border-gray-800 w-full text-black rounded-[4px] min-w-[178px]">
+          <ListboxButton className="pl-[16px] py-[15px] pr-[40px] text-left border border-gray-800 w-full text-black rounded-[4px] min-w-[140px]">
             <span className={initialValue ? "" : "text-gray-600"}>
               {initialValue || "00:00"}
             </span>
             <Image
               src={ChevronDown}
-              alt="드롭다운 열기"
+              alt=""
+              aria-hidden="true"
               width={20}
               height={20}
               className="pointer-events-none absolute top-1/2 right-[12px] -translate-y-1/2"
