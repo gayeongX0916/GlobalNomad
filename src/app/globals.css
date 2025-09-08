@@ -2,11 +2,15 @@
 @import "react-datepicker/dist/react-datepicker.css";
 
 @theme {
+  --font-sans: var(--font-pretendard), ui-sans-serif, system-ui, -apple-system,
+    "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", "Helvetica Neue", Arial,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
   /* Breakpoints */
   --breakpoint-md: 48rem; /* 768px */
   --breakpoint-lg: 75rem; /* 1200px */
 
-  /* Font sizes with line-height */
+  /* Font sizes and line-height */
   --text-3xl: 32px;
   --text-3xl--line-height: 42px;
 
@@ -61,4 +65,35 @@
   --color-blue-500: #0085ff;
   --color-blue-300: #2eb4ff;
   --color-blue-100: #e5f3ff;
+}
+
+.react-datepicker__header--custom {
+  background: #fff;
+  border: 0;
+}
+
+.react-datepicker__day:not(.react-datepicker__day--disabled):not(
+    .react-datepicker__day--outside-month
+  ):hover {
+  background: #ced8d5;
+  color: #0b3b2d;
+  border-radius: 8px;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background: #0b3b2d;
+  color: #fff;
+  border-radius: 8px;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 }
