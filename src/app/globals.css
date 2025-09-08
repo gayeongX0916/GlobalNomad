@@ -75,7 +75,7 @@
 .react-datepicker__day:not(.react-datepicker__day--disabled):not(
     .react-datepicker__day--outside-month
   ):hover {
-  background: #ced8d5; 
+  background: #ced8d5;
   color: #0b3b2d;
   border-radius: 8px;
 }
@@ -85,4 +85,15 @@
   background: #0b3b2d;
   color: #fff;
   border-radius: 8px;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 }
