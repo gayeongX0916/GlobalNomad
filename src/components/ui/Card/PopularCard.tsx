@@ -1,5 +1,7 @@
 import Image from "next/image";
-import StarIcon from "@/assets/star_icon_on.svg";
+
+// Icons
+import StarIcon from "@/assets/svgs/star_icon_on.svg";
 
 type PopularCardProps = {
   rating: string;
@@ -17,29 +19,38 @@ export function PopularCard({
   imageUrl,
 }: PopularCardProps) {
   return (
-    <section className="relative w-[384px] h-[384px] cursor-pointer">
+    <article className="relative w-[384px] h-[384px] cursor-pointer">
       <Image
         src={imageUrl}
-        alt="대표 이미지"
+        alt={title}
         width={384}
         height={384}
         className="w-[384px] h-[384px] object-cover rounded-[20px]"
       />
+
       <div className="absolute bottom-4 left-4 text-white flex flex-col gap-y-[20px] justify-start">
         <div className="flex gap-x-[6px] items-center ">
-          <Image src={StarIcon} alt="평점" width={18} height={18} />
+          <Image
+            src={StarIcon}
+            alt=""
+            aria-hidden="true"
+            width={18}
+            height={18}
+          />
           <span className="text-lg font-semibold">
             {rating} {`(${reviewCount})`}
           </span>
         </div>
-        <h2 className="text-3xl font-bold whitespace-normal break-words max-w-[250px]">
+
+        <h3 className="text-3xl font-bold whitespace-normal break-words max-w-[250px]">
           {title}
-        </h2>
-        <span className="text-xl font-bold">
-          ₩ {price}
-          <span className="text-md text-gray-700"> / 인</span>
+        </h3>
+
+        <span className="text-2xl font-bold text-black">
+          <data value={price}>₩ {price}</data>
+          <span className="text-xl text-gray-900"> / 인</span>
         </span>
       </div>
-    </section>
+    </article>
   );
 }
