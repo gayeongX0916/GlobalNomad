@@ -1,11 +1,15 @@
 "use client";
 
-import ChevronDown from "@/assets/chevron_down.svg";
-import ChevronUp from "@/assets/chevron_up.svg";
-import CheckIcon from "@/assets/check_icon.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { MenuItem } from "../ui/Dropdown";
+
+// UI
+import { MenuItem } from "../Dropdown";
+
+// Icons
+import ChevronDown from "@/assets/svgs/chevron_down.svg";
+import ChevronUp from "@/assets/svgs/chevron_up.svg";
+import CheckIcon from "@/assets/svgs/check_icon.svg";
 
 type SelectInputProps = {
   placeholder: string;
@@ -38,11 +42,16 @@ export function SelectInput({ placeholder, items }: SelectInputProps) {
         className="px-[16px] py-[15px] rounded-[4px] border border-gray-800 w-full"
         value={value}
         onChange={handleChange}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown") setIsOpen(true);
+        }}
+        aria-label={placeholder}
       />
       <button
         type="button"
         className="flex cursor-pointer absolute right-[12px] top-1/2 -translate-y-1/2"
         onClick={() => setIsOpen((prev) => !prev)}
+        aria-label={isOpen ? "목록 닫기" : "목록 열기"}
       >
         <Image
           src={isOpen ? ChevronUp : ChevronDown}
