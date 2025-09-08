@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SchedulePicker } from "../Schedule/SchedulePicker";
+import { SchedulePicker } from "../ReservationSchedule/SchedulePicker";
 import { NumberStepper } from "./NumberStepper";
 import { ScheduleModal } from "../ui/Modal/ScheduleModal";
 import { CountPeopleModal } from "../ui/Modal/CountPeopleModal";
