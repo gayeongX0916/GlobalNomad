@@ -1,6 +1,6 @@
 import { ModalProps } from "@/types/modalProps";
 import { BaseModal } from "./BaseModal";
-import { NumberStepper } from "../FloatingBox/NumberStepper";
+import { NumberStepper } from "@/components/FloatingBox/NumberStepper";
 
 interface CountPeopleModalProps extends ModalProps {
   id?: number;

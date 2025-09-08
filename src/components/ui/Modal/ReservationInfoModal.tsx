@@ -1,8 +1,10 @@
+'use client'
+
 import { ModalProps } from "@/types/modalProps";
 import { BaseModal } from "./BaseModal";
 import { useState } from "react";
-import { DateSection } from "../Reservation/DateSection";
-import { ListSection } from "../Reservation/ListSection";
+import { DateSection } from "@/components/ReservationInfo/DateSection";
+import { ListSection } from "@/components/ReservationInfo/ListSection";
 
 interface ReservationInfoModalProps extends ModalProps {
   id: number;
@@ -44,7 +46,8 @@ export function ReservationInfoModal({
       onClose={onClose}
       title="예약 정보"
     >
-      <form className="flex flex-col gap-y-[24px]">
+      <div className="flex flex-col gap-y-[24px]">
+
         <nav className="border-b border-gray-300 flex gap-x-[12px]">
           {tabItems.map(({ key, label, count, onClick }) => (
             <button
@@ -65,9 +68,11 @@ export function ReservationInfoModal({
             </button>
           ))}
         </nav>
+
         <DateSection />
+
         <ListSection mode={active} />
-      </form>
+      </div>
     </BaseModal>
   );
 }

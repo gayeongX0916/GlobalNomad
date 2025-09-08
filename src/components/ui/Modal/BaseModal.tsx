@@ -1,8 +1,10 @@
 import { ModalProps } from "@/types/modalProps";
 import { Dialog } from "@headlessui/react";
 import { ReactNode } from "react";
-import CloseIcon from "@/assets/close_icon.svg";
 import Image from "next/image";
+
+// Icons
+import CloseIcon from "@/assets/svgs/close_icon.svg";
 
 interface BaseModalProps extends ModalProps {
   mode: "action" | "notification";
@@ -26,7 +28,7 @@ export function BaseModal({
             : "bg-green-100 px-[20px] py-[24px] rounded-[10px]"
         }`}
       >
-        <div className="flex items-center justify-between w-full">
+        <header className="flex items-center justify-between w-full">
           <span
             className={`font-bold text-black ${
               mode === "action" ? "text-2xl" : "text-xl"
@@ -34,16 +36,21 @@ export function BaseModal({
           >
             {title}
           </span>
-          <button onClick={onClose} className="cursor-pointer">
+          <button
+            onClick={onClose}
+            className="cursor-pointer"
+            aria-label="닫기"
+          >
             <Image
               src={CloseIcon}
-              alt="닫기"
+              alt=""
+              aria-hidden="true"
               width={40}
               height={40}
               className={`${mode === "notification" && "w-[24px] h-[24px]"}`}
             />
           </button>
-        </div>
+        </header>
         {children}
       </div>
     </Dialog>

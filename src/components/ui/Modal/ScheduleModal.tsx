@@ -1,6 +1,8 @@
+"use client";
+
 import { ModalProps } from "@/types/modalProps";
 import { BaseModal } from "./BaseModal";
-import { SchedulePicker } from "../Schedule/SchedulePicker";
+import { SchedulePicker } from "@/components/ReservationSchedule/SchedulePicker";
 
 interface ScheduleModalProps extends ModalProps {
   id?: number;
