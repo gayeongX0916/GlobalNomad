@@ -14,10 +14,10 @@ export function ActionPopup({
 }: ActionPopupProps) {
   return (
     <BasePopup isOpen={isOpen} onClose={onClose}>
-      <div className="flex flex-col gap-y-[40px] items-center">
-        <span className="text-lg text-black md:text-2lg pt-[60px]">
+      <div className="flex flex-col gap-y-[40px] items-center justify-center">
+        <p className="text-lg text-black md:text-2lg pt-[60px]">
           {message}
-        </span>
+        </p>
         <button
           onClick={onClose}
           className="flex justify-center items-center rounded-[8px] bg-nomadBlack text-white text-md py-[12px] px-[56px] cursor-pointer"
