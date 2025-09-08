@@ -1,15 +1,25 @@
-import FaceBookIcon from "@/assets/facebook_icon.svg";
-import InstagramIcon from "@/assets/instagram_icon.svg";
-import TwitterIcon from "@/assets/twitter_icon.svg";
-import YoutubeIcon from "@/assets/youtube_icon.svg";
 import Image from "next/image";
+
+// Icons
+import FaceBookIcon from "@/assets/svgs/facebook_icon.svg";
+import InstagramIcon from "@/assets/svgs/instagram_icon.svg";
+import TwitterIcon from "@/assets/svgs/twitter_icon.svg";
+import YoutubeIcon from "@/assets/svgs/youtube_icon.svg";
 
 export function Footer() {
   const snsIcons = [
-    { img: FaceBookIcon, label: "facebook" },
-    { img: InstagramIcon, label: "instagram" },
-    { img: TwitterIcon, label: "twitter" },
-    { img: YoutubeIcon, label: "youtube" },
+    {
+      img: FaceBookIcon,
+      label: "facebook",
+      href: "https://www.facebook.com/?locale=ko_KR",
+    },
+    {
+      img: InstagramIcon,
+      label: "instagram",
+      href: "https://www.instagram.com/",
+    },
+    { img: TwitterIcon, label: "twitter", href: "https://www.instagram.com/" },
+    { img: YoutubeIcon, label: "youtube", href: "https://www.youtube.com/" },
   ];
 
   return (
@@ -21,13 +31,21 @@ export function Footer() {
       </ul>
       <div className="flex gap-x-[12px] items-center mt-[16px] md:mt-0">
         {snsIcons.map((icon, idx) => (
-          <button
+          <a
             key={idx}
-            type="button"
+            href={icon.href}
+            target="_blank"
             className="w-[20px] h-[20px] cursor-pointer"
+            aria-label={icon.label}
           >
-            <Image src={icon.img} alt={icon.label} width={20} height={20} />
-          </button>
+            <Image
+              src={icon.img}
+              alt=""
+              aria-hidden="true"
+              width={20}
+              height={20}
+            />
+          </a>
         ))}
       </div>
     </footer>
