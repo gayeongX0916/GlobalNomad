@@ -1,23 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useCallback, useState } from "react";
-import { validateFields } from "@/utils/validateFields";
-
-// UI
-import Button from "@/components/ui/Button/Button";
-import { LoginInput } from "@/components/ui/Input/LoginInput";
-
-//Icons
 import Logo from "@/assets/logo/logo_vertical.svg";
+import { useCallback, useState } from "react";
+import { LoginInput } from "@/components/ui/Input/LoginInput";
+import { validateFields } from "@/utils/validateFields";
+import Button from "@/components/ui/Button/Button";
+import Link from "next/link";
 import KakaoIcon from "@/assets/svgs/kakao_icon.svg";
 
 type FormState = {
   email: string;
-  nickname: string;
   password: string;
-  confirm: string;
 };
 
 type FieldKey = keyof FormState;
@@ -29,18 +23,14 @@ type FieldList = {
   mode: "email" | "password";
 };
 
-const SignUp = () => {
+const SignIn = () => {
   const [form, setForm] = useState<FormState>({
     email: "",
-    nickname: "",
     password: "",
-    confirm: "",
   });
   const [error, setError] = useState<FormState>({
     email: "",
-    nickname: "",
     password: "",
-    confirm: "",
   });
   const formList: FieldList[] = [
     {
@@ -50,21 +40,9 @@ const SignUp = () => {
       mode: "email",
     },
     {
-      name: "nickname",
-      label: "닉네임",
-      placeholder: "닉네임을 입력해 주세요.",
-      mode: "email",
-    },
-    {
       name: "password",
       label: "비밀번호",
-      placeholder: "8자 이상 입력해 주세요.",
-      mode: "password",
-    },
-    {
-      name: "confirm",
-      label: "비밀번호 확인",
-      placeholder: "비밀번호를 한번 더 입력해 주세요.",
+      placeholder: "비밀번호를 입력해 주세요.",
       mode: "password",
     },
   ];
@@ -91,50 +69,49 @@ const SignUp = () => {
   return (
     <main className="px-[12px] w-full md:px-[50px] lg:max-w-[640px] lg:mx-auto pt-[100px] pb-[50px]">
       <header className="mb-[56px] flex justify-center">
-        <h1 className="sr-only">회원가입</h1>
+        <h1 className="sr-only">로그인</h1>
         <Image src={Logo} alt="GlobalNomad 로고" />
       </header>
 
       <form
         className="flex flex-col gap-y-[28px] mb-[32px]"
-        aria-labelledby="signup-title"
+        aria-labelledby="signin-title"
       >
-        <h2 id="signup-title" className="sr-only">
-          이메일로 회원가입
+        <h2 id="signin-title" className="sr-only">
+          이메일로 로그인
         </h2>
         {formList.map(({ name, label, placeholder, mode }) => (
           <LoginInput
             key={name}
-            mode={mode}
             label={label}
             placeholder={placeholder}
+            mode={mode}
             value={form[name]}
             onChange={handleChange(name)}
             onBlur={handleBlur(name)}
-            errorMessage={error[name]}
           />
         ))}
         <Button
-          type="submit"
+          type="button"
           disabled={
-            Object.values(error).some((err) => err !== "") ||
-            Object.values(form).some((value) => value === "")
+            Object.values(form).some((value) => value === "") ||
+            Object.values(error).some((err) => err !== "")
           }
         >
-          회원가입 하기
+          로그인하기
         </Button>
 
         <p className="flex justify-center gap-x-[10px]">
-          <span className="text-2lg text-black">회원이신가요?</span>
-          <Link href="/signin" className="text-2lg text-green-900 underline">
-            로그인하기
+          <span className="text-2lg text-black">회원이 아니신가요?</span>
+          <Link href="/signup" className="text-2lg text-green-900 underline">
+            회원가입하기
           </Link>
         </p>
       </form>
 
-      <section aria-labelledby="social-signup-title">
-        <h2 id="social-signup-title" className="sr-only">
-          SNS 계정으로 회원가입하기
+      <section aria-labelledby="social-signin-title">
+        <h2 id="social-signin-title" className="sr-only">
+          SNS 계정으로 로그인하기
         </h2>
 
         <div className="flex items-center w-full gap-x-[16px]">
@@ -143,7 +120,7 @@ const SignUp = () => {
             className="text-md md:text-xl text-gray-800 whitespace-nowrap"
             aria-hidden="true"
           >
-            SNS 계정으로 회원가입하기
+            SNS 계정으로 로그인하기
           </span>
           <hr className="flex-1 border-gray-300" />
         </div>
@@ -152,7 +129,7 @@ const SignUp = () => {
           <button
             type="button"
             className="rounded-full w-[72px] h-[72px] border border-[#F2F2F2] flex justify-center items-center cursor-pointer"
-            aria-label="카카오로 회원가입하기"
+            aria-label="카카오로 로그인하기"
           >
             <Image src={KakaoIcon} alt="" aria-hidden="true" />
           </button>
@@ -162,4 +139,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
