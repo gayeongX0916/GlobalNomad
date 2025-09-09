@@ -74,9 +74,5 @@ const LoginInputBase = ({
 export const LoginInput = memo(
   LoginInputBase,
   (prev, next) =>
-    prev.value === next.value &&
-    prev.errorMessage === next.errorMessage &&
-    prev.label === next.label &&
-    prev.placeholder === next.placeholder &&
-    prev.mode === next.mode
+    prev.value === next.value && prev.errorMessage === next.errorMessage
 );
