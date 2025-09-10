@@ -7,11 +7,11 @@ import NotificationIcon from "@/assets/svgs/notification_icon.svg";
 import example from "@/assets/svgs/example.svg";
 
 export function GlobalNavigationBar() {
-  const accessToken = "11111";
+  const accessToken = false;
   const userName = "정만철";
 
   return (
-    <header className="w-full bg-white">
+    <header className="fixed inset-x-0 top-0 z-50 bg-white">
       <div className="mx-auto flex h-[70px] items-center justify-around md:px-[24px] px-[16px] lg:px-0">
         <Link href="/" aria-label="홈으로 이동">
           <Image src={Logo} alt="" aria-hidden="true" width={160} height={30} />
@@ -23,15 +23,15 @@ export function GlobalNavigationBar() {
               <li>
                 <button
                   type="button"
-                  className="cursor-pointer"
+                  className="cursor-pointer flex"
                   aria-label="알림 보기"
                 >
                   <Image
                     src={NotificationIcon}
                     alt=""
                     aria-hidden="true"
-                    width={20}
-                    height={20}
+                    width={22}
+                    height={22}
                   />
                 </button>
               </li>
@@ -64,7 +64,7 @@ export function GlobalNavigationBar() {
               <li>
                 <Link
                   href="/login"
-                  className="text-md text-black font-semibold"
+                  className="text-lg text-black font-semibold"
                 >
                   로그인
                 </Link>
@@ -72,7 +72,7 @@ export function GlobalNavigationBar() {
               <li>
                 <Link
                   href="/signup"
-                  className="text-md text-black font-semibold"
+                  className="text-lg text-black font-semibold"
                 >
                   회원가입
                 </Link>

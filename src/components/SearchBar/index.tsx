@@ -1,11 +1,30 @@
+"use client";
+
 import Image from "next/image";
 
 // Icons
 import SearchBarIcon from "@/assets/svgs/search_bar_icon.svg";
+import { useRouter } from "next/navigation";
 
-export function SearchBar() {
+type SearchBarProps = {
+  value?: string;
+  onChange?: (v: string) => void;
+};
+
+export function SearchBar({ value, onChange }: SearchBarProps) {
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!value.trim()) return;
+    router.push(`/search?query=${encodeURIComponent(value)}&page=1`);
+  };
+
   return (
-    <form className="flex flex-col gap-y-[32px] w-full px-[24px] py-[32px] border border-gray-900">
+    <form
+      className="flex flex-col gap-y-[32px] w-full px-[24px] py-[32px] bg-white rounded-[16px]"
+      onSubmit={handleSubmit}
+    >
       <label className="text-lg md:text-xl font-bold text-nomadBlack">
         무엇을 체험하고 싶으신가요?
       </label>
@@ -14,8 +33,10 @@ export function SearchBar() {
         <div className="relative grow">
           <input
             placeholder="원하는 체험을 입력해 주세요!"
-            className="rounded-[4px] py-[15px] pl-[45px] pr-[15px] border border-gray-800 w-full md:pl-[60px]"
+            className="rounded-[4px] py-[15px] pl-[55px] pr-[15px] border border-gray-800 w-full md:pl-[60px]"
             type="search"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
           />
           <Image
             src={SearchBarIcon}
