@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "react-datepicker/dist/react-datepicker.css";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
 
 @theme {
   --font-sans: var(--font-pretendard), ui-sans-serif, system-ui, -apple-system,
@@ -67,6 +70,10 @@
   --color-blue-100: #e5f3ff;
 }
 
+body {
+  background: #fafafa;
+}
+
 .react-datepicker__header--custom {
   background: #fff;
   border: 0;
@@ -96,4 +103,12 @@
   input[type="number"] {
     -moz-appearance: textfield;
   }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
 }
