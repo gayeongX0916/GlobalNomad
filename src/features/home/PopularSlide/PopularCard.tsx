@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 // Icons
 import StarIcon from "@/assets/svgs/star_icon_on.svg";
@@ -8,7 +8,7 @@ type PopularCardProps = {
   reviewCount: string;
   title: string;
   price: string;
-  imageUrl: string;
+  imageUrl: string | StaticImageData;
 };
 
 export function PopularCard({
@@ -19,16 +19,16 @@ export function PopularCard({
   imageUrl,
 }: PopularCardProps) {
   return (
-    <article className="relative w-[384px] h-[384px] cursor-pointer">
+    <article className="relative w-full aspect-square cursor-pointer">
+      <div className="absolute inset-0 bg-black/40 rounded-[20px]" />
       <Image
         src={imageUrl}
         alt={title}
-        width={384}
-        height={384}
-        className="w-[384px] h-[384px] object-cover rounded-[20px]"
+        fill
+        className="object-cover rounded-[20px] w-full h-full"
       />
 
-      <div className="absolute bottom-4 left-4 text-white flex flex-col gap-y-[20px] justify-start">
+      <div className="absolute bottom-[16px] left-[16px] text-white flex flex-col gap-y-[20px] justify-start">
         <div className="flex gap-x-[6px] items-center ">
           <Image
             src={StarIcon}
@@ -42,13 +42,15 @@ export function PopularCard({
           </span>
         </div>
 
-        <h3 className="text-3xl font-bold whitespace-normal break-words max-w-[250px]">
+        <h3 className="text-2lg md:text-2xl lg:text-3xl font-bold break-keep hyphens-none max-w-[250px]">
           {title}
         </h3>
 
-        <span className="text-2xl font-bold text-black">
-          <data value={price}>₩ {price}</data>
-          <span className="text-xl text-gray-900"> / 인</span>
+        <span>
+          <data className="text-lg text-white md:text-xl" value={price}>
+            ₩ {price}
+          </data>
+          <span className="text-md md:text-lg text-gray-300"> / 인</span>
         </span>
       </div>
     </article>
