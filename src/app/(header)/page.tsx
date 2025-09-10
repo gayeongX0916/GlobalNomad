@@ -21,7 +21,7 @@ export default function Page() {
   const [searchValue, setSearchValue] = useState("");
 
   return (
-    <div className="pb-[300px]">
+    <main className="pb-[300px]">
       <HeroSlider />
       <div className="w-full px-[16px] md:px-[24px] lg:max-w-[1200px] lg:mx-auto relative -translate-y-[30px] z-10">
         <SearchBar value={searchValue} onChange={setSearchValue} />
@@ -43,6 +43,6 @@ export default function Page() {
           <ExperienceGrid />
         </section>
       </div>
-    </div>
+    </main>
   );
 }

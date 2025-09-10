@@ -50,7 +50,6 @@ export function Dropdown({ children, items, onSelect }: DropdownProps) {
       {isOpen && (
         <ul
           className="text-md rounded-[5px] border border-gray-300 text-gray-900 flex flex-col divide-y divide-gray-200 md:text-2lg absolute top-12 md:top-17 right-0 bg-white z-20 w-full"
-          aria-label=""
         >
           {items.map((item) => (
             <li key={item.label}>
