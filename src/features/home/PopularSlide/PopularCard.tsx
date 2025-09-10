@@ -19,14 +19,13 @@ export function PopularCard({
   imageUrl,
 }: PopularCardProps) {
   return (
-    <article className="relative w-[186px] h-[186px] md:w-[384px] md:h-[384px] cursor-pointer">
-      <div className="absolute inset-0 bg-black/30 rounded-[20px]" />
+    <article className="relative w-full aspect-square cursor-pointer">
+      <div className="absolute inset-0 bg-black/40 rounded-[20px]" />
       <Image
         src={imageUrl}
         alt={title}
-        width={384}
-        height={384}
-        className="w-[384px] h-[384px] object-cover rounded-[20px]"
+        fill
+        className="object-cover rounded-[20px] w-full h-full"
       />
 
       <div className="absolute bottom-[16px] left-[16px] text-white flex flex-col gap-y-[20px] justify-start">
@@ -43,7 +42,7 @@ export function PopularCard({
           </span>
         </div>
 
-        <h3 className="text-2lg md:text-3xl font-bold break-keep hyphens-none max-w-[250px]">
+        <h3 className="text-2lg md:text-2xl lg:text-3xl font-bold break-keep hyphens-none max-w-[250px]">
           {title}
         </h3>
 
