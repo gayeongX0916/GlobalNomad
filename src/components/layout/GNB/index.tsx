@@ -7,7 +7,7 @@ import NotificationIcon from "@/assets/svgs/notification_icon.svg";
 import example from "@/assets/svgs/example.svg";
 
 export function GlobalNavigationBar() {
-  const accessToken = false;
+  const accessToken = 1111;
   const userName = "정만철";
 
   return (
@@ -50,7 +50,6 @@ export function GlobalNavigationBar() {
                     src={example}
                     alt=""
                     aria-hidden="true"
-                    height={32}
                     className="rounded-full w-[32px] h-[32px] object-cover"
                   />
                   <span className="text-md text-black">{userName}</span>

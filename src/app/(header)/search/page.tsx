@@ -6,7 +6,7 @@ import { HeroSlider } from "@/features/home/HeroSlider";
 
 const SearchPage = () => {
   return (
-    <div>
+    <main>
       <HeroSlider />
       <div className="w-full px-[16px] md:px-[24px] lg:max-w-[1200px] lg:mx-auto relative -translate-y-[30px] z-10">
         <SearchBar />
@@ -25,7 +25,7 @@ const SearchPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

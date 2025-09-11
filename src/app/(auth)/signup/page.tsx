@@ -29,7 +29,7 @@ type FieldList = {
   mode: "email" | "password";
 };
 
-const SignUp = () => {
+const SignUpPage = () => {
   const [form, setForm] = useState<FormState>({
     email: "",
     nickname: "",
@@ -162,4 +162,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;
