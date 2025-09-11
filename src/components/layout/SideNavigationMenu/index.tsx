@@ -21,7 +21,7 @@ export function SideNavigationMenu() {
     {
       img: AccountCheckIcon,
       label: "내 정보",
-      path: "/",
+      path: "/mypage",
     },
     { img: BoxCheckIcon, label: "예약 내역", path: "/login" },
     { img: CalendarCheckIcon, label: "내 체험 관리", path: "/reserve" },
@@ -30,7 +30,7 @@ export function SideNavigationMenu() {
 
   return (
     <nav
-      className="flex flex-col items-center gap-y-[24px] w-[384px] min-w-[251px] p-[24px] rounded-[12px] bg-white"
+      className="flex flex-col items-center gap-y-[24px] w-[384px] min-w-[251px] p-[24px] rounded-[12px] bg-white border border-gray-300"
       aria-label="사이드 네비게이션 메뉴"
     >
       <ProfileUpload />

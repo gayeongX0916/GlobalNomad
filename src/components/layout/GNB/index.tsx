@@ -12,7 +12,7 @@ export function GlobalNavigationBar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-white">
-      <div className="mx-auto flex h-[70px] items-center justify-around md:px-[24px] px-[16px] lg:px-0">
+      <div className="mx-auto flex h-[70px] items-center justify-between md:px-[40px] px-[16px] lg:px-[80px]">
         <Link href="/" aria-label="홈으로 이동">
           <Image src={Logo} alt="" aria-hidden="true" width={160} height={30} />
         </Link>
@@ -41,8 +41,8 @@ export function GlobalNavigationBar() {
               </li>
 
               <li>
-                <button
-                  type="button"
+                <Link
+                href="/mypage"
                   className="flex items-center gap-x-[10px] cursor-pointer"
                   aria-label={`${userName} 계정 메뉴 열기`}
                 >
@@ -53,7 +53,7 @@ export function GlobalNavigationBar() {
                     className="rounded-full w-[32px] h-[32px] object-cover"
                   />
                   <span className="text-md text-black">{userName}</span>
-                </button>
+                </Link>
               </li>
             </ul>
           </nav>
