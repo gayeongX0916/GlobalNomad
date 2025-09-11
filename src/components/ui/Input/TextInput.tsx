@@ -14,7 +14,7 @@ export function TextInput({ label, placeholder, value }: TextInputProps) {
   return (
     <div className="flex flex-col gap-y-[16px]">
       {label ? (
-        <label className="text-2xl text-black font-bold">{label}</label>
+        <label className="text-xl text-black font-bold">{label}</label>
       ) : null}
       <input
         placeholder={placeholder}
