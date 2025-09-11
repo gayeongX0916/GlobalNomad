@@ -4,13 +4,13 @@ import { TextInput } from "@/components/ui/Input/TextInput";
 
 const Mypage = () => {
   return (
-    <main className="pb-[200px] pt-[70px] flex justify-center gap-x-[24px] w-full md:px-[32px] lg:px-0">
+    <main className="pb-[200px] pt-[70px] flex justify-center gap-x-[24px] w-full px-[16px] md:px-[32px] lg:px-0">
       <div className="shrink-0 hidden md:block">
         <SideNavigationMenu />
       </div>
       <section className="flex flex-col gap-y-[32px] max-w-[640px] flex-1">
         <h3 className="text-3xl text-black font-bold">내 정보</h3>
-        <div className="flex justify-center">
+        <div className="flex justify-center md:hidden">
           <ProfileUpload />
         </div>
         <TextInput label="닉네임" />
