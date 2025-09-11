@@ -69,7 +69,10 @@ export function ExperienceForm() {
         >
           내 체험 등록
         </h2>
-        <button type="submit" className="rounded-[4px] px-[16px] py-[8px] bg-nomadBlack text-white text-md">
+        <button
+          type="submit"
+          className="rounded-[4px] px-[30px] py-[11px] bg-nomadBlack text-white text-md cursor-pointer font-bold"
+        >
           등록하기
         </button>
       </header>

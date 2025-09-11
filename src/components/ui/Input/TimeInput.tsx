@@ -50,7 +50,7 @@ export function TimeInput({
         onChange={(v: string) => onChange?.(v === "" ? null : v)}
       >
         <div className="relative">
-          <ListboxButton className="pl-[16px] py-[15px] pr-[40px] text-left border border-gray-800 w-full text-black rounded-[4px] min-w-[140px]">
+          <ListboxButton className="pl-[16px] py-[15px] pr-[40px] text-left border border-gray-800 w-full text-black rounded-[4px] min-w-[140px] bg-white">
             <span className={initialValue ? "" : "text-gray-600"}>
               {initialValue || "00:00"}
             </span>

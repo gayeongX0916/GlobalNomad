@@ -47,7 +47,7 @@ export function KebabMenu() {
         />
       </button>
       {isOpen && (
-        <ul className="text-md rounded-[5px] border border-gray-300 text-gray-900 flex flex-col divide-y divide-gray-200 md:text-2lg absolute top-21 right-0 bg-white z-20 ">
+        <ul className="text-md rounded-[5px] border border-gray-300 text-gray-900 flex flex-col divide-y divide-gray-200 md:text-2lg absolute top-10 right-0 bg-white z-20 ">
           {KebabMenuList.map(({ key, label, onClick }) => (
             <li key={key}>
               <button

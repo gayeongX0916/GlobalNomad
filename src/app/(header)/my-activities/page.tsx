@@ -1,11 +1,16 @@
+"use client";
+
 import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu";
 import EmptyList from "@/assets/svgs/empty_list.svg";
 import { ActivityItem } from "@/components/ActivityHistory/ActivityItem";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const activities = [1, 2, 3, 4];
 
 const MyActivities = () => {
+  const router = useRouter();
+
   return (
     <main className="pb-[200px] pt-[70px] flex justify-center gap-x-[24px] w-full px-[16px] md:px-[32px] lg:px-0">
       <div className="shrink-0 hidden md:block">
@@ -22,7 +27,10 @@ const MyActivities = () => {
           >
             내 체험 관리
           </h3>
-          <button className="bg-nomadBlack rounded-[4px] py-[11px] px-[16px] text-white text-md md:text-lg font-bold cursor-pointer">
+          <button
+            className="bg-nomadBlack rounded-[4px] py-[11px] px-[16px] text-white text-md md:text-lg font-bold cursor-pointer"
+            onClick={() => router.push("/my-activities/registration")}
+          >
             체험 등록하기
           </button>
         </header>
