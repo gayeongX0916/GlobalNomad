@@ -30,7 +30,7 @@ export function Dropdown({ children, items, onSelect }: DropdownProps) {
   return (
     <div
       ref={ref}
-      className="py-[8px] flex items-center justify-between px-[20px] md:py-[16px] rounded-[15px] text-2lg text-green-900 border border-green-900 relative md:min-w-[130px] w-full gap-x-[7px]"
+      className="py-[8px] flex items-center justify-between px-[20px] md:py-[16px] rounded-[15px] text-2lg text-green-900 border border-green-900 relative w-[130px] gap-x-[7px]"
     >
       {children}
       <button
@@ -48,9 +48,7 @@ export function Dropdown({ children, items, onSelect }: DropdownProps) {
       </button>
 
       {isOpen && (
-        <ul
-          className="text-md rounded-[5px] border border-gray-300 text-gray-900 flex flex-col divide-y divide-gray-200 md:text-2lg absolute top-12 md:top-17 right-0 bg-white z-20 w-full"
-        >
+        <ul className="text-md rounded-[5px] border border-gray-300 text-gray-900 flex flex-col divide-y divide-gray-200 md:text-2lg absolute top-12 md:top-17 right-0 bg-white z-20 w-full">
           {items.map((item) => (
             <li key={item.label}>
               <button
