@@ -24,7 +24,11 @@ export function SideNavigationMenu() {
       path: "/my-page",
     },
     { img: BoxCheckIcon, label: "예약 내역", path: "/my-reservations" },
-    { img: CalendarCheckIcon, label: "내 체험 관리", path: "/my-activities" },
+    {
+      img: CalendarCheckIcon,
+      label: "내 체험 관리",
+      path: ["/my-activities", "/my-activities/registration"],
+    },
     { img: SettingIcon, label: "예약 현황", path: "/current" },
   ];
 
@@ -36,11 +40,14 @@ export function SideNavigationMenu() {
       <ProfileUpload />
       <ul className="flex flex-col gap-y-[8px] w-full">
         {menuItem.map((item) => {
-          const isActive = pathname === item.path;
+          const isActive = Array.isArray(item.path)
+            ? item.path.includes(pathname)
+            : pathname === item.path;
+
           return (
-            <li key={item.path}>
+            <li key={Array.isArray(item.path) ? item.path[0] : item.path}>
               <Link
-                href={item.path}
+                href={Array.isArray(item.path) ? item.path[0] : item.path}
                 className={`w-full flex items-center gap-x-[14px] rounded-[12px] py-[9px] px-[16px] cursor-pointer ${
                   isActive ? "bg-green-100" : "hover:bg-green-100"
                 }`}
