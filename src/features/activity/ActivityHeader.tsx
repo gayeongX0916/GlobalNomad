@@ -11,7 +11,7 @@ import example5 from "@/assets/pngs/jeju.png";
 
 export function ActivityHeader() {
   return (
-    <section
+    <article
       className="flex flex-col gap-y-[25px] pt-[8px]"
       aria-labelledby="activity-title"
     >
@@ -53,6 +53,6 @@ export function ActivityHeader() {
         <Image src={example4} alt="예시" className="rounded-[8px]" />
         <Image src={example5} alt="예시" className="rounded-[8px]" />
       </div>
-    </section>
+    </article>
   );
 }
