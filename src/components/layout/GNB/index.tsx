@@ -42,7 +42,7 @@ export function GlobalNavigationBar() {
 
               <li>
                 <Link
-                href="/mypage"
+                href="/my-page"
                   className="flex items-center gap-x-[10px] cursor-pointer"
                   aria-label={`${userName} 계정 메뉴 열기`}
                 >
@@ -52,7 +52,7 @@ export function GlobalNavigationBar() {
                     aria-hidden="true"
                     className="rounded-full w-[32px] h-[32px] object-cover"
                   />
-                  <span className="text-md text-black">{userName}</span>
+                  <span className="text-lg text-black">{userName}</span>
                 </Link>
               </li>
             </ul>

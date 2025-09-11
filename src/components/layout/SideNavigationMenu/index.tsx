@@ -21,16 +21,16 @@ export function SideNavigationMenu() {
     {
       img: AccountCheckIcon,
       label: "내 정보",
-      path: "/mypage",
+      path: "/my-page",
     },
-    { img: BoxCheckIcon, label: "예약 내역", path: "/login" },
+    { img: BoxCheckIcon, label: "예약 내역", path: "/my-reservations" },
     { img: CalendarCheckIcon, label: "내 체험 관리", path: "/reserve" },
     { img: SettingIcon, label: "예약 현황", path: "/current" },
   ];
 
   return (
     <nav
-      className="flex flex-col items-center gap-y-[24px] w-[384px] min-w-[251px] p-[24px] rounded-[12px] bg-white border border-gray-300"
+      className="flex flex-col items-center gap-y-[24px] lg:w-[384px] md:w-full md:min-w-[250px] p-[24px] rounded-[12px] bg-white border border-gray-300"
       aria-label="사이드 네비게이션 메뉴"
     >
       <ProfileUpload />
