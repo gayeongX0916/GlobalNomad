@@ -28,7 +28,7 @@ export function DateInput({ value, onChange, placeholder }: DateInputProps) {
           }
           dateFormat="yyyy-MM-dd"
           placeholderText={placeholder}
-          className="pl-[16px] pr-[48px] py-[15px] rounded-[4px] border border-gray-800 w-full text-black"
+          className="pl-[16px] pr-[48px] py-[15px] rounded-[4px] border border-gray-800 w-full text-black bg-white"
         />
         <Image
           src={CalendarIcon}

@@ -39,7 +39,7 @@ export function SelectInput({ placeholder, items }: SelectInputProps) {
     <div ref={ref} className="relative w-full">
       <input
         placeholder={placeholder}
-        className="px-[16px] py-[15px] rounded-[4px] border border-gray-800 w-full"
+        className="px-[16px] py-[15px] rounded-[4px] border border-gray-800 w-full bg-white"
         value={value}
         onChange={handleChange}
         onKeyDown={(e) => {

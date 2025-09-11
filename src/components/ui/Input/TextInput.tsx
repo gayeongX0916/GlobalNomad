@@ -20,7 +20,7 @@ export function TextInput({ label, placeholder, value }: TextInputProps) {
         placeholder={placeholder}
         value={newValue}
         onChange={(e) => setNewValue(e.target.value)}
-        className="rounded-[4px] border border-gray-800 py-[15px] px-[16px]"
+        className="rounded-[4px] border border-gray-800 py-[15px] px-[16px] bg-white"
         aria-label={label || placeholder || "입력 필드"}
       />
     </div>
