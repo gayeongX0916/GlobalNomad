@@ -24,7 +24,7 @@ export function SideNavigationMenu() {
       path: "/my-page",
     },
     { img: BoxCheckIcon, label: "예약 내역", path: "/my-reservations" },
-    { img: CalendarCheckIcon, label: "내 체험 관리", path: "/reserve" },
+    { img: CalendarCheckIcon, label: "내 체험 관리", path: "/my-activities" },
     { img: SettingIcon, label: "예약 현황", path: "/current" },
   ];
 
