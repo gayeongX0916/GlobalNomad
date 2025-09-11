@@ -50,7 +50,6 @@ export function GlobalNavigationBar() {
                     src={example}
                     alt=""
                     aria-hidden="true"
-                    height={32}
                     className="rounded-full w-[32px] h-[32px] object-cover"
                   />
                   <span className="text-md text-black">{userName}</span>

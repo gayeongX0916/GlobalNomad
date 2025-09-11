@@ -56,7 +56,7 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
         />
       </section>
 
-      <section className="mt-[16px]" aria-labelledby="available-times-title">
+      <section className="mt-[20px]" aria-labelledby="available-times-title">
         <h3
           id="available-times-title"
           className="text-2lg font-bold text-nomadBlack"
