@@ -18,13 +18,13 @@ export function BannerImagePicker({
   handleBannerInputClick,
 }: BannerImagePickerProps) {
   return (
-    <fieldset className="flex flex-col gap-y-[24px]">
-      <legend className="text-2xl text-black font-bold">배너 이미지</legend>
+    <section className="flex flex-col gap-y-[24px]">
+      <h3 className="text-2xl text-black font-bold">배너 이미지</h3>
 
       <input type="file" ref={bannerImageRef} className="hidden" />
       <div className="flex gap-x-[24px]">
         <button
-          className="flex flex-col justify-center items-center gap-y-[30px] rounded-[12px] border border-gray-900 border-dotted w-[180px] h-[180px] cursor-pointer px-[35px] py-[35px]"
+          className="flex flex-col justify-center items-center gap-y-[30px] rounded-[12px] border border-gray-900 border-dotted w-[180px] h-[180px] cursor-pointer px-[35px] py-[35px] bg-white"
           onClick={handleBannerInputClick}
           type="button"
           aria-label="배너 이미지 등록"
@@ -55,11 +55,17 @@ export function BannerImagePicker({
               type="button"
               aria-label="배너 이미지 삭제"
             >
-              <Image src={DeleteIcon} alt="" aria-hidden="true" width={32} height={32} />
+              <Image
+                src={DeleteIcon}
+                alt=""
+                aria-hidden="true"
+                width={32}
+                height={32}
+              />
             </button>
           </div>
         )}
       </div>
-    </fieldset>
+    </section>
   );
 }

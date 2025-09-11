@@ -14,10 +14,10 @@ export function TimeSlotsEditor() {
     { date: "2025-09-10", startTime: "11:00", endTime: "12:00" },
   ];
   return (
-    <fieldset className="flex flex-col gap-y-[24px]">
-      <legend className="text-2xl text-black font-bold">
+    <section className="flex flex-col gap-y-[24px]">
+      <h3 className="text-2xl text-black font-bold">
         예약 가능한 시간대
-      </legend>
+      </h3>
 
       <div className="flex flex-col gap-y-[21px]">
         <div className="flex items-center gap-x-[20px]">
@@ -48,7 +48,7 @@ export function TimeSlotsEditor() {
 
         <ul className="flex flex-col gap-y-[16px] w-full">
           {slots.map(({ date, startTime, endTime }, idx) => (
-            <li className="flex gap-x-[20px] items-center" key={idx}>
+            <li className="flex gap-x-[20px] items-center bg-white" key={idx}>
               <time className="min-w-[380px] rounded-[4px] border border-gray-800 h-[56px] py-[15px] px-[16px]">
                 {date}
               </time>
@@ -72,6 +72,6 @@ export function TimeSlotsEditor() {
           ))}
         </ul>
       </div>
-    </fieldset>
+    </section>
   );
 }

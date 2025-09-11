@@ -18,13 +18,13 @@ export function IntroImagesPicker({
   handleIntroInputClick,
 }: IntroImagesPickerProps) {
   return (
-    <fieldset className="flex flex-col gap-y-[24px]">
-      <legend className="text-2xl text-black font-bold">소개 이미지</legend>
+    <section className="flex flex-col gap-y-[24px]">
+      <h3 className="text-2xl text-black font-bold">소개 이미지</h3>
 
       <input type="file" ref={introImageRef} className="hidden" />
       <div className="flex flex-wrap gap-x-[24px] gap-y-[24px]">
         <button
-          className="flex flex-col justify-center items-center gap-y-[30px] rounded-[12px] border border-gray-900 border-dotted  w-[180px] h-[180px] cursor-pointer px-[35px] py-[35px]"
+          className="flex flex-col justify-center items-center gap-y-[30px] rounded-[12px] border border-gray-900 border-dotted  w-[180px] h-[180px] cursor-pointer px-[35px] py-[35px] bg-white"
           onClick={handleIntroInputClick}
           type="button"
           aria-label="소개 이미지 등록"
@@ -67,8 +67,8 @@ export function IntroImagesPicker({
         ))}
       </div>
       <span className="text-2lg text-gray-900">
-        *이미지를 최소 4개 이상 제출해주세요.
+        * 이미지는 최대 4개까지 등록 가능합니다.
       </span>
-    </fieldset>
+    </section>
   );
 }
