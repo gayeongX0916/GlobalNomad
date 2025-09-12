@@ -24,10 +24,13 @@ const slots = [
 export function ExperienceReservationModal({ isOpen, onClose }: ModalProps) {
   return (
     <Dialog open={isOpen} onClose={onClose}>
+      <div
+        className="fixed inset-0 z-40"
+        onClick={onClose}
+        aria-hidden="true"
+      />
       <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
-
         <div className="w-full h-full border bg-white border-gray-300 rounded-[12px] px-[20px] py-[24px] md:max-w-[450px] md:h-[500px] overflow-x-auto no-scrollbar">
-
           <header className="pb-[16px]">
             <h2 className="text-3xl font-bold text-black">
               <data value="1000">₩ 1,000</data>
