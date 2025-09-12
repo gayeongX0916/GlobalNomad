@@ -29,7 +29,7 @@ export function SideNavigationMenu() {
       label: "내 체험 관리",
       path: ["/my-activities", "/my-activities/registration"],
     },
-    { img: SettingIcon, label: "예약 현황", path: "/current" },
+    { img: SettingIcon, label: "예약 현황", path: "/reservation-history" },
   ];
 
   return (
