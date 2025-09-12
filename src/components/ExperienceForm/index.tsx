@@ -60,7 +60,7 @@ export function ExperienceForm() {
   return (
     <form
       aria-labelledby="experience-form-title"
-      className="flex flex-col gap-y-[24px] w-[800px]"
+      className="flex flex-col gap-y-[24px] max-w-[800px]"
     >
       <header className="flex justify-between items-center">
         <h2
