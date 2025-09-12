@@ -18,7 +18,6 @@ export function ListSection({ mode }: ListSectionProps) {
       </h4>
 
       <article className="rounded-[4px] border border-gray-300 py-[12px] px-[16px]">
-
         <dl className="grid grid-cols-[auto_1fr] gap-x-[10px] gap-y-[6px] items-baseline">
           <dt className="text-lg font-semibold text-gray-800">닉네임</dt>
           <dd className="text-lg text-black font-bold">정만철</dd>
@@ -27,25 +26,25 @@ export function ListSection({ mode }: ListSectionProps) {
           <dd className="text-lg text-black font-bold">10명</dd>
         </dl>
 
-        <footer className="flex justify-end">
+        <footer className="flex justify-end mt-[10px]">
           {mode === "request" ? (
             <div className="flex items-center gap-x-[6px]">
               <button
                 type="button"
-                className="rounded-[6px] py-[10px] px-[20px] bg-nomadBlack text-white text-lg font-bold cursor-pointer"
+                className="rounded-[6px] py-[10px] px-[20px] bg-nomadBlack text-white text-lg font-semibold cursor-pointer"
               >
                 확정하기
               </button>
               <button
                 type="button"
-                className="rounded-[6px] py-[10px] px-[20px] border border-nomadBlack text-nomadBlack bg-white text-lg font-bold cursor-pointer"
+                className="rounded-[6px] py-[10px] px-[20px] border border-nomadBlack text-nomadBlack bg-white text-lg font-semibold cursor-pointer"
               >
                 거절하기
               </button>
             </div>
           ) : (
             <span
-              className={`rounded-[26px] px-[15px] py-[10px] bg-orange-100 text-orange-500 text-lg font-bold ${
+              className={`rounded-[26px] px-[15px] py-[10px] bg-orange-100 text-orange-500 text-lg font-semibold ${
                 mode === "confirmed" ? "text-orange-500" : "text-red-500"
               }`}
             >

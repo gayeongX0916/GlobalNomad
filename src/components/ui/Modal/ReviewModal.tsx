@@ -40,6 +40,11 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
       onClose={onClose}
       title="후기 작성"
     >
+      <div
+        className="fixed inset-0 z-40"
+        onClick={onClose}
+        aria-hidden="true"
+      />
       <form
         onSubmit={onSubmit}
         className="flex flex-col gap-y-[24px] pt-[41px]"

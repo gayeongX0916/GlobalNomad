@@ -9,7 +9,8 @@ import { ChangeEvent, useRef, useState } from "react";
 
 export function ProfileUpload() {
   const profileRef = useRef<HTMLInputElement>(null);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState(example);
+  // <string|null>
 
   const handleProfileClick = () => {
     profileRef.current?.click();
@@ -30,7 +31,7 @@ export function ProfileUpload() {
         ref={profileRef}
         type="file"
         className="hidden"
-        value={profileImage}
+        // value={profileImage}
         onChange={handleProfileChage}
       />
       <button

@@ -14,6 +14,11 @@ export function NotificationModal({ id, isOpen, onClose }: AlertModalProps) {
       onClose={onClose}
       title="알림 6개"
     >
+      <div
+        className="fixed inset-0 z-40"
+        onClick={onClose}
+        aria-hidden="true"
+      />
       <div className="flex flex-col gap-y-[8px] mt-[16px]">
         <NotificationItem />
         <NotificationItem />
