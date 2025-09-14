@@ -1,5 +1,5 @@
 // UI
-import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu";
+import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
 import { ExperienceForm } from "@/components/my-activities/registration/ExperienceForm";
 
 const MyActivitiesRegistration = () => {

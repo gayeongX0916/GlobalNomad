@@ -8,10 +8,10 @@ import { CalendarApi } from "@fullcalendar/core";
 import { DateClickArg } from "@fullcalendar/interaction";
 
 // UI
-import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu";
+import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
 import { ReservationInfoModal } from "@/components/ui/Modal/ReservationInfoModal";
 import { ExperienceDropdown } from "@/components/ui/Dropdown/ExperienceDropdown";
-import { MenuItem } from "@/components/ui/Dropdown";
+import { MenuItem } from "@/components/ui/Dropdown/Dropdown";
 import { Toolbar } from "@/components/reservation-history/Toolbar";
 
 type Api = ReturnType<FullCalendar["getApi"]> | null;

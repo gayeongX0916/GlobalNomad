@@ -1,6 +1,6 @@
 import { ModalProps } from "@/types/modalProps";
 import { BaseModal } from "./BaseModal";
-import { NotificationItem } from "../Notification/NotificationItem";
+import { NotificationItem } from "../NotificationItem/NotificationItem";
 
 interface AlertModalProps extends ModalProps {
   id: number;

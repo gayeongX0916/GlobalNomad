@@ -8,7 +8,7 @@ import { FilterSlider } from "@/components/home/FilterSlider";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { PopularSlider } from "@/components/home/PopularSlider";
 import { SearchBar } from "@/components/search/SearchBar";
-import { Dropdown, MenuItem } from "@/components/ui/Dropdown";
+import { Dropdown, MenuItem } from "@/components/ui/Dropdown/Dropdown";
 
 const dropdownList: MenuItem[] = [
   {

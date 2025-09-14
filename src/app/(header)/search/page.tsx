@@ -2,7 +2,7 @@
 
 // UI
 import { SearchBar } from "@/components/search/SearchBar";
-import { Pagination } from "@/components/ui/Pagination";
+import { Pagination } from "@/components/ui/Pagination/Pagination";
 import { HeroSlider } from "@/components/home/HeroSlider";
 
 const SearchPage = () => {

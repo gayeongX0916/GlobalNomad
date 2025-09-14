@@ -1,6 +1,6 @@
 import StarIcon from "@/assets/svgs/star_icon_on.svg";
 import LocationIcon from "@/assets/svgs/location_icon.svg";
-import { KebabMenu } from "@/components/ui/KebabMenu";
+import { KebabMenu } from "@/components/ui/KebabMenu/KebabMenu";
 import Image from "next/image";
 
 import example1 from "@/assets/pngs/busan.png";
@@ -15,14 +15,13 @@ export function ActivityHeader() {
       className="flex flex-col gap-y-[25px] pt-[8px]"
       aria-labelledby="activity-title"
     >
-
       <header className="flex justify-between">
         <div className="flex flex-col gap-y-[10px]">
           <span className="text-md text-nomadBlack">문화 예술</span>
           <h2 className="text-3xl font-bold text-nomadBlack">
             함께 배우면 즐거운 스트릿 댄스
           </h2>
-          
+
           <div className="flex gap-x-[12px]">
             <div className="flex items-center gap-x-[6px]">
               <Image src={StarIcon} alt="별점" width={15} height={15} />
@@ -36,7 +35,7 @@ export function ActivityHeader() {
             </div>
           </div>
         </div>
-        <KebabMenu className="top-20"/>
+        <KebabMenu className="top-20" />
       </header>
 
       <div className="grid grid-cols-4 grid-rows-2 gap-x-[8px] gap-y-[8px]">

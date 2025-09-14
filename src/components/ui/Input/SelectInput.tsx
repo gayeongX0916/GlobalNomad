@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 // UI
-import { MenuItem } from "../Dropdown";
+import { MenuItem } from "../Dropdown/Dropdown";
 
 // Icons
 import ChevronDown from "@/assets/svgs/chevron_down.svg";

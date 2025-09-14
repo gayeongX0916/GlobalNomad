@@ -2,10 +2,10 @@
 
 // Icons
 import { useCallback, useState } from "react";
-import { ExperienceReservationModal } from "@/components/ui/Modal/ExperienceReservationModal";
 import { ActivityHeader } from "@/components/activity/ActivityHeader";
 import { ActivityDescription } from "@/components/activity/ActivityDescription";
 import { ActivityReview } from "@/components/activity/ActivityReview";
+import { ExperienceReservationModal } from "@/components/ui/Modal/ExperienceReservationModal";
 
 const ActivityDetailPage = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,4 +1,4 @@
-import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu";
+import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
 import { ProfileUpload } from "@/components/layout/SideNavigationMenu/ProfileUpload";
 import { TextInput } from "@/components/ui/Input/TextInput";
 

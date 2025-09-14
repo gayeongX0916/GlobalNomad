@@ -2,7 +2,7 @@ import example from "@/assets/svgs/example.svg";
 import StarIcon from "@/assets/svgs/star_icon_on.svg";
 import { ActivityReviewItem } from "./ActivityReviewItem";
 import Image from "next/image";
-import { Pagination } from "@/components/ui/Pagination";
+import { Pagination } from "@/components/ui/Pagination/Pagination";
 
 type ReviewItemProps = {
   imageUrl: string;

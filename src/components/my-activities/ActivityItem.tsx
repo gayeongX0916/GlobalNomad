@@ -3,7 +3,7 @@ import Image from "next/image";
 // Icons
 import example from "@/assets/svgs/example.svg";
 import StarIcon from "@/assets/svgs/star_icon_on.svg";
-import { KebabMenu } from "../ui/KebabMenu";
+import { KebabMenu } from "../ui/KebabMenu/KebabMenu";
 
 export function ActivityItem() {
   return (
@@ -28,7 +28,7 @@ export function ActivityItem() {
             <span className="text-lg md:text-xl lg:text-2xl text-gray-900">
               ₩10,000 / 인
             </span>
-            <KebabMenu className="top-10"/>
+            <KebabMenu className="top-10" />
           </footer>
         </div>
       </div>

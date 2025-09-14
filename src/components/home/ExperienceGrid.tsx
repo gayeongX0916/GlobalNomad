@@ -1,5 +1,5 @@
 // UI
-import { Pagination } from "@/components/ui/Pagination";
+import { Pagination } from "@/components/ui/Pagination/Pagination";
 import { ExperienceCard } from "./ExperienceCard";
 
 type ExperienceCardProps = {

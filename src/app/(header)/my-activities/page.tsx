@@ -1,6 +1,6 @@
 "use client";
 
-import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu";
+import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
 import EmptyList from "@/assets/svgs/empty_list.svg";
 import { ActivityItem } from "@/components/my-activities/ActivityItem";
 import Image from "next/image";
