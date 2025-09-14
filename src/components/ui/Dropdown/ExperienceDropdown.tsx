@@ -2,7 +2,7 @@ import ChevronDown from "@/assets/svgs/chevron_down.svg";
 import ChevronUp from "@/assets/svgs/chevron_up.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { MenuItem } from ".";
+import { MenuItem } from "./Dropdown";
 
 type ExperienceDropdownProps = {
   items: MenuItem[];

@@ -1,33 +1,34 @@
 import Image from "next/image";
+import { RefObject } from "react";
 
 // Icons
 import AddIcon from "@/assets/svgs/add_icon.svg";
 import example from "@/assets/svgs/example.svg";
 import DeleteIcon from "@/assets/svgs/delete_icon.svg";
-import { RefObject } from "react";
 
-type IntroImagesPickerProps = {
-  introImages: string[] | null;
-  introImageRef: RefObject<HTMLInputElement>;
-  handleIntroInputClick: () => void;
+
+type BannerImagePickerProps = {
+  bannerImage: string | null;
+  bannerImageRef: RefObject<HTMLInputElement>;
+  handleBannerInputClick: () => void;
 };
 
-export function IntroImagesPicker({
-  introImages,
-  introImageRef,
-  handleIntroInputClick,
-}: IntroImagesPickerProps) {
+export function BannerImagePicker({
+  bannerImage,
+  bannerImageRef,
+  handleBannerInputClick,
+}: BannerImagePickerProps) {
   return (
     <section className="flex flex-col gap-y-[24px]">
-      <h3 className="text-2xl text-black font-bold">소개 이미지</h3>
+      <h3 className="text-2xl text-black font-bold">배너 이미지</h3>
 
-      <input type="file" ref={introImageRef} className="hidden" />
-      <div className="flex flex-wrap gap-x-[24px] gap-y-[24px]">
+      <input type="file" ref={bannerImageRef} className="hidden" />
+      <div className="flex gap-x-[24px]">
         <button
-          className="flex flex-col justify-center items-center gap-y-[30px] rounded-[12px] border border-gray-900 border-dotted  w-[180px] h-[180px] cursor-pointer px-[35px] py-[35px] bg-white"
-          onClick={handleIntroInputClick}
+          className="flex flex-col justify-center items-center gap-y-[30px] rounded-[12px] border border-gray-900 border-dotted w-[180px] h-[180px] cursor-pointer px-[35px] py-[35px] bg-white"
+          onClick={handleBannerInputClick}
           type="button"
-          aria-label="소개 이미지 등록"
+          aria-label="배너 이미지 등록"
         >
           <Image
             src={AddIcon}
@@ -41,11 +42,11 @@ export function IntroImagesPicker({
           </span>
         </button>
 
-        {introImages.map((image, idx) => (
-          <div key={idx} className="relative">
+        {bannerImage && (
+          <div className="relative">
             <Image
               src={example}
-              alt="소개 이미지"
+              alt="배너 이미지"
               width={180}
               height={180}
               className="w-[180px] h-[180px] object-cover rounded-[24px]"
@@ -53,7 +54,7 @@ export function IntroImagesPicker({
             <button
               className="absolute -top-3 -right-3 cursor-pointer"
               type="button"
-              aria-label="소개 이미지 삭제"
+              aria-label="배너 이미지 삭제"
             >
               <Image
                 src={DeleteIcon}
@@ -64,11 +65,8 @@ export function IntroImagesPicker({
               />
             </button>
           </div>
-        ))}
+        )}
       </div>
-      <span className="text-2lg text-gray-900">
-        * 이미지는 최대 4개까지 등록 가능합니다.
-      </span>
     </section>
   );
 }

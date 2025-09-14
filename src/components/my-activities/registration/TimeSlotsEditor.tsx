@@ -1,12 +1,13 @@
 import Image from "next/image";
 
 // UI
-import { DateInput } from "../ui/Input/DateInput";
-import { TimeInput } from "../ui/Input/TimeInput";
+import { DateInput } from "@/components/ui/Input/DateInput";
+import { TimeInput } from "@/components/ui/Input/TimeInput";
 
 // Icons
 import PlusIcon from "@/assets/svgs/plus_icon.svg";
 import MinusIcon from "@/assets/svgs/minus_icon.svg";
+
 
 export function TimeSlotsEditor() {
   const slots = [

@@ -1,14 +1,14 @@
 "use client";
 
-import { SearchBar } from "@/components/SearchBar";
-import { CategoryButton } from "@/components/ui/Button/CategoryButton";
-import { PopularCard } from "@/features/home/PopularSlide/PopularCard";
-import { Dropdown, MenuItem } from "@/components/ui/Dropdown";
-import { HeroSlider } from "@/features/home/HeroSlider";
-import { PopularSlide } from "@/features/home/PopularSlide/PopularSlider";
-import { FilterSlide } from "@/features/home/FilterSlide";
-import { ExperienceGrid } from "@/features/home/ExperienceGrid/ExperienceGrid";
 import { useState } from "react";
+
+// UI
+import { ExperienceGrid } from "@/components/home/ExperienceGrid";
+import { FilterSlider } from "@/components/home/FilterSlider";
+import { HeroSlider } from "@/components/home/HeroSlider";
+import { PopularSlider } from "@/components/home/PopularSlider";
+import { SearchBar } from "@/components/search/SearchBar";
+import { Dropdown, MenuItem } from "@/components/ui/Dropdown/Dropdown";
 
 const dropdownList: MenuItem[] = [
   {
@@ -27,12 +27,12 @@ export default function Page() {
         <SearchBar value={searchValue} onChange={setSearchValue} />
 
         <section className="flex flex-col gap-y-[30px] mt-[34px] mb-[60px]">
-          <PopularSlide />
+          <PopularSlider />
         </section>
 
         <div className="flex mb-[35px]">
           <div className="flex-1 min-w-0 relative pr-[10px]">
-            <FilterSlide />
+            <FilterSlider />
           </div>
           <div className="shrink-0">
             <Dropdown items={dropdownList}>가격</Dropdown>

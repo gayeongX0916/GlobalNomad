@@ -1,8 +1,9 @@
 "use client";
 
-import { SearchBar } from "@/components/SearchBar";
-import { Pagination } from "@/components/ui/Pagination";
-import { HeroSlider } from "@/features/home/HeroSlider";
+// UI
+import { SearchBar } from "@/components/search/SearchBar";
+import { Pagination } from "@/components/ui/Pagination/Pagination";
+import { HeroSlider } from "@/components/home/HeroSlider";
 
 const SearchPage = () => {
   return (

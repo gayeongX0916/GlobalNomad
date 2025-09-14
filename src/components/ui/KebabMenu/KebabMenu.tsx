@@ -17,7 +17,7 @@ const KebabMenuList: KebabMenu[] = [
   { key: "delete", label: "삭제하기", onClick: () => console.log("삭제하기") },
 ];
 
-export function KebabMenu() {
+export function KebabMenu({ className }: { className?: string }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,13 +47,17 @@ export function KebabMenu() {
         />
       </button>
       {isOpen && (
-        <ul className="text-md rounded-[5px] border border-gray-300 text-gray-900 flex flex-col divide-y divide-gray-200 md:text-2lg absolute top-10 right-0 bg-white z-20 ">
+        <ul
+          className={`text-md rounded-[5px] border border-gray-300 text-gray-900 flex flex-col divide-y divide-gray-200 md:text-2lg absolute right-0 bg-white z-20  ${
+            className ?? ""
+          }`}
+        >
           {KebabMenuList.map(({ key, label, onClick }) => (
             <li key={key}>
               <button
                 type="button"
                 onClick={onClick}
-                className="cursor-pointer px-[12px] py-[18px] w-[160px] hover:bg-gray-200"
+                className="cursor-pointer px-[12px] py-[13px] w-[160px] hover:bg-gray-200"
               >
                 {label}
               </button>

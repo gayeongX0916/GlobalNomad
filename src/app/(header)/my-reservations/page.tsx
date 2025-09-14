@@ -1,6 +1,6 @@
-import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu";
-import { ReservationItem } from "@/components/ReservationHistory/ReservationItem";
-import { Dropdown, MenuItem } from "@/components/ui/Dropdown";
+import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
+import { ReservationItem } from "@/components/my-reservations/ReservationItem";
+import { Dropdown, MenuItem } from "@/components/ui/Dropdown/Dropdown";
 import EmptyList from "@/assets/svgs/empty_list.svg";
 import Image from "next/image";
 

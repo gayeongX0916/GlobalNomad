@@ -1,5 +1,5 @@
 // UI
-import { MenuItem } from "../ui/Dropdown";
+import { MenuItem } from "../ui/Dropdown/Dropdown";
 import { SelectInput } from "../ui/Input/SelectInput";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
