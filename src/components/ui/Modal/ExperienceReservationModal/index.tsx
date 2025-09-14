@@ -1,11 +1,11 @@
 "use client";
 
-import { SchedulePicker } from "../../../ReservationSchedule/SchedulePicker";
 import { NumberStepper } from "./NumberStepper";
 import CloseIcon from "@/assets/svgs/close_icon.svg";
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
 import { ModalProps } from "@/types/modalProps";
+import { SchedulePicker } from "@/components/activity/SchedulePicker";
 
 const slots = [
   { date: "2025-09-01", startTime: "12:00", endTime: "13:00" },
