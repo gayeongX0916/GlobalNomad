@@ -36,7 +36,7 @@ export function ActivityHeader() {
             </div>
           </div>
         </div>
-        <KebabMenu />
+        <KebabMenu className="top-20"/>
       </header>
 
       <div className="grid grid-cols-4 grid-rows-2 gap-x-[8px] gap-y-[8px]">

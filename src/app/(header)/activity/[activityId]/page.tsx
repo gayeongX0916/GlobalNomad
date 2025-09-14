@@ -1,16 +1,11 @@
 "use client";
 
-import Image from "next/image";
-
 // Icons
-import StarIcon from "@/assets/svgs/star_icon_on.svg";
-import LocationIcon from "@/assets/svgs/location_icon.svg";
-import { KebabMenu } from "@/components/ui/KebabMenu";
-import { ActivityHeader } from "@/features/activity/ActivityHeader";
-import { ActivityDescription } from "@/features/activity/ActivityDescription";
-import { ActivityReview } from "@/features/activity/ActivityReview/ActivityReview";
 import { useCallback, useState } from "react";
 import { ExperienceReservationModal } from "@/components/ui/Modal/ExperienceReservationModal";
+import { ActivityHeader } from "@/components/activity/ActivityHeader";
+import { ActivityDescription } from "@/components/activity/ActivityDescription";
+import { ActivityReview } from "@/components/activity/ActivityReview";
 
 const ActivityDetailPage = () => {
   const [isOpen, setIsOpen] = useState(false);
