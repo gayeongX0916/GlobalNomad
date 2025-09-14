@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+
+// UI
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 
 // Pngs
 import SeoulPic from "@/assets/pngs/seoul.png";

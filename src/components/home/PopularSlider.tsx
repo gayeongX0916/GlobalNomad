@@ -1,7 +1,7 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation} from "swiper/modules";
 import { PopularCard } from "./PopularCard";
 
 // pngs
@@ -56,7 +56,7 @@ export const popularMockData = [
   },
 ];
 
-export function PopularSlide() {
+export function PopularSlider() {
   return (
     <section className="w-full" aria-label="인기 체험 캐러셀">
       <div className="flex justify-between items-center mb-[32px]">

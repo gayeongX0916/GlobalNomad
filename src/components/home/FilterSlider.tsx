@@ -1,5 +1,6 @@
 "use client";
 
+// UI
 import { CategoryButton } from "@/components/ui/Button/CategoryButton";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -22,7 +23,7 @@ const categoryList = [
   { name: "에4헤", onclick: () => console.log("카테고리") },
 ];
 
-export function FilterSlide() {
+export function FilterSlider() {
   return (
     <section className="w-full">
       <Swiper
