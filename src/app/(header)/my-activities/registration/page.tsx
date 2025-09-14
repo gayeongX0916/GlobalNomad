@@ -1,5 +1,6 @@
-import { ExperienceForm } from "@/components/ExperienceForm";
+// UI
 import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu";
+import { ExperienceForm } from "@/components/my-activities/registration/ExperienceForm";
 
 const MyActivitiesRegistration = () => {
   return (

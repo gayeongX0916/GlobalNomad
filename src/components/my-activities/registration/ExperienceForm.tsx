@@ -1,24 +1,18 @@
 "use client";
 
-import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 
 // UI
-import { TextInput } from "../ui/Input/TextInput";
-import { SelectInput } from "../ui/Input/SelectInput";
-import { DateInput } from "../ui/Input/DateInput";
-import { TimeInput } from "../ui/Input/TimeInput";
-import { MenuItem } from "../ui/Dropdown";
-
-// Icons
-import PlusIcon from "@/assets/svgs/plus_icon.svg";
-import MinusIcon from "@/assets/svgs/minus_icon.svg";
-import AddIcon from "@/assets/svgs/add_icon.svg";
-import DeleteIcon from "@/assets/svgs/delete_icon.svg";
-import example from "@/assets/svgs/example.svg";
 import { TimeSlotsEditor } from "./TimeSlotsEditor";
 import { BannerImagePicker } from "./BannerImagePicker";
 import { IntroImagesPicker } from "./IntroImagesPicker";
+import { MenuItem } from "@/components/ui/Dropdown";
+import { TextInput } from "@/components/ui/Input/TextInput";
+import { SelectInput } from "@/components/ui/Input/SelectInput";
+
+// Icons
+import example from "@/assets/svgs/example.svg";
+
 
 const items: MenuItem[] = [
   { label: "액티비티" },

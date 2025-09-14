@@ -28,7 +28,7 @@ export function ActivityItem() {
             <span className="text-lg md:text-xl lg:text-2xl text-gray-900">
               ₩10,000 / 인
             </span>
-            <KebabMenu />
+            <KebabMenu className="top-10"/>
           </footer>
         </div>
       </div>
