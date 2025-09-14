@@ -1,13 +1,10 @@
 "use client";
 
-import { ModalProps } from "@/types/modalProps";
+import { ModalProps } from "@/lib/types/modalProps";
 import { useEffect, useState } from "react";
 import { DateSection } from "@/components/reservation-history/DateSection";
 import { ListSection } from "@/components/reservation-history/ListSection";
-import {
-  Popover,
-  PopoverPanel,
-} from "@headlessui/react";
+import { Popover, PopoverPanel } from "@headlessui/react";
 import Image from "next/image";
 import {
   useFloating,
@@ -59,12 +56,12 @@ export function ReservationInfoModal({
   const [active, setActive] = useState<TabItem>("request");
 
   const { x, y, refs, strategy } = useFloating({
-    placement: "right-start", 
-    whileElementsMounted: autoUpdate, 
+    placement: "right-start",
+    whileElementsMounted: autoUpdate,
     middleware: [
       offset(8),
-      flip(), 
-      shift({ padding: 12 }), 
+      flip(),
+      shift({ padding: 12 }),
       size({
         apply({ availableHeight, elements }) {
           Object.assign(elements.floating.style, {

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { validateFields } from "@/utils/validateFields";
+import { validateFields } from "@/lib/utils/validateFields";
 
 // UI
 import Button from "@/components/ui/Button/Button";

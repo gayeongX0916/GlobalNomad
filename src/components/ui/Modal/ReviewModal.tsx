@@ -1,6 +1,6 @@
 "use client";
 
-import { ModalProps } from "@/types/modalProps";
+import { ModalProps } from "@/lib/types/modalProps";
 import { BaseModal } from "./BaseModal";
 import Image from "next/image";
 import { useEffect, useState } from "react";

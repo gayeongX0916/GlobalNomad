@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
-import { ModalProps } from "@/types/modalProps";
+import { ModalProps } from "@/lib/types/modalProps";
 
 // UI
 import { SchedulePicker } from "@/components/activity/SchedulePicker";
