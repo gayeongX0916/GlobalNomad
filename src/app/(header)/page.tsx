@@ -7,7 +7,7 @@ import { ExperienceGrid } from "@/components/home/ExperienceGrid";
 import { FilterSlider } from "@/components/home/FilterSlider";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { PopularSlider } from "@/components/home/PopularSlider";
-import { SearchBar } from "@/components/SearchBar";
+import { SearchBar } from "@/components/search/SearchBar";
 import { Dropdown, MenuItem } from "@/components/ui/Dropdown";
 
 const dropdownList: MenuItem[] = [

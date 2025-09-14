@@ -1,6 +1,7 @@
 "use client";
 
-import { SearchBar } from "@/components/SearchBar";
+// UI
+import { SearchBar } from "@/components/search/SearchBar";
 import { Pagination } from "@/components/ui/Pagination";
 import { HeroSlider } from "@/components/home/HeroSlider";
 
