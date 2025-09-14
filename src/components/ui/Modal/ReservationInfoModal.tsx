@@ -2,8 +2,8 @@
 
 import { ModalProps } from "@/types/modalProps";
 import { useEffect, useState } from "react";
-import { DateSection } from "@/components/ReservationInfo/DateSection";
-import { ListSection } from "@/components/ReservationInfo/ListSection";
+import { DateSection } from "@/components/reservation-history/DateSection";
+import { ListSection } from "@/components/reservation-history/ListSection";
 import {
   Popover,
   PopoverPanel,
