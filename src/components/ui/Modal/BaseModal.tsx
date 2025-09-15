@@ -1,4 +1,4 @@
-import { ModalProps } from "@/types/modalProps";
+import { ModalProps } from "@/lib/types/modalProps";
 import { Dialog } from "@headlessui/react";
 import { ReactNode } from "react";
 import Image from "next/image";

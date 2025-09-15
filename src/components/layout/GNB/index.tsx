@@ -7,7 +7,7 @@ import NotificationIcon from "@/assets/svgs/notification_icon.svg";
 import example from "@/assets/svgs/example.svg";
 
 export function GlobalNavigationBar() {
-  const accessToken = 1111;
+  const accessToken = false;
   const userName = "정만철";
 
   return (

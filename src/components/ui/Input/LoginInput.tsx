@@ -8,7 +8,7 @@ import VisibilityOff from "@/assets/svgs/visibility_off.svg";
 import VisibilityOn from "@/assets/svgs/visibility_on.svg";
 
 type LoginInputProps = {
-  mode: "email" | "password";
+  mode: "text" | "password";
   label: string;
   placeholder: string;
   errorMessage?: string;
@@ -28,7 +28,7 @@ const LoginInputBase = ({
 }: LoginInputProps) => {
   const [show, setShow] = useState(false);
 
-  const type = mode === "password" ? (show ? "text" : "password") : "email";
+  const type = mode === "password" ? (show ? "text" : "password") : "text";
 
   const handleSetShow = useCallback(() => setShow((prev) => !prev), []);
 

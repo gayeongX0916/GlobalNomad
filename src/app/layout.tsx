@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
 import Providers from "./providers";
+import { ToastProvider } from "@/components/layout/ToastProvider";
 
 const pretendard = localFont({
   src: [
@@ -43,9 +44,8 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className="font-sans">
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
+        <ToastProvider />
       </body>
     </html>
   );

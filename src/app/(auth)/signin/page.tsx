@@ -4,7 +4,7 @@ import Image from "next/image";
 import Logo from "@/assets/logo/logo_vertical.svg";
 import { useCallback, useState } from "react";
 import { LoginInput } from "@/components/ui/Input/LoginInput";
-import { validateFields } from "@/utils/validateFields";
+import { validateFields } from "@/lib/utils/validateFields";
 import Button from "@/components/ui/Button/Button";
 import Link from "next/link";
 import KakaoIcon from "@/assets/svgs/kakao_icon.svg";
