@@ -12,6 +12,7 @@ import { LoginInput } from "@/components/ui/Input/LoginInput";
 //Icons
 import Logo from "@/assets/logo/logo_vertical.svg";
 import KakaoIcon from "@/assets/svgs/kakao_icon.svg";
+import { useSignUp } from "@/lib/hooks/Users/useSignup";
 
 type FormState = {
   email: string;
@@ -26,10 +27,11 @@ type FieldList = {
   name: FieldKey;
   label: string;
   placeholder: string;
-  mode: "email" | "password";
+  mode: "text" | "password";
 };
 
 const SignUpPage = () => {
+  const { mutate: signUp, isPending } = useSignUp();
   const [form, setForm] = useState<FormState>({
     email: "",
     nickname: "",
@@ -47,13 +49,13 @@ const SignUpPage = () => {
       name: "email",
       label: "이메일",
       placeholder: "이메일을 입력해 주세요.",
-      mode: "email",
+      mode: "text",
     },
     {
       name: "nickname",
       label: "닉네임",
       placeholder: "닉네임을 입력해 주세요.",
-      mode: "email",
+      mode: "text",
     },
     {
       name: "password",
@@ -98,6 +100,10 @@ const SignUpPage = () => {
       <form
         className="flex flex-col gap-y-[28px] mb-[32px]"
         aria-labelledby="signup-title"
+        onSubmit={(e) => {
+          e.preventDefault();
+          signUp(form);
+        }}
       >
         <h2 id="signup-title" className="sr-only">
           이메일로 회원가입
@@ -116,10 +122,11 @@ const SignUpPage = () => {
         ))}
         <Button
           type="submit"
-          disabled={
-            Object.values(error).some((err) => err !== "") ||
-            Object.values(form).some((value) => value === "")
-          }
+          // disabled={
+          //   Object.values(error).some((err) => err !== "") ||
+          //   Object.values(form).some((value) => value === "")
+          // }
+          onClick={() => signUp(form)}
         >
           회원가입 하기
         </Button>
