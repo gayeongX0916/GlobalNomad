@@ -120,15 +120,8 @@ const SignUpPage = () => {
             errorMessage={error[name]}
           />
         ))}
-        <Button
-          type="submit"
-          // disabled={
-          //   Object.values(error).some((err) => err !== "") ||
-          //   Object.values(form).some((value) => value === "")
-          // }
-          onClick={() => signUp(form)}
-        >
-          회원가입 하기
+        <Button type="submit" disabled={isPending} onClick={() => signUp(form)}>
+          {isPending ? "가입 중..." : "회원가입 하기"}
         </Button>
 
         <p className="flex justify-center gap-x-[10px]">
