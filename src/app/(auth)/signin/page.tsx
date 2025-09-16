@@ -1,13 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "@/assets/logo/logo_vertical.svg";
 import { useCallback, useState } from "react";
-import { LoginInput } from "@/components/ui/Input/LoginInput";
 import { validateFields } from "@/lib/utils/validateFields";
-import Button from "@/components/ui/Button/Button";
 import Link from "next/link";
+
+// UI
+import { LoginInput } from "@/components/ui/Input/LoginInput";
+import Button from "@/components/ui/Button/Button";
+
+//Icons
 import KakaoIcon from "@/assets/svgs/kakao_icon.svg";
+import Logo from "@/assets/logo/logo_vertical.svg";
+import { useSignin } from "@/lib/hooks/Auth/useSignIn";
 
 type FormState = {
   email: string;
@@ -20,10 +25,11 @@ type FieldList = {
   name: FieldKey;
   label: string;
   placeholder: string;
-  mode: "email" | "password";
+  mode: "text" | "password";
 };
 
 const SignInPage = () => {
+  const { mutate: signIn, isPending } = useSignin();
   const [form, setForm] = useState<FormState>({
     email: "",
     password: "",
@@ -37,7 +43,7 @@ const SignInPage = () => {
       name: "email",
       label: "이메일",
       placeholder: "이메일을 입력해 주세요.",
-      mode: "email",
+      mode: "text",
     },
     {
       name: "password",
@@ -76,6 +82,10 @@ const SignInPage = () => {
       <form
         className="flex flex-col gap-y-[28px] mb-[32px]"
         aria-labelledby="signin-title"
+        onSubmit={(e) => {
+          e.preventDefault();
+          signIn(form);
+        }}
       >
         <h2 id="signin-title" className="sr-only">
           이메일로 로그인
@@ -91,14 +101,8 @@ const SignInPage = () => {
             onBlur={handleBlur(name)}
           />
         ))}
-        <Button
-          type="button"
-          disabled={
-            Object.values(form).some((value) => value === "") ||
-            Object.values(error).some((err) => err !== "")
-          }
-        >
-          로그인하기
+        <Button type="button" disabled={isPending} onClick={() => signIn(form)}>
+          {isPending ? "가입 중..." : "로그인 하기"}
         </Button>
 
         <p className="flex justify-center gap-x-[10px]">
