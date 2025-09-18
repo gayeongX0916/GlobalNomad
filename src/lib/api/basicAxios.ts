@@ -3,23 +3,31 @@ import axios, {
   AxiosHeaders,
   InternalAxiosRequestConfig,
 } from "axios";
+import { useAuthStore } from "../stores/auth";
 import {
-  getTokensFromCookies,
-  setCookiesByToken,
-  deleteTokensFromCookies,
-} from "@/lib/utils/cookies";
+  deleteRefreshCookie,
+  getRefreshFromCookie,
+  setRefreshCookie,
+} from "../utils/cookies";
 
 export const basicAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
 });
 
+export const refreshAxios = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+});
+
 basicAxios.interceptors.request.use((config) => {
-  const { accessToken } = getTokensFromCookies();
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+  const access = useAuthStore.getState().accessToken;
+  if (access) config.headers.Authorization = `Bearer ${access}`;
   return config;
 });
+
+let refreshPromise: Promise<{
+  accessToken: string;
+  refreshToken?: string;
+} | null> | null = null;
 
 // 401이면 refresh → 성공 시 재시도, 실패 시 로그아웃
 basicAxios.interceptors.response.use(
@@ -28,42 +36,56 @@ basicAxios.interceptors.response.use(
     const original = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
-
     if (error.response?.status !== 401 || original?._retry) {
       return Promise.reject(error);
     }
-
     original._retry = true;
 
-    const { refreshToken } = getTokensFromCookies();
-    if (!refreshToken) {
-      deleteTokensFromCookies();
-      if (typeof window !== "undefined") window.location.href = "/signin";
-      return Promise.reject(error);
-    }
-
     try {
-      const { data } = await basicAxios.post(
-        "/auth/tokens",
-        {},
-        { headers: { Authorization: `Bearer ${refreshToken}` } }
-      );
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          const accessToken = useAuthStore.getState().accessToken;
+          if (!accessToken) return null;
 
-      const newAccess = data?.accessToken;
-      const newRefresh = data?.refreshToken;
-      if (!newAccess) throw new Error("No access token from refresh");
+          const { data } = await refreshAxios.post(
+            "/auth/tokens",
+            {},
+            { headers: { Authorization: `Bearer ${accessToken}` } }
+          );
 
-      setCookiesByToken({ accessToken: newAccess, refreshToken: newRefresh });
+          const newAccess = data?.accessToken;
+          const newRefresh = data?.refreshToken;
+
+          if (!newAccess) return null;
+
+          if (newRefresh) setRefreshCookie(newRefresh);
+          return { accessToken: newAccess, refreshToken: newRefresh };
+        })();
+      }
+
+      const result = await refreshPromise;
+      refreshPromise = null;
+
+      if (!result?.accessToken) {
+        useAuthStore.getState().clear();
+        deleteRefreshCookie();
+        if (typeof window !== "undefined") window.location.href = "/signin";
+        return Promise.reject(error);
+      }
+
+      useAuthStore.getState().setAccessToken(result.accessToken);
 
       return basicAxios.request({
         ...original,
         headers: new AxiosHeaders(original.headers).set(
           "Authorization",
-          `Bearer ${newAccess}`
+          `Bearer ${result.accessToken}`
         ),
       });
     } catch (e) {
-      deleteTokensFromCookies();
+      refreshPromise = null;
+      useAuthStore.getState().clear();
+      deleteRefreshCookie();
       if (typeof window !== "undefined") window.location.href = "/signin";
       return Promise.reject(e);
     }
