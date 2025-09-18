@@ -3,6 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import Providers from "./providers";
 import { ToastProvider } from "@/components/layout/ToastProvider";
+import AuthBootstrap from "./AuthBootstrap";
 
 const pretendard = localFont({
   src: [
@@ -44,6 +45,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className="font-sans">
+        <AuthBootstrap />
         <Providers>{children}</Providers>
         <ToastProvider />
       </body>

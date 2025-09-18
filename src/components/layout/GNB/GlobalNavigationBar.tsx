@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -5,11 +7,12 @@ import Link from "next/link";
 import Logo from "@/assets/logo/logo_horizontal.svg";
 import NotificationIcon from "@/assets/svgs/notification_icon.svg";
 import example from "@/assets/svgs/example.svg";
+import { useAuthStore } from "@/lib/stores/auth";
 
 export function GlobalNavigationBar() {
-  const accessToken = false;
+  const accessToken = useAuthStore((s) => s.accessToken);
   const userName = "정만철";
-
+  
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-white">
       <div className="mx-auto flex h-[70px] items-center justify-between md:px-[40px] px-[16px] lg:px-[80px]">
@@ -42,7 +45,7 @@ export function GlobalNavigationBar() {
 
               <li>
                 <Link
-                href="/my-page"
+                  href="/my-page"
                   className="flex items-center gap-x-[10px] cursor-pointer"
                   aria-label={`${userName} 계정 메뉴 열기`}
                 >
@@ -62,7 +65,7 @@ export function GlobalNavigationBar() {
             <ul className="flex items-center gap-x-[25px]">
               <li>
                 <Link
-                  href="/login"
+                  href="/signin"
                   className="text-lg text-black font-semibold"
                 >
                   로그인

@@ -1,5 +1,5 @@
-import { Footer } from "@/components/layout/Footer";
-import { GlobalNavigationBar } from "@/components/layout/GNB";
+import { Footer } from "@/components/layout/Footer/Footer";
+import { GlobalNavigationBar } from "@/components/layout/GNB/GlobalNavigationBar";
 import { ReactNode } from "react";
 
 export default function HeaderLayout({ children }: { children: ReactNode }) {
