@@ -44,13 +44,13 @@ basicAxios.interceptors.response.use(
     try {
       if (!refreshPromise) {
         refreshPromise = (async () => {
-          const accessToken = useAuthStore.getState().accessToken;
-          if (!accessToken) return null;
+          const refresh = getRefreshFromCookie();
+          if (!refresh) return null;
 
           const { data } = await refreshAxios.post(
             "/auth/tokens",
             {},
-            { headers: { Authorization: `Bearer ${accessToken}` } }
+            { headers: { Authorization: `Bearer ${refresh}` } }
           );
 
           const newAccess = data?.accessToken;

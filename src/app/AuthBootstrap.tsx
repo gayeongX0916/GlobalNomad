@@ -1,0 +1,44 @@
+"use client";
+
+import { useEffect } from "react";
+import { useAuthStore } from "@/lib/stores/auth";
+import {
+  getRefreshFromCookie,
+  setRefreshCookie,
+  deleteRefreshCookie,
+} from "@/lib/utils/cookies";
+import { refreshAxios } from "@/lib/api/basicAxios";
+
+export default function AuthBootstrap() {
+  const { setAccessToken, clear } = useAuthStore.getState();
+
+  useEffect(() => {
+    const boot = async () => {
+      try {
+        const refresh = getRefreshFromCookie();
+        if (!refresh) return;
+
+        const { data } = await refreshAxios.post(
+          "/auth/tokens",
+          {},
+          { headers: { Authorization: `Bearer ${refresh}` } }
+        );
+
+        const newAccess = data?.accessToken;
+        const newRefresh = data?.refreshToken;
+        if (!newAccess) throw new Error("No access token in refresh response");
+
+        setAccessToken(newAccess);
+
+        if (newRefresh) setRefreshCookie(newRefresh);
+      } catch {
+        clear();
+        deleteRefreshCookie();
+      }
+    };
+
+    boot();
+  }, []);
+
+  return null;
+}
