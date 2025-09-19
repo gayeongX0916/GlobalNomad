@@ -11,8 +11,10 @@ import { LoginInput } from "@/components/ui/Input/LoginInput";
 
 //Icons
 import Logo from "@/assets/logo/logo_vertical.svg";
-import KakaoIcon from "@/assets/svgs/kakao_icon.svg";
 import { useSignUp } from "@/lib/hooks/Users/useSignup";
+import { OauthSection } from "@/components/auth/OauthSection";
+import { useRouter } from "next/navigation";
+import { buildKakaoAuthUrl } from "@/lib/utils/kakao";
 
 type FormState = {
   email: string;
@@ -31,6 +33,7 @@ type FieldList = {
 };
 
 const SignUpPage = () => {
+  const router = useRouter();
   const { mutate: signUp, isPending } = useSignUp();
   const [form, setForm] = useState<FormState>({
     email: "",
@@ -90,6 +93,18 @@ const SignUpPage = () => {
     [form]
   );
 
+  const handleLoginClick = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e?.preventDefault();
+      signUp(form);
+    },
+    []
+  );
+
+  const handleKakaoClick = () => {
+    window.location.href = buildKakaoAuthUrl("up");
+  };
+
   return (
     <main className="px-[12px] w-full md:px-[50px] lg:max-w-[640px] lg:mx-auto pt-[100px] pb-[50px]">
       <header className="mb-[56px] flex justify-center">
@@ -100,10 +115,7 @@ const SignUpPage = () => {
       <form
         className="flex flex-col gap-y-[28px] mb-[32px]"
         aria-labelledby="signup-title"
-        onSubmit={(e) => {
-          e.preventDefault();
-          signUp(form);
-        }}
+        onSubmit={(e) => handleLoginClick(e)}
       >
         <h2 id="signup-title" className="sr-only">
           이메일로 회원가입
@@ -120,7 +132,7 @@ const SignUpPage = () => {
             errorMessage={error[name]}
           />
         ))}
-        <Button type="submit" disabled={isPending} onClick={() => signUp(form)}>
+        <Button type="submit" disabled={isPending}>
           {isPending ? "가입 중..." : "회원가입 하기"}
         </Button>
 
@@ -132,32 +144,7 @@ const SignUpPage = () => {
         </p>
       </form>
 
-      <section aria-labelledby="social-signup-title">
-        <h2 id="social-signup-title" className="sr-only">
-          SNS 계정으로 회원가입하기
-        </h2>
-
-        <div className="flex items-center w-full gap-x-[16px]">
-          <hr className="flex-1 border-gray-300" />
-          <span
-            className="text-md md:text-xl text-gray-800 whitespace-nowrap"
-            aria-hidden="true"
-          >
-            SNS 계정으로 회원가입하기
-          </span>
-          <hr className="flex-1 border-gray-300" />
-        </div>
-
-        <div className="flex justify-center mt-[40px]">
-          <button
-            type="button"
-            className="rounded-full w-[72px] h-[72px] border border-[#F2F2F2] flex justify-center items-center cursor-pointer"
-            aria-label="카카오로 회원가입하기"
-          >
-            <Image src={KakaoIcon} alt="" aria-hidden="true" />
-          </button>
-        </div>
-      </section>
+      <OauthSection mode="up" onKakaoClick={handleKakaoClick} />
     </main>
   );
 };

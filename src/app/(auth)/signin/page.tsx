@@ -10,9 +10,11 @@ import { LoginInput } from "@/components/ui/Input/LoginInput";
 import Button from "@/components/ui/Button/Button";
 
 //Icons
-import KakaoIcon from "@/assets/svgs/kakao_icon.svg";
 import Logo from "@/assets/logo/logo_vertical.svg";
 import { useSignin } from "@/lib/hooks/Auth/useSignIn";
+import { OauthSection } from "@/components/auth/OauthSection";
+import { useRouter } from "next/navigation";
+import { buildKakaoAuthUrl } from "@/lib/utils/kakao";
 
 type FormState = {
   email: string;
@@ -29,6 +31,7 @@ type FieldList = {
 };
 
 const SignInPage = () => {
+  const router = useRouter();
   const { mutate: signIn, isPending } = useSignin();
   const [form, setForm] = useState<FormState>({
     email: "",
@@ -72,6 +75,18 @@ const SignInPage = () => {
     [form]
   );
 
+  const handleLoginClick = useCallback(
+    (e?: React.FormEvent<HTMLFormElement>) => {
+      e?.preventDefault();
+      signIn(form);
+    },
+    []
+  );
+
+  const handleKakaoClick = () => {
+    window.location.href = buildKakaoAuthUrl("in");
+  };
+
   return (
     <main className="px-[12px] w-full md:px-[50px] lg:max-w-[640px] lg:mx-auto pt-[100px] pb-[50px]">
       <header className="mb-[56px] flex justify-center">
@@ -82,10 +97,7 @@ const SignInPage = () => {
       <form
         className="flex flex-col gap-y-[28px] mb-[32px]"
         aria-labelledby="signin-title"
-        onSubmit={(e) => {
-          e.preventDefault();
-          signIn(form);
-        }}
+        onSubmit={(e) => handleLoginClick(e)}
       >
         <h2 id="signin-title" className="sr-only">
           이메일로 로그인
@@ -99,10 +111,11 @@ const SignInPage = () => {
             value={form[name]}
             onChange={handleChange(name)}
             onBlur={handleBlur(name)}
+            errorMessage={error[name]}
           />
         ))}
-        <Button type="button" disabled={isPending} onClick={() => signIn(form)}>
-          {isPending ? "가입 중..." : "로그인 하기"}
+        <Button type="submit" disabled={isPending}>
+          {isPending ? "로그인 중..." : "로그인 하기"}
         </Button>
 
         <p className="flex justify-center gap-x-[10px]">
@@ -113,32 +126,7 @@ const SignInPage = () => {
         </p>
       </form>
 
-      <section aria-labelledby="social-signin-title">
-        <h2 id="social-signin-title" className="sr-only">
-          SNS 계정으로 로그인하기
-        </h2>
-
-        <div className="flex items-center w-full gap-x-[16px]">
-          <hr className="flex-1 border-gray-300" />
-          <span
-            className="text-md md:text-xl text-gray-800 whitespace-nowrap"
-            aria-hidden="true"
-          >
-            SNS 계정으로 로그인하기
-          </span>
-          <hr className="flex-1 border-gray-300" />
-        </div>
-
-        <div className="flex justify-center mt-[40px]">
-          <button
-            type="button"
-            className="rounded-full w-[72px] h-[72px] border border-[#F2F2F2] flex justify-center items-center cursor-pointer"
-            aria-label="카카오로 로그인하기"
-          >
-            <Image src={KakaoIcon} alt="" aria-hidden="true" />
-          </button>
-        </div>
-      </section>
+      <OauthSection mode="in" onKakaoClick={handleKakaoClick} />
     </main>
   );
 };
