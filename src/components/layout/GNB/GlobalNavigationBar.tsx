@@ -8,18 +8,33 @@ import Logo from "@/assets/logo/logo_horizontal.svg";
 import NotificationIcon from "@/assets/svgs/notification_icon.svg";
 import example from "@/assets/svgs/example.svg";
 import { useAuthStore } from "@/lib/stores/auth";
+import { ProfileDropdown } from "@/components/ui/Dropdown/PropfileDropdown";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function GlobalNavigationBar() {
   const accessToken = useAuthStore((s) => s.accessToken);
   const userName = "정만철";
-  
+  const [isOpen, setIsOpen] = useState(false);
+  const profileBoxRef = useRef<HTMLLIElement>(null);
+
+  const handleClickOpen = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
+  useEffect(() => {
+    const handleClickRef = (e: MouseEvent) => {
+      if (!profileBoxRef.current?.contains(e.target as Node)) setIsOpen(false);
+    };
+    document.addEventListener("click", handleClickRef);
+    return () => document.removeEventListener("click", handleClickRef);
+  });
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-white">
       <div className="mx-auto flex h-[70px] items-center justify-between md:px-[40px] px-[16px] lg:px-[80px]">
         <Link href="/" aria-label="홈으로 이동">
           <Image src={Logo} alt="" aria-hidden="true" width={160} height={30} />
         </Link>
-
         {accessToken ? (
           <nav aria-label="사용자 메뉴">
             <ul className="flex items-center gap-x-[16px]">
@@ -43,11 +58,10 @@ export function GlobalNavigationBar() {
                 <div className="h-[22px] border-l border-gray-300" />
               </li>
 
-              <li>
-                <Link
-                  href="/my-page"
+              <li className="relative" ref={profileBoxRef}>
+                <button
                   className="flex items-center gap-x-[10px] cursor-pointer"
-                  aria-label={`${userName} 계정 메뉴 열기`}
+                  onClick={handleClickOpen}
                 >
                   <Image
                     src={example}
@@ -56,7 +70,12 @@ export function GlobalNavigationBar() {
                     className="rounded-full w-[32px] h-[32px] object-cover"
                   />
                   <span className="text-lg text-black">{userName}</span>
-                </Link>
+                </button>
+                {isOpen && (
+                  <div className="absolute -right-[30px] top-full z-50 mt-[10px]">
+                    <ProfileDropdown />
+                  </div>
+                )}
               </li>
             </ul>
           </nav>
