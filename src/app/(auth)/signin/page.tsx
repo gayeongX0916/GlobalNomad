@@ -13,7 +13,6 @@ import Button from "@/components/ui/Button/Button";
 import Logo from "@/assets/logo/logo_vertical.svg";
 import { useSignin } from "@/lib/hooks/Auth/useSignIn";
 import { OauthSection } from "@/components/auth/OauthSection";
-import { useRouter } from "next/navigation";
 import { buildKakaoAuthUrl } from "@/lib/utils/kakao";
 
 type FormState = {
@@ -31,7 +30,6 @@ type FieldList = {
 };
 
 const SignInPage = () => {
-  const router = useRouter();
   const { mutate: signIn, isPending } = useSignin();
   const [form, setForm] = useState<FormState>({
     email: "",
@@ -80,7 +78,7 @@ const SignInPage = () => {
       e?.preventDefault();
       signIn(form);
     },
-    []
+    [form,signIn]
   );
 
   const handleKakaoClick = () => {

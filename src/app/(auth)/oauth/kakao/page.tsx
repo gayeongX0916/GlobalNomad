@@ -6,6 +6,7 @@ import { basicAxios } from "@/lib/api/basicAxios";
 import { toast } from "react-toastify";
 import { useAuthStore } from "@/lib/stores/auth";
 import { setRefreshCookie } from "@/lib/utils/cookies";
+import axios from "axios";
 
 export default function KakaoCallbackPage() {
   const router = useRouter();
@@ -53,11 +54,12 @@ export default function KakaoCallbackPage() {
         } else {
           try {
             payload = await signUp();
-          } catch (err: any) {
-            if (err?.response?.status === 409) {
+          } catch (err: unknown) {
+            if (axios.isAxiosError(err) && err.response?.status === 409) {
+              // 이미 가입된 유저 → 로그인 시도
               payload = await signIn();
             } else {
-              throw err;
+              throw err; // 바깥 catch로 넘김
             }
           }
         }
@@ -65,8 +67,10 @@ export default function KakaoCallbackPage() {
         setAccessToken(payload.accessToken);
         setRefreshCookie(payload.refreshToken);
         router.replace(next);
-      } catch (err: any) {
-        toast.error(err?.response?.data?.message ?? "연결 중 오류");
+      } catch (err: unknown) {
+        if(axios.isAxiosError(err)){
+          toast.error(err?.response?.data?.message ?? "연결 중 오류");
+        }
         router.replace("/");
       }
     })();
