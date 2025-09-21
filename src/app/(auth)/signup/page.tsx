@@ -13,7 +13,6 @@ import { LoginInput } from "@/components/ui/Input/LoginInput";
 import Logo from "@/assets/logo/logo_vertical.svg";
 import { useSignUp } from "@/lib/hooks/Users/useSignup";
 import { OauthSection } from "@/components/auth/OauthSection";
-import { useRouter } from "next/navigation";
 import { buildKakaoAuthUrl } from "@/lib/utils/kakao";
 
 type FormState = {
@@ -33,7 +32,6 @@ type FieldList = {
 };
 
 const SignUpPage = () => {
-  const router = useRouter();
   const { mutate: signUp, isPending } = useSignUp();
   const [form, setForm] = useState<FormState>({
     email: "",
@@ -93,12 +91,12 @@ const SignUpPage = () => {
     [form]
   );
 
-  const handleLoginClick = useCallback(
+  const handleSignupClick = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e?.preventDefault();
       signUp(form);
     },
-    []
+    [form,signUp]
   );
 
   const handleKakaoClick = () => {
@@ -115,7 +113,7 @@ const SignUpPage = () => {
       <form
         className="flex flex-col gap-y-[28px] mb-[32px]"
         aria-labelledby="signup-title"
-        onSubmit={(e) => handleLoginClick(e)}
+        onSubmit={(e) => handleSignupClick(e)}
       >
         <h2 id="signup-title" className="sr-only">
           이메일로 회원가입
