@@ -95,8 +95,8 @@ export interface GetActivityDetailResponse extends Activity {
 // 체험 예약 가능일 조회
 export interface ActivityAvailableScheduleBody {
   activityId: number;
-  year: number;
-  month: number;
+  year: string;
+  month: string;
 }
 
 export type GetActivityAvailableScheduleResponse = ActivitySchedule[];
