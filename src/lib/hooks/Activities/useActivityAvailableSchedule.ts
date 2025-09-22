@@ -9,5 +9,6 @@ export function useActivityAvailableSchedule(
   return useQuery({
     queryKey: ["availableSchedule", { activityId, year, month }],
     queryFn: () => getActivitiesAvailableSchedule(params),
+    placeholderData: (prev) => prev,
   });
 }

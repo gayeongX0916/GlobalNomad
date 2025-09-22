@@ -9,8 +9,11 @@ import ArrowLeft from "@/assets/svgs/slider_arrow_left.svg";
 import ArrowRight from "@/assets/svgs/slider_arrow_right.svg";
 import Image from "next/image";
 import { useActivitiesList } from "@/lib/hooks/Activities/useActivitiesList";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function PopularSlider() {
+  const router = useRouter();
   const { data, isPending, error } = useActivitiesList({
     sort: "most_reviewed",
   });
@@ -86,13 +89,15 @@ export function PopularSlider() {
       >
         {data.activities.map((item) => (
           <SwiperSlide key={item.id}>
-            <PopularCard
-              rating={item.rating}
-              reviewCount={item.reviewCount}
-              title={item.title}
-              price={item.price}
-              imageUrl={item.bannerImageUrl}
-            />
+            <Link href={`/activities/${item.id}`}>
+              <PopularCard
+                rating={item.rating}
+                reviewCount={item.reviewCount}
+                title={item.title}
+                price={item.price}
+                imageUrl={item.bannerImageUrl}
+              />
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

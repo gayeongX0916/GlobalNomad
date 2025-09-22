@@ -3,6 +3,7 @@ import { Pagination } from "@/components/ui/Pagination/Pagination";
 import { ExperienceCard } from "./ExperienceCard";
 import { useActivitiesList } from "@/lib/hooks/Activities/useActivitiesList";
 import { ActivityCategory } from "@/lib/types/activities";
+import Link from "next/link";
 
 type ExperienceCardProps = {
   category?: ActivityCategory;
@@ -25,14 +26,15 @@ export function ExperienceGrid({ category, sort }: ExperienceCardProps) {
       <h3 className="text-3xl font-bold text-black mb-[32px]">🛼 모든 체험</h3>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-[7px] gap-y-[5px] md:grid-cols-3 md:grid-rows-3 md:gap-x-[15px] md:gap-y-[30px] lg:grid-cols-4 lg:grid-rows-2 lg:gap-x-[20px] lg:gap-y-[40px] mb-[60px]">
         {data.activities.map((item) => (
-          <ExperienceCard
-            key={item.id}
-            rating={item.rating}
-            reviewCount={item.reviewCount}
-            title={item.title}
-            price={item.price}
-            imageUrl={item.bannerImageUrl}
-          />
+          <Link href={`/activities/${item.id}`} key={item.id}>
+            <ExperienceCard
+              rating={item.rating}
+              reviewCount={item.reviewCount}
+              title={item.title}
+              price={item.price}
+              imageUrl={item.bannerImageUrl}
+            />
+          </Link>
         ))}
       </div>
       <div className="flex justify-center">

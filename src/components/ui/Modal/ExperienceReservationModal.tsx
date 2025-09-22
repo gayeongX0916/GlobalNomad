@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Dialog } from "@headlessui/react";
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { ModalProps } from "@/lib/types/modalProps";
 
 // UI
@@ -10,34 +10,55 @@ import { SchedulePicker } from "@/components/activity/SchedulePicker";
 // Icons
 import CloseIcon from "@/assets/svgs/close_icon.svg";
 import { NumberStepper } from "@/components/activity/NumberStepper";
+import { useActivityAvailableSchedule } from "@/lib/hooks/Activities/useActivityAvailableSchedule";
+import { formatKRW } from "@/lib/utils/formatKRW";
+import { useCallback, useState } from "react";
+import { GetActivityDetailResponse } from "@/lib/types/activities";
+import { useCreateReservation } from "@/lib/hooks/Activities/useCreateReservation";
 
-const slots = [
-  { date: "2025-09-01", startTime: "12:00", endTime: "13:00" },
-  { date: "2025-10-01", startTime: "13:00", endTime: "14:00" },
-  { date: "2025-10-05", startTime: "09:00", endTime: "10:00" },
-  { date: "2025-10-05", startTime: "10:00", endTime: "11:00" },
-  { date: "2025-10-05", startTime: "10:00", endTime: "11:00" },
-  { date: "2025-10-05", startTime: "10:00", endTime: "11:00" },
-  { date: "2025-10-05", startTime: "10:00", endTime: "11:00" },
-  { date: "2025-10-05", startTime: "10:00", endTime: "11:00" },
-  { date: "2025-10-05", startTime: "11:00", endTime: "12:00" },
-  { date: "2025-10-05", startTime: "12:00", endTime: "13:00" },
-  { date: "2025-10-10", startTime: "15:00", endTime: "16:00" },
-];
+interface ExperienceReservationModalProps extends ModalProps {
+  activity: GetActivityDetailResponse;
+}
 
-export function ExperienceReservationModal({ isOpen, onClose }: ModalProps) {
+export function ExperienceReservationModal({
+  isOpen,
+  onClose,
+  activity,
+}: ExperienceReservationModalProps) {
+  const now = new Date();
+  const [year, setYear] = useState(String(now.getFullYear()));
+  const [month, setMonth] = useState(
+    String(now.getMonth() + 1).padStart(2, "0")
+  );
+  const activityId = activity.id;
+
+  const { data, isPending, error } = useActivityAvailableSchedule({
+    activityId,
+    year,
+    month,
+  });
+  const [headId, setHeadId] = useState(0);
+  const [count, setCount] = useState(1);
+  const { mutate: createReservation, isPending: isCreating } =
+    useCreateReservation();
+
+  const handleReservationClick = useCallback(() => {
+    createReservation({ activityId, scheduleId: headId, headCount: count });
+    onClose();
+  }, [activityId, headId, count, createReservation,onClose]);
+
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <div
-        className="fixed inset-0 z-40"
+    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+      <DialogBackdrop
+        className="fixed inset-0"
         onClick={onClose}
         aria-hidden="true"
       />
       <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
-        <div className="w-full h-full border bg-white border-gray-300 rounded-[12px] px-[20px] py-[24px] md:max-w-[450px] md:h-[500px] overflow-x-auto no-scrollbar">
+        <DialogPanel className="w-full h-full border bg-white border-gray-300 rounded-[12px] px-[20px] py-[24px] md:max-w-[450px] md:h-[500px] overflow-x-auto no-scrollbar">
           <header className="pb-[16px]">
             <h2 className="text-3xl font-bold text-black">
-              <data value="1000">₩ 1,000</data>
+              <data value="1000">{formatKRW(activity.price)}</data>
               <span className="text-xl text-gray-900"> / 인</span>
             </h2>
           </header>
@@ -68,10 +89,19 @@ export function ExperienceReservationModal({ isOpen, onClose }: ModalProps) {
               </button>
             </div>
 
-            <SchedulePicker
-              data={slots}
-              onChange={(slot) => console.log("선택된 슬롯:", slot)}
-            />
+            {error ? (
+              <div className="text-red-600">에러가 발생했어요.</div>
+            ) : (
+              <SchedulePicker
+                data={data ?? []}
+                isLoading={isPending}
+                onChange={setHeadId}
+                onCalendarMonthChange={(y, m) => {
+                  setYear(String(y));
+                  setMonth(String(m).padStart(2, "0"));
+                }}
+              />
+            )}
           </section>
 
           <section
@@ -84,15 +114,16 @@ export function ExperienceReservationModal({ isOpen, onClose }: ModalProps) {
             >
               참여 인원 수
             </h3>
-            <NumberStepper />
+            <NumberStepper onChange={setCount} value={count} />
           </section>
 
           <div className="mt-[24px] mb-[24px]">
             <button
               type="button"
               className="rounded-[4px] px-[40px] py-[10px] bg-nomadBlack text-lg font-bold text-white w-full cursor-pointer"
+              onClick={handleReservationClick}
             >
-              예약하기
+              {isCreating ? "예약 중..." : "예약하기"}
             </button>
           </div>
 
@@ -103,9 +134,11 @@ export function ExperienceReservationModal({ isOpen, onClose }: ModalProps) {
             <h2 id="total-title" className="text-xl font-bold text-nomadBlack">
               총 합계
             </h2>
-            <span className="text-xl font-bold text-nomadBlack">₩ 1,000</span>
+            <span className="text-xl font-bold text-nomadBlack">
+              {formatKRW(count * activity.price)}
+            </span>
           </footer>
-        </div>
+        </DialogPanel>
       </div>
     </Dialog>
   );
