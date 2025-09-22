@@ -1,6 +1,6 @@
 "use client";
 
-import { format, parseISO } from "date-fns";
+import { format, isSameDay, parseISO } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import { CalendarHeader } from "./CalendarHeader";
@@ -10,12 +10,14 @@ type SchedulePickerProps = {
   data: ActivitySchedule[];
   onChange: (id: number) => void;
   onCalendarMonthChange?: (year: number, month: number) => void;
+  isLoading?: boolean;
 };
 
 export function SchedulePicker({
   data,
   onChange,
   onCalendarMonthChange,
+  isLoading = false,
 }: SchedulePickerProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<ActivityTime | null>(null);
@@ -61,9 +63,10 @@ export function SchedulePicker({
               viewDate.getMonth() + 1
             );
           }}
+          openToDate={new Date()}
+          includeDates={includeDates}
           dateFormat="yyyy-MM-dd"
           inline
-          includeDates={includeDates}
           renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
             <CalendarHeader
               date={date}
@@ -71,6 +74,10 @@ export function SchedulePicker({
               onNextMonth={increaseMonth}
             />
           )}
+          dayClassName={(date) => {
+            const isToday = isSameDay(date, new Date());
+            return isToday ? "ring-2 ring-nomadBlack rounded-full" : "";
+          }}
         />
       </section>
 
@@ -82,7 +89,9 @@ export function SchedulePicker({
           예약 가능한 시간
         </h3>
 
-        {timesFromSelectedDate.length === 0 ? (
+        {isLoading ? (
+          "로딩 중입니다."
+        ) : timesFromSelectedDate.length === 0 ? (
           <p className="mt-[8px] text-lg text-gray-800">
             예약 가능한 시간이 없습니다.
           </p>

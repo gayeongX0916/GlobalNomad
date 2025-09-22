@@ -39,9 +39,6 @@ export function ExperienceReservationModal({
   const [headId, setHeadId] = useState(0);
   const [count, setCount] = useState(0);
 
-  if (isPending) return <main>로딩 중…</main>;
-  if (error || !data) return <main>에러가 발생했어요.</main>;
-
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop
@@ -84,14 +81,19 @@ export function ExperienceReservationModal({
               </button>
             </div>
 
-            <SchedulePicker
-              data={data}
-              onChange={(id) => setHeadId(id)}
-              onCalendarMonthChange={(y, m) => {
-                setYear(String(y));
-                setMonth(String(m).padStart(2, "0"));
-              }}
-            />
+            {error ? (
+              <div className="text-red-600">에러가 발생했어요.</div>
+            ) : (
+              <SchedulePicker
+                data={data ?? []}
+                isLoading={isPending}
+                onChange={(id) => setHeadId(id)}
+                onCalendarMonthChange={(y, m) => {
+                  setYear(String(y));
+                  setMonth(String(m).padStart(2, "0"));
+                }}
+              />
+            )}
           </section>
 
           <section

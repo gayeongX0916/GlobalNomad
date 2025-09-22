@@ -92,7 +92,7 @@ export const postActivitiesReservations = async ({
   return data;
 };
 
-// 체험 이미 url 생성
+// 체험 이미지 url 생성
 export const postActivitiesImage = async (
   file: File | Blob
 ): Promise<CreateActivityCreateImageResponse> => {
