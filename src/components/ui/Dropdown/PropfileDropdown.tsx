@@ -17,7 +17,11 @@ import { useAuthStore } from "@/lib/stores/auth";
 import { deleteRefreshCookie } from "@/lib/utils/cookies";
 import { useRouter } from "next/navigation";
 
-export function ProfileDropdown() {
+type ProfileDropdownProps = {
+  onSelect: () => void;
+};
+
+export function ProfileDropdown({onSelect}:ProfileDropdownProps) {
   const clearAccessToken = useAuthStore((s) => s.clear);
   const router = useRouter();
 
@@ -70,6 +74,7 @@ export function ProfileDropdown() {
           {href ? (
             <Link
               href={href}
+              onClick={onSelect}
               className="group flex items-center gap-[12px] px-[16px] py-[8px] hover:bg-gray-100 cursor-pointer"
               role="menuitem"
               prefetch={false}

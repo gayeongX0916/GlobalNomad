@@ -4,10 +4,10 @@ import Image from "next/image";
 import StarIcon from "@/assets/svgs/star_icon_on.svg";
 
 type ExperienceCardProps = {
-  rating: string;
-  reviewCount: string;
+  rating: number;
+  reviewCount: number;
   title: string;
-  price: string;
+  price: number;
   imageUrl: string;
 };
 

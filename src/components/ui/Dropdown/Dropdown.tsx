@@ -3,27 +3,29 @@
 import Image from "next/image";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import ArrowDown from "@/assets/svgs/arrow_down.svg";
-
-export type MenuItem = { label: string };
+import { ActivitySort } from "@/lib/types/activities";
+import { MenuItem } from "@/lib/types/ui";
 
 type DropdownProps = {
   children?: ReactNode;
-  items?: MenuItem[];
-  onSelect?: (label: string) => void;
+  items: MenuItem<ActivitySort>[];
+  onSelect?: (label: ActivitySort | undefined) => void;
 };
 
 export function Dropdown({ children, items, onSelect }: DropdownProps) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    const handleonClick = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setIsOpen(false);
-    };
+  const handleDocumentClick = useCallback((e: MouseEvent) => {
+    if (ref.current && !ref.current.contains(e.target as Node)) {
+      setIsOpen(false);
+    }
+  }, []);
 
-    document.addEventListener("click", handleonClick);
-    return () => document.removeEventListener("click", handleonClick);
-  });
+  useEffect(() => {
+    document.addEventListener("click", handleDocumentClick);
+    return () => document.removeEventListener("click", handleDocumentClick);
+  }, [handleDocumentClick]);
 
   const handleIsOpen = useCallback(() => setIsOpen((prev) => !prev), []);
 
@@ -53,7 +55,10 @@ export function Dropdown({ children, items, onSelect }: DropdownProps) {
             <li key={item.label}>
               <button
                 type="button"
-                onClick={() => onSelect(item.label)}
+                onClick={() => {
+                  onSelect(item.value);
+                  setIsOpen(false);
+                }}
                 className="cursor-pointer px-[12px] py-[18px]  hover:bg-gray-200 w-full"
               >
                 {item.label}

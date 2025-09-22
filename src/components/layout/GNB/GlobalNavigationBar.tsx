@@ -73,7 +73,7 @@ export function GlobalNavigationBar() {
                 </button>
                 {isOpen && (
                   <div className="absolute -right-[30px] top-full z-50 mt-[10px]">
-                    <ProfileDropdown />
+                    <ProfileDropdown onSelect={() => setIsOpen(false)} />
                   </div>
                 )}
               </li>

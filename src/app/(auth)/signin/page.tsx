@@ -78,11 +78,15 @@ const SignInPage = () => {
       e?.preventDefault();
       signIn(form);
     },
-    [form,signIn]
+    [form, signIn]
   );
 
   const handleKakaoClick = () => {
     window.location.href = buildKakaoAuthUrl("in");
+  };
+
+  const handleGuestLogin = () => {
+    signIn({ email: "gy1234@naver.com", password: "123456789" });
   };
 
   return (
@@ -121,6 +125,18 @@ const SignInPage = () => {
           <Link href="/signup" className="text-2lg text-green-900 underline">
             회원가입하기
           </Link>
+          <span
+            aria-hidden
+            className="mx-2 inline-block h-[24px] w-[1px] bg-gray-800"
+          />
+
+          <button
+            type="button"
+            onClick={handleGuestLogin}
+            className="text-2lg text-gray-700 hover:text-gray-900 cursor-pointer"
+          >
+            게스트 로그인하기
+          </button>
         </p>
       </form>
 

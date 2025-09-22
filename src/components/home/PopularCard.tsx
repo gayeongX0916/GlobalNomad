@@ -4,10 +4,10 @@ import Image, { StaticImageData } from "next/image";
 import StarIcon from "@/assets/svgs/star_icon_on.svg";
 
 type PopularCardProps = {
-  rating: string;
-  reviewCount: string;
+  rating: number;
+  reviewCount: number;
   title: string;
-  price: string;
+  price: number;
   imageUrl: string | StaticImageData;
 };
 
