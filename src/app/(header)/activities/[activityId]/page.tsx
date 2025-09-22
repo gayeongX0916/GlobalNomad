@@ -28,8 +28,7 @@ const ActivityDetailPage = () => {
       <ExperienceReservationModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        activityId={Number(activityId)}
-        price={activity.price}
+        activity={activity}
       />
 
       <main className="w-full px-[16px] md:px-[24px] lg:max-w-[1200px] lg:mx-auto pb-[300px]">

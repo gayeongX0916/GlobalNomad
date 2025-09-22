@@ -133,7 +133,7 @@ export interface ActivityReviewsResponse {
 // 체험 예약 신청
 export interface ActivityReservationsBody {
   activityId: number;
-  scheduleld: number;
+  scheduleId: number;
   headCount: number;
 }
 

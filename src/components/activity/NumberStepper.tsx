@@ -1,20 +1,17 @@
 import Image from "next/image";
-import { useState } from "react";
 
 // Icons
 import AddIcon from "@/assets/svgs/add_icon.svg";
 import SubtractIcon from "@/assets/svgs/subtract_icon.svg";
 
-export function NumberStepper() {
-  const [count, setCount] = useState(0);
+type NumberStepperProps = {
+  value: number;
+  onChange: (v: number) => void;
+};
 
-  const handleIncrement = () => {
-    setCount((prev) => prev + 1);
-  };
-
-  const handleDecrement = () => {
-    setCount((prev) => (prev > 0 ? prev - 1 : 0));
-  };
+export function NumberStepper({ value, onChange }: NumberStepperProps) {
+  const handleIncrement = () => onChange(value + 1);
+  const handleDecrement = () => onChange(Math.max(0, value - 1));
 
   return (
     <div className="rounded-[6px] bg-white w-[120px] h-[40px] flex items-center gap-x-[10px] border border-gray-400 px-[10px]">
@@ -34,8 +31,8 @@ export function NumberStepper() {
       </button>
       <input
         type="number"
-        value={count}
-        onChange={(e) => setCount(Number(e.target.value))}
+        value={value}
+        onChange={(e) => onChange(Math.max(0, Number(e.target.value)))}
         className="w-[40px] focus:outline-none text-center"
         aria-label="인원 수"
         min={0}

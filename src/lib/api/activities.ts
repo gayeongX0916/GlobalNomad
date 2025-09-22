@@ -82,12 +82,12 @@ export const getActivitiesReview = async ({
 // 체험 예약 신청
 export const postActivitiesReservations = async ({
   activityId,
-  scheduleld,
+  scheduleId,
   headCount,
 }: ActivityReservationsBody): Promise<CreateReservationResponse> => {
   const { data } = await basicAxios.post<CreateReservationResponse>(
     `/activities/${activityId}/reservations`,
-    { scheduleld, headCount }
+    { scheduleId, headCount }
   );
   return data;
 };

@@ -12,24 +12,25 @@ import CloseIcon from "@/assets/svgs/close_icon.svg";
 import { NumberStepper } from "@/components/activity/NumberStepper";
 import { useActivityAvailableSchedule } from "@/lib/hooks/Activities/useActivityAvailableSchedule";
 import { formatKRW } from "@/lib/utils/formatKRW";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { GetActivityDetailResponse } from "@/lib/types/activities";
+import { useCreateReservation } from "@/lib/hooks/Activities/useCreateReservation";
 
 interface ExperienceReservationModalProps extends ModalProps {
-  activityId: number;
-  price: number;
+  activity: GetActivityDetailResponse;
 }
 
 export function ExperienceReservationModal({
   isOpen,
   onClose,
-  activityId,
-  price,
+  activity,
 }: ExperienceReservationModalProps) {
   const now = new Date();
   const [year, setYear] = useState(String(now.getFullYear()));
   const [month, setMonth] = useState(
     String(now.getMonth() + 1).padStart(2, "0")
   );
+  const activityId = activity.id;
 
   const { data, isPending, error } = useActivityAvailableSchedule({
     activityId,
@@ -37,7 +38,14 @@ export function ExperienceReservationModal({
     month,
   });
   const [headId, setHeadId] = useState(0);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
+  const { mutate: createReservation, isPending: isCreating } =
+    useCreateReservation();
+
+  const handleReservationClick = useCallback(() => {
+    createReservation({ activityId, scheduleId: headId, headCount: count });
+    onClose();
+  }, [activityId, headId, count, createReservation,onClose]);
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
@@ -50,7 +58,7 @@ export function ExperienceReservationModal({
         <DialogPanel className="w-full h-full border bg-white border-gray-300 rounded-[12px] px-[20px] py-[24px] md:max-w-[450px] md:h-[500px] overflow-x-auto no-scrollbar">
           <header className="pb-[16px]">
             <h2 className="text-3xl font-bold text-black">
-              <data value="1000">{formatKRW(price)}</data>
+              <data value="1000">{formatKRW(activity.price)}</data>
               <span className="text-xl text-gray-900"> / 인</span>
             </h2>
           </header>
@@ -87,7 +95,7 @@ export function ExperienceReservationModal({
               <SchedulePicker
                 data={data ?? []}
                 isLoading={isPending}
-                onChange={(id) => setHeadId(id)}
+                onChange={setHeadId}
                 onCalendarMonthChange={(y, m) => {
                   setYear(String(y));
                   setMonth(String(m).padStart(2, "0"));
@@ -106,15 +114,16 @@ export function ExperienceReservationModal({
             >
               참여 인원 수
             </h3>
-            <NumberStepper />
+            <NumberStepper onChange={setCount} value={count} />
           </section>
 
           <div className="mt-[24px] mb-[24px]">
             <button
               type="button"
               className="rounded-[4px] px-[40px] py-[10px] bg-nomadBlack text-lg font-bold text-white w-full cursor-pointer"
+              onClick={handleReservationClick}
             >
-              예약하기
+              {isCreating ? "예약 중..." : "예약하기"}
             </button>
           </div>
 
@@ -125,7 +134,9 @@ export function ExperienceReservationModal({
             <h2 id="total-title" className="text-xl font-bold text-nomadBlack">
               총 합계
             </h2>
-            <span className="text-xl font-bold text-nomadBlack">₩ 1,000</span>
+            <span className="text-xl font-bold text-nomadBlack">
+              {formatKRW(count * activity.price)}
+            </span>
           </footer>
         </DialogPanel>
       </div>
