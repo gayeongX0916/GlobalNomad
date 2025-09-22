@@ -6,6 +6,8 @@ export type ActivityCategory =
   | "관광"
   | "웰빙";
 
+export type ActivitySort = "price_asc" | "price_desc" | "most_reviewed";
+
 // 체험 리스트 조회
 export interface Activity {
   id: number;
@@ -23,10 +25,10 @@ export interface Activity {
 }
 
 export interface ActivityListBody {
-  category: ActivityCategory;
-  sort: "price_asc" | "price_desc";
-  page: number;
-  size: number;
+  category?: ActivityCategory;
+  sort?: ActivitySort;
+  page?: number;
+  size?: number;
 }
 
 export interface GetActivitiesListResponse {

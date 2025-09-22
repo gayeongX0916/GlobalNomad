@@ -16,14 +16,20 @@ import {
 import { basicAxios } from "./basicAxios";
 
 // 체험 리스트 조회
-export const getActivitiesList = async ({
-  category,
-  sort,
-  page,
-  size,
-}: ActivityListBody): Promise<GetActivitiesListResponse> => {
+export const getActivitiesList = async (
+  params: ActivityListBody
+): Promise<GetActivitiesListResponse> => {
   const { data } = await basicAxios.get<GetActivitiesListResponse>(
-    `/activities?method=offset&category=${category}&sort=${sort}&page=${page}&size=${size}`
+    "/activities",
+    {
+      params: {
+        method: "offset",
+        category: params.category,
+        sort: params.sort,
+        page: params.page,
+        size: params.size,
+      },
+    }
   );
   return data;
 };
@@ -93,6 +99,6 @@ export const postActivitiesImage = async (
   const form = new FormData();
   form.append("image", file);
 
-  const { data } = await basicAxios.post("/activities/image",form);
+  const { data } = await basicAxios.post("/activities/image", form);
   return data;
 };
