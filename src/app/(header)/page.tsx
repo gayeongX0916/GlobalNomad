@@ -8,17 +8,21 @@ import { FilterSlider } from "@/components/home/FilterSlider";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { PopularSlider } from "@/components/home/PopularSlider";
 import { SearchBar } from "@/components/search/SearchBar";
-import { Dropdown, MenuItem } from "@/components/ui/Dropdown/Dropdown";
+import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
+import { ActivityCategory, ActivitySort } from "@/lib/types/activities";
+import { MenuItem } from "@/lib/types/ui";
 
-const dropdownList: MenuItem[] = [
-  {
-    label: "가격 낮은 순",
-  },
-  { label: "가격 높은 순" },
+const dropdownList: MenuItem<ActivitySort>[] = [
+  { label: "가격 낮은 순", value: "price_asc" },
+  { label: "가격 높은 순", value: "price_desc" },
 ];
 
 export default function Page() {
   const [searchValue, setSearchValue] = useState("");
+  const [category, setCategory] = useState<ActivityCategory | undefined>(
+    undefined
+  );
+  const [sort, setSort] = useState<ActivitySort | undefined>(undefined);
 
   return (
     <main className="pb-[300px]">
@@ -32,15 +36,17 @@ export default function Page() {
 
         <div className="flex mb-[35px]">
           <div className="flex-1 min-w-0 relative pr-[10px]">
-            <FilterSlider />
+            <FilterSlider onChangeCategory={setCategory} />
           </div>
           <div className="shrink-0">
-            <Dropdown items={dropdownList}>가격</Dropdown>
+            <Dropdown items={dropdownList} onSelect={setSort}>
+              가격
+            </Dropdown>
           </div>
         </div>
 
         <section>
-          <ExperienceGrid />
+          <ExperienceGrid category={category} sort={sort} />
         </section>
       </div>
     </main>
