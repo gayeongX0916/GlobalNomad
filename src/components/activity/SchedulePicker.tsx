@@ -1,33 +1,44 @@
 "use client";
 
-import { format } from "date-fns";
-import { useState } from "react";
+import { format, parseISO } from "date-fns";
+import { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import { CalendarHeader } from "./CalendarHeader";
-
-type Slot = {
-  date: string;
-  startTime: string;
-  endTime: string;
-};
+import { ActivitySchedule, ActivityTime } from "@/lib/types/activities";
 
 type SchedulePickerProps = {
-  data: Slot[];
-  onChange?: (slot: Slot | null) => void;
+  data: ActivitySchedule[];
+  onChange: (id: number) => void;
+  onCalendarMonthChange?: (year: number, month: number) => void;
 };
 
-export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
+export function SchedulePicker({
+  data,
+  onChange,
+  onCalendarMonthChange,
+}: SchedulePickerProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<ActivityTime | null>(null);
 
-  const slotsForDate = selectedDate
-    ? data.filter((item) => item.date === format(selectedDate, "yyyy-MM-dd"))
-    : [];
+  const selectKey = selectedDate ? format(selectedDate, "yyyy-MM-dd") : null;
 
-  const handleSelectSlot = (slot: Slot) => {
-    setSelectedSlot(slot);
-    onChange?.(slot);
+  useEffect(() => {
+    if (data.length === 0 || selectedDate) return;
+    setSelectedDate(parseISO(data[0].date));
+  }, [data, selectedDate]);
+
+  const timesFromSelectedDate = useMemo<ActivityTime[]>(() => {
+    if (!selectKey) return [];
+    const day = data.find((d) => d.date === selectKey);
+    return day?.times ?? [];
+  }, [data, selectKey]);
+
+  const handleSelectSlot = (t: ActivityTime) => {
+    setSelectedSlot(t);
+    onChange(t.id);
   };
+
+  const includeDates = useMemo(() => data.map((d) => parseISO(d.date)), [data]);
 
   return (
     <div>
@@ -44,8 +55,15 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
             setSelectedDate(day);
             setSelectedSlot(null);
           }}
+          onMonthChange={(viewDate) => {
+            onCalendarMonthChange?.(
+              viewDate.getFullYear(),
+              viewDate.getMonth() + 1
+            );
+          }}
           dateFormat="yyyy-MM-dd"
           inline
+          includeDates={includeDates}
           renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
             <CalendarHeader
               date={date}
@@ -64,22 +82,22 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
           예약 가능한 시간
         </h3>
 
-        {slotsForDate.length === 0 ? (
+        {timesFromSelectedDate.length === 0 ? (
           <p className="mt-[8px] text-lg text-gray-800">
             예약 가능한 시간이 없습니다.
           </p>
         ) : (
           <ul className="flex flex-wrap gap-x-[10px] gap-y-[7px] mt-[14px] max-h-[240px] overflow-y-auto">
-            {slotsForDate.map((slot, i) => {
+            {timesFromSelectedDate.map((t) => {
               const isSelected =
-                selectedSlot?.date === slot.date &&
-                selectedSlot?.startTime === slot.startTime;
+                selectedSlot?.startTime === t.startTime &&
+                selectedSlot?.endTime === t.endTime;
 
               return (
-                <li key={`${slot.date}-${slot.startTime}-${slot.endTime}`}>
+                <li key={`${selectKey}-${t.startTime}-${t.endTime}`}>
                   <button
                     type="button"
-                    onClick={() => handleSelectSlot(slot)}
+                    onClick={() => handleSelectSlot(t)}
                     className={`w-full rounded-[8px] border px-[12px] py-[10px] text-lg cursor-pointer font-medium
                       ${
                         isSelected
@@ -88,7 +106,7 @@ export function SchedulePicker({ data, onChange }: SchedulePickerProps) {
                       }
                     `}
                   >
-                    {slot.startTime} ~ {slot.endTime}
+                    {t.startTime} ~ {t.endTime}
                   </button>
                 </li>
               );
