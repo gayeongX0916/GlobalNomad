@@ -2,8 +2,13 @@ import Image from "next/image";
 
 // Icons
 import LocationIcon from "@/assets/svgs/location_icon.svg";
+import { GetActivityDetailResponse } from "@/lib/types/activities";
 
-export function ActivityDescription() {
+type ActivityDescriptionProps = {
+  activity: GetActivityDetailResponse;
+};
+
+export function ActivityDescription({ activity }: ActivityDescriptionProps) {
   return (
     <article
       className="flex flex-col gap-y-[30px]"
@@ -13,9 +18,7 @@ export function ActivityDescription() {
 
       <section className="flex flex-col gap-y-[16px]">
         <h3 className="text-xl font-bold text-nomadBlack">체험 설명</h3>
-        <p className="text-lg text-nomadBlack">
-          안녕하세요 저희 댄스 체험을 소개합니다.
-        </p>
+        <p className="text-lg text-nomadBlack">{activity.description}</p>
       </section>
 
       <hr className="border-nomadBlack/20" />
@@ -25,9 +28,7 @@ export function ActivityDescription() {
 
         <div className="flex gap-x-[2px]">
           <Image src={LocationIcon} alt="위치" width={18} height={18} />
-          <span className="text-lg text-nomadBlack">
-            서울 중구 청계천로 100 10F
-          </span>
+          <span className="text-lg text-nomadBlack">{activity.address}</span>
         </div>
       </section>
       <hr className="border-nomadBlack/20" />
