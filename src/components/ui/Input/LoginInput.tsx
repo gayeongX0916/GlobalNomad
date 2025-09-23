@@ -10,11 +10,13 @@ import VisibilityOn from "@/assets/svgs/visibility_on.svg";
 type LoginInputProps = {
   mode: "text" | "password";
   label: string;
-  placeholder: string;
+  placeholder?: string;
   errorMessage?: string;
   value: string;
-  onChange: (v: string) => void;
+  onChange?: (v: string) => void;
   onBlur?: () => void;
+  className?: string;
+  disabled?: boolean;
 };
 
 const LoginInputBase = ({
@@ -25,6 +27,8 @@ const LoginInputBase = ({
   value,
   onChange,
   onBlur,
+  disabled = false,
+  className,
 }: LoginInputProps) => {
   const [show, setShow] = useState(false);
 
@@ -34,7 +38,7 @@ const LoginInputBase = ({
 
   return (
     <div className="flex flex-col gap-y-[8px]">
-      <label className="text-lg text-black">{label}</label>
+      <label className={`${className ?? "text-lg"}  text-black`}>{label}</label>
 
       <div className="relative">
         <input
@@ -43,9 +47,10 @@ const LoginInputBase = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onBlur={onBlur}
+          disabled={disabled}
           className={`px-[20px] py-[16px] rounded-[6px] border w-full ${
             errorMessage ? "border-red-500" : "border-gray-800"
-          }`}
+          } ${disabled ? "bg-gray-400" : "bg-white"}`}
         />
         {mode === "password" && (
           <button

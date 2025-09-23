@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 // UI
@@ -13,8 +13,12 @@ import CalendarCheckIcon from "@/assets/svgs/calendar_check_icon.svg";
 import SettingIcon from "@/assets/svgs/setting_icon.svg";
 import Link from "next/link";
 
-export function SideNavigationMenu() {
-  const router = useRouter();
+type SideNavigationMenuProps={
+  profileImageUrl:string;
+  onChange?: (url: string) => void;
+}
+
+export function SideNavigationMenu({profileImageUrl,onChange}:SideNavigationMenuProps) {
   const pathname = usePathname();
 
   const menuItem = [
@@ -37,7 +41,7 @@ export function SideNavigationMenu() {
       className="flex flex-col items-center gap-y-[24px] lg:w-[384px] md:w-full md:min-w-[250px] p-[24px] rounded-[12px] bg-white border border-gray-300"
       aria-label="사이드 네비게이션 메뉴"
     >
-      <ProfileUpload />
+      <ProfileUpload profileImageUrl={profileImageUrl} onChange={onChange}/>
       <ul className="flex flex-col gap-y-[8px] w-full">
         {menuItem.map((item) => {
           const isActive = Array.isArray(item.path)

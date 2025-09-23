@@ -1,5 +1,5 @@
 type validateFieldsProps = {
-  fields: "email" | "nickname" | "password" | "confirm";
+  fields: "email" | "nickname" | "password" | "confirm" ;
   value: string;
   values?: Record<string, string>;
 };
