@@ -6,8 +6,8 @@ export interface SignUpBody {
 
 export interface UpdateMeBody {
   nickname: string;
-  profileImageUrl: string;
-  newPassword: string;
+  profileImageUrl?: string | null;
+  newPassword?: string;
 }
 
 export interface UserResponse {
