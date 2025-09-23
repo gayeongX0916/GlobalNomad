@@ -1,6 +1,4 @@
-export type MenuItem<
-  T extends string | number | undefined = string | undefined
-> = {
+export type MenuItem<T> = {
   label: string;
-  value?: T;
+  value: T;
 };
