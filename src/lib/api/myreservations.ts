@@ -30,7 +30,7 @@ export const patchMyReservation = async ({
 }: UpdateMyReservationBody): Promise<UpdateMyReservationResponse> => {
   const { data } = await basicAxios.patch<UpdateMyReservationResponse>(
     `/my-reservations/${reservationId}`,
-    status
+    {status}
   );
   return data;
 };

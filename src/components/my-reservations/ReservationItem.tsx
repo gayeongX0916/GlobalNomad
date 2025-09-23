@@ -1,55 +1,103 @@
 import Image from "next/image";
 
 // Icons
-import example from "@/assets/svgs/example.svg";
+import {
+  MyReservationItem,
+  MyReservationStatus,
+} from "@/lib/types/myreservations";
+import { formatKRW } from "@/lib/utils/formatKRW";
+import { ReviewModal } from "../ui/Modal/ReviewModal";
+import { useCallback, useState } from "react";
+import { useUpdateMyReservation } from "@/lib/hooks/MyReservations/useUpdateMyReservation";
 
-export function ReservationItem() {
+const STATUS_LABEL: Record<MyReservationStatus, string> = {
+  pending: "예약 신청",
+  confirmed: "예약 완료",
+  declined: "예약 거절",
+  canceled: "예약 취소",
+  completed: "체험 완료",
+};
+
+const fmtDate = (d: string) => {
+  const [y, m, day] = d.split("-").map(Number);
+  return `${y}. ${m}. ${day}`;
+};
+
+export function ReservationItem({
+  activity,
+  status,
+  date,
+  startTime,
+  endTime,
+  headCount,
+  totalPrice,
+  reviewSubmitted,
+  id,
+}: MyReservationItem) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { mutate: updateMyReservation, isPending } = useUpdateMyReservation();
+
+  const handleClickOpen = useCallback(() => setIsOpen(true), []);
+
+  const handleClickCancel = () => {
+    updateMyReservation({
+      reservationId: id,
+      status: "canceled",
+    });
+  };
+
   return (
     <article className="flex gap-x-[24px] rounded-[24px] bg-white w-full shadow-lg shadow-black/5">
+      <ReviewModal id={id} isOpen={isOpen} onClose={() => setIsOpen(false)} />
       <Image
-        src={example}
+        src={activity.bannerImageUrl}
         alt="대표 이미지"
+        width={128}
+        height={128}
         className="w-[128px] h-[128px] md:w-[156px] md:h-[156px] lg:w-[204px] lg:h-[204px] rounded-l-[24px] object-cover "
       />
 
       <div className="flex flex-col justify-center py-[12px] lg:py-[21px] flex-1 lg:gap-y-[8px] pr-[20px]">
-        <span className="text-lg font-bold">예약 승인</span>
+        <span className="text-lg font-bold">{STATUS_LABEL[status]}</span>
 
         <div className="flex flex-col md:gap-y-[10px] lg:gap-y-[15px]">
           <h3 className="text-lg md:text-2lg lg:text-xl font-bold text-nomadBlack">
-            열기구 페스티벌
+            {activity.title}
           </h3>
 
           <p className="text-md md:text-lg lg:text-2lg text-nomadBlack">
-            <time dateTime="2023-02-14">2023. 2. 14</time>
+            <time dateTime="2023-02-14">{fmtDate(date)}</time>
             {" · "}
-            <time dateTime="11:00">11:00</time>
+            <time dateTime="11:00">{startTime}</time>
             {" ~ "}
-            <time dateTime="12:30">12:30</time>
+            <time dateTime="12:30">{endTime}</time>
             {" · "}
-            <span>10명</span>
+            <span>{headCount}명</span>
           </p>
 
           <div className="flex justify-between items-center">
             <p className="text-lg md:text-xl lg:text-2xl text-black">
-              <data value="10000">₩10,000</data>
+              <data value="10000">{formatKRW(totalPrice)}</data>
             </p>
-            {/* 
-          <div className="flex gap-x-[8px]">
-            <button
-              type="button"
-              className="px-[12px] py-[8px] bg-nomadBlack rounded-[6px] w-[144px] text-white text-lg font-bold cursor-pointer"
-            >
-              후기 작성
-            </button>
-            <button
-              type="button"
-              className="px-[12px] py-[8px] bg-white rounded-[6px] w-[144px] text-nomadBlack border border-nomadBlack text-lg font-bold cursor-pointer"
-            >
-              예약 취소
-            </button>
-          </div>
-          */}
+            {status === "completed" && !reviewSubmitted && (
+              <button
+                type="button"
+                onClick={handleClickOpen}
+                className="px-[12px] py-[8px] bg-nomadBlack rounded-[6px] w-[144px] text-white text-lg font-bold cursor-pointer"
+              >
+                후기 작성
+              </button>
+            )}
+            {status === "confirmed" && (
+              <button
+                type="button"
+                onClick={handleClickCancel}
+                className="px-[12px] py-[8px] bg-white rounded-[6px] w-[144px] text-nomadBlack border border-nomadBlack text-lg font-bold cursor-pointer"
+              >
+                예약 취소
+              </button>
+            )}
           </div>
         </div>
       </div>

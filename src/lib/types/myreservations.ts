@@ -1,4 +1,4 @@
-type ReservationStatus =
+export type MyReservationStatus =
   | "pending"
   | "confirmed"
   | "declined"
@@ -6,7 +6,7 @@ type ReservationStatus =
   | "completed";
 
 export interface MyReservationListBody {
-  status: ReservationStatus;
+  status: MyReservationStatus;
 }
 
 export interface ActivitySummary {
@@ -21,7 +21,7 @@ export interface MyReservationItem {
   id: number;
   teamId: string;
   userId: number;
-  status: ReservationStatus;
+  status: MyReservationStatus;
   reviewSubmitted: boolean;
   totalPrice: number;
   headCount: number;
@@ -40,7 +40,7 @@ export interface MyReservationListResponse {
 
 export interface UpdateMyReservationBody {
   reservationId: number;
-  status: ReservationStatus;
+  status: MyReservationStatus;
 }
 
 export interface UpdateMyReservationResponse {
@@ -49,7 +49,7 @@ export interface UpdateMyReservationResponse {
   userId: number;
   activityId: number;
   scheduleId: number;
-  status: ReservationStatus;
+  status: MyReservationStatus;
   reviewSubmitted: boolean;
   totalPrice: number;
   headCount: number;

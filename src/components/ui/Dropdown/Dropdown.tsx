@@ -3,16 +3,15 @@
 import Image from "next/image";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import ArrowDown from "@/assets/svgs/arrow_down.svg";
-import { ActivitySort } from "@/lib/types/activities";
 import { MenuItem } from "@/lib/types/ui";
 
-type DropdownProps = {
+type DropdownProps<T> = {
   children?: ReactNode;
-  items: MenuItem<ActivitySort>[];
-  onSelect?: (label: ActivitySort | undefined) => void;
+  items: ReadonlyArray<MenuItem<T>>;
+  onSelect?: (value: T) => void;
 };
 
-export function Dropdown({ children, items, onSelect }: DropdownProps) {
+export function Dropdown<T>({ children, items, onSelect }: DropdownProps<T>) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 

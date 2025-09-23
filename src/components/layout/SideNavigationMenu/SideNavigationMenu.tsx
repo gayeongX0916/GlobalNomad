@@ -14,7 +14,7 @@ import SettingIcon from "@/assets/svgs/setting_icon.svg";
 import Link from "next/link";
 
 type SideNavigationMenuProps={
-  profileImageUrl:string;
+  profileImageUrl?:string;
   onChange?: (url: string) => void;
 }
 

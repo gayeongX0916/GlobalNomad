@@ -39,7 +39,7 @@ export default function Page() {
             <FilterSlider onChangeCategory={setCategory} />
           </div>
           <div className="shrink-0">
-            <Dropdown items={dropdownList} onSelect={setSort}>
+            <Dropdown<ActivitySort> items={dropdownList} onSelect={setSort}>
               가격
             </Dropdown>
           </div>
