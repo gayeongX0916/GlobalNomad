@@ -95,7 +95,7 @@ export function ReservationItem({
                 onClick={handleClickCancel}
                 className="px-[12px] py-[8px] bg-white rounded-[6px] w-[144px] text-nomadBlack border border-nomadBlack text-lg font-bold cursor-pointer"
               >
-                예약 취소
+                {isPending ? "취소 중..." : "예약 취소"}
               </button>
             )}
           </div>

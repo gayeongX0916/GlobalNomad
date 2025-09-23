@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import exampleImage from "@/assets/svgs/example.svg";
 import StarIconOff from "@/assets/svgs/star_icon_off.svg";
 import StarIconOn from "@/assets/svgs/star_icon_on.svg";
+import { useCreateMyReservationReviews } from "@/lib/hooks/MyReservations/useCreateMyReservationReviews";
 
 interface ReviewModalProps extends ModalProps {
   id: number;
@@ -17,11 +18,12 @@ interface ReviewModalProps extends ModalProps {
 export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState("");
+  const { mutate: createMyReservationReviews, isPending } =
+    useCreateMyReservationReviews();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: API 호출
-    // api.postReview({ id, rating, content })
+    createMyReservationReviews({ reservationId: id, rating, content });
     onClose();
   };
 
@@ -32,7 +34,6 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
     }
   }, [isOpen]);
 
-  // width 설정하기
   return (
     <BaseModal
       mode="action"
@@ -47,7 +48,7 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
       />
       <form
         onSubmit={onSubmit}
-        className="flex flex-col gap-y-[24px] pt-[41px]"
+        className="flex flex-col gap-y-[24px] pt-[41px] max-w-[480px] w-[375px]"
       >
         <section aria-labelledby="review-summary-title">
           <header className="flex gap-x-[24px] items-center">
@@ -106,6 +107,7 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
 
         <textarea
           value={content}
+          disabled={isPending}
           onChange={(e) => setContent(e.target.value)}
           placeholder="후기를 작성해주세요."
           className="w-full rounded-[4px] bg-white border border-gray-800 resize-none py-[8px] px-[16px] min-h-[240px]"
@@ -114,9 +116,9 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
         <button
           type="submit"
           className="rounded-[4px] bg-nomadBlack text-white text-lg font-bold py-[8px] w-full cursor-pointer"
-          disabled={rating === 0 || content.length === 0}
+          disabled={rating === 0 || content.length === 0 || isPending}
         >
-          작성하기
+          {isPending ? "작성 중..." : "작성하기"}
         </button>
       </form>
     </BaseModal>
