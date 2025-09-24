@@ -4,7 +4,7 @@ import Image from "next/image";
 import {
   MyReservationItem,
   MyReservationStatus,
-} from "@/lib/types/myreservations";
+} from "@/lib/types/myReservations";
 import { formatKRW } from "@/lib/utils/formatKRW";
 import { ReviewModal } from "../ui/Modal/ReviewModal";
 import { useCallback, useState } from "react";

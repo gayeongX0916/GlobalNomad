@@ -6,7 +6,7 @@ import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
 import EmptyList from "@/assets/svgs/empty_list.svg";
 import Image from "next/image";
 import { MenuItem } from "@/lib/types/ui";
-import { MyReservationStatus } from "@/lib/types/myreservations";
+import { MyReservationStatus } from "@/lib/types/myReservations";
 import { useMyReservationList } from "@/lib/hooks/MyReservations/useMyReservationList";
 import { useMemo, useState } from "react";
 
