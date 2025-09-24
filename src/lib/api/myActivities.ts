@@ -76,8 +76,7 @@ export const patchMyActivitiesReservations = async ({
 export const deleteMyActivities = async ({
   activityId,
 }: DeleteMyActivitiesBody) => {
-  const { data } = await basicAxios.delete(`/my-activities/${activityId}/`);
-  return data;
+  await basicAxios.delete(`/my-activities/${activityId}/`);
 };
 
 // 내 체험 수정
