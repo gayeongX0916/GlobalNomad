@@ -2,6 +2,7 @@ import {
   Activity,
   ActivityCategory,
   ActivitySchedule,
+  ActivityScheduleInput,
   ActivitySubImage,
 } from "./activities";
 
@@ -119,7 +120,7 @@ export interface UpdateMyActivitiesBody {
   subImageIdsToRemove: number[];
   subImageUrlsToAdd: string[];
   scheduleIdsToRemove: number[];
-  schedulesToAdd: string[];
+  schedulesToAdd: ActivityScheduleInput[];
 }
 
 export interface UpdateMyActivitiesResponse extends Activity {

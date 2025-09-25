@@ -69,6 +69,10 @@ export function ExperienceForm({ mode, id }: ExperienceFormProps) {
     });
   }, [data]);
 
+  // id 대신 slot 식별 용도
+  const keyOf = (s: { date: string; startTime: string; endTime: string }) =>
+    `${s.date}|${s.startTime}|${s.endTime}`;
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (mode === "registration") {
@@ -78,48 +82,43 @@ export function ExperienceForm({ mode, id }: ExperienceFormProps) {
 
     if (!data) return;
 
-    // 1) 서브이미지 diff
-    const subImageIdsToRemove = (data.subImages ?? [])
-      .filter((img) => !form.subImageUrls.includes(img.imageUrl))
+    // ----- 서브 이미지 diff -----
+    const existingSubImages = data.subImages ?? []; // {id, imageUrl}[]
+    const existingUrlsSet = new Set(
+      existingSubImages.map((img) => img.imageUrl)
+    ); // Set {imageUrl의 값, imageUrl의 값, imageUrl의 값}
+    const formUrlsSet = new Set(form.subImageUrls);
+    // 삭제되고 추가되고 최종의 subImageUrls의 값
+
+    // 제거할 서브이미지 id: 기존에 있었는데 폼에는 없어짐
+    const subImageIdsToRemove = existingSubImages
+      .filter((img) => !formUrlsSet.has(img.imageUrl))
       .map((img) => img.id);
 
-    const subImageUrlsToAdd = (form.subImageUrls ?? []).filter(
-      (url) => !(data.subImages ?? []).some((img) => img.imageUrl === url)
+    // 추가할 서브이미지 url: 폼에는 있는데 기존엔 없던 것
+    const subImageUrlsToAdd = Array.from(new Set(form.subImageUrls)) // 먼저 중복 제거
+      .filter((url) => !existingUrlsSet.has(url));
+
+    // ----- 스케줄 diff -----
+    const existingSchedules = data.schedules ?? []; // {id, date, startTime, endTime}[]
+
+    // 같은 슬롯이 중복 들어올 수 있으니 key 기준으로 한 번 dedupe
+    const nextUniqueSchedules = Array.from(
+      new Map(form.schedules.map((s) => [keyOf(s), s])).values()
     );
 
-    // 2) 스케줄 diff (기존 평탄화 데이터 vs 현재 폼)
-    const scheduleIdsToRemove = (data.schedules ?? [])
-      .filter(
-        (s) =>
-          !(form.schedules ?? []).some(
-            (fs) =>
-              fs.date === s.date &&
-              fs.startTime === s.startTime &&
-              fs.endTime === s.endTime
-          )
-      )
+    const existingKeySet = new Set(existingSchedules.map(keyOf));
+    const formKeySet = new Set(nextUniqueSchedules.map(keyOf));
+
+    // 제거할 스케줄 id: 기존에 있었는데 폼 최종엔 없는 것
+    const scheduleIdsToRemove = existingSchedules
+      .filter((s) => !formKeySet.has(keyOf(s)))
       .map((s) => s.id);
 
-    // 서버가 기대하는 문자열 포맷을 맞추세요.
-    // (예: "YYYY-MM-DD HH:MM-HH:MM" 또는 "YYYY-MM-DD-HH:MM-HH:MM")
-    // 아래는 공백+하이픈 포맷 예시:
-    const toScheduleString = (x: {
-      date: string;
-      startTime: string;
-      endTime: string;
-    }) => `${x.date} ${x.startTime}-${x.endTime}`;
-
-    const schedulesToAdd = (form.schedules ?? [])
-      .filter(
-        (fs) =>
-          !(data.schedules ?? []).some(
-            (s) =>
-              s.date === fs.date &&
-              s.startTime === fs.startTime &&
-              s.endTime === fs.endTime
-          )
-      )
-      .map(toScheduleString);
+    // 추가할 스케줄: 폼 최종엔 있는데 기존엔 없던 것
+    const schedulesToAdd = nextUniqueSchedules.filter(
+      (s) => !existingKeySet.has(keyOf(s))
+    );
 
     UpdateActivity({
       activityId: id,
