@@ -6,7 +6,7 @@ import { ActivityCategory } from "@/lib/types/activities";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const categoryList: { name: ActivityCategory }[] = [
-  { name: "문화 예술" },
+  { name: "문화 · 예술" },
   { name: "식음료" },
   { name: "스포츠" },
   { name: "투어" },

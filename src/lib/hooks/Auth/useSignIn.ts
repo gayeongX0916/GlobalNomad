@@ -8,15 +8,23 @@ import { toast } from "react-toastify";
 
 export function useSignin() {
   const router = useRouter();
-  const { setAccessToken } = useAuthStore.getState();
+
+  const setAccessToken = useAuthStore((s) => s.setAccessToken);
+  const setUserName = useAuthStore((s) => s.setUserName);
+  const setProfileImageUrl = useAuthStore((s) => s.setProfileImageUrl);
 
   return useMutation({
     mutationFn: postSignIn,
     onSuccess: (data) => {
       setAccessToken(data.accessToken);
+      setUserName(data.user.nickname);
+      setProfileImageUrl(data.user.profileImageUrl);
+      console.log(data);
+
       if (data.refreshToken) {
         setRefreshCookie(data.refreshToken);
       }
+
       toast.success("로그인이 완료되었습니다.");
       router.push("/");
     },

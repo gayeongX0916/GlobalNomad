@@ -4,22 +4,28 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 // UI
-import { MenuItem } from "../Dropdown/Dropdown";
+import { MenuItem } from "@/lib/types/ui";
 
 // Icons
 import ChevronDown from "@/assets/svgs/chevron_down.svg";
 import ChevronUp from "@/assets/svgs/chevron_up.svg";
 import CheckIcon from "@/assets/svgs/check_icon.svg";
 
-type SelectInputProps = {
+type SelectInputProps<T> = {
   placeholder: string;
-  items: MenuItem[];
+  items: ReadonlyArray<MenuItem<T>>;
+  value: string;
+  onChange: (v: T) => void;
 };
 
-export function SelectInput({ placeholder, items }: SelectInputProps) {
+export function SelectInput<T>({
+  placeholder,
+  items,
+  value,
+  onChange,
+}: SelectInputProps<T>) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState("");
 
   useEffect(() => {
     const handleOnClick = (e: MouseEvent) => {
@@ -29,19 +35,13 @@ export function SelectInput({ placeholder, items }: SelectInputProps) {
     return () => document.removeEventListener("click", handleOnClick);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const v = e.target.value;
-    setValue(v);
-    setIsOpen(v.length > 0);
-  };
-
   return (
     <div ref={ref} className="relative w-full">
       <input
         placeholder={placeholder}
         className="px-[16px] py-[15px] rounded-[4px] border border-gray-800 w-full bg-white"
         value={value}
-        onChange={handleChange}
+        readOnly
         onKeyDown={(e) => {
           if (e.key === "ArrowDown") setIsOpen(true);
         }}
@@ -73,7 +73,7 @@ export function SelectInput({ placeholder, items }: SelectInputProps) {
                   selected ? "bg-nomadBlack" : "bg-white"
                 }`}
                 onClick={() => {
-                  setValue(item.label);
+                  onChange(item.value);
                   setIsOpen(false);
                 }}
               >

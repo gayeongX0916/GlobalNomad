@@ -1,4 +1,4 @@
-import { patchMyReservation } from "@/lib/api/myreservations";
+import { patchMyReservation } from "@/lib/api/myReservations";
 import { extractErrorMessage } from "@/lib/utils/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";

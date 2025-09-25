@@ -86,7 +86,7 @@ const SignInPage = () => {
   };
 
   const handleGuestLogin = () => {
-    signIn({ email: "gy1234@naver.com", password: "123456789" });
+    signIn({ email: "test@naver.com", password: "123456789" });
   };
 
   return (

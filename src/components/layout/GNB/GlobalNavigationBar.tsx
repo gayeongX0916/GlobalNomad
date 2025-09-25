@@ -6,14 +6,16 @@ import Link from "next/link";
 // Icons
 import Logo from "@/assets/logo/logo_horizontal.svg";
 import NotificationIcon from "@/assets/svgs/notification_icon.svg";
-import example from "@/assets/svgs/example.svg";
+import exampleIcon from "@/assets/svgs/example_icon.svg";
 import { useAuthStore } from "@/lib/stores/auth";
 import { ProfileDropdown } from "@/components/ui/Dropdown/PropfileDropdown";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export function GlobalNavigationBar() {
   const accessToken = useAuthStore((s) => s.accessToken);
-  const userName = "정만철";
+  const userName = useAuthStore((s) => s.username);
+  const profileImageUrl = useAuthStore((s) => s.profileImageUrl);
+
   const [isOpen, setIsOpen] = useState(false);
   const profileBoxRef = useRef<HTMLLIElement>(null);
 
@@ -64,10 +66,14 @@ export function GlobalNavigationBar() {
                   onClick={handleClickOpen}
                 >
                   <Image
-                    src={example}
+                    src={profileImageUrl ?? exampleIcon}
                     alt=""
                     aria-hidden="true"
-                    className="rounded-full w-[32px] h-[32px] object-cover"
+                    className={
+                      profileImageUrl
+                        ? "rounded-full w-[32px] h-[32px] object-cover"
+                        : "w-[28px] h-[28px] rounded-full"
+                    }
                   />
                   <span className="text-lg text-black">{userName}</span>
                 </button>

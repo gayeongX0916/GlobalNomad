@@ -5,7 +5,7 @@ import {
   MyReservationListResponse,
   UpdateMyReservationBody,
   UpdateMyReservationResponse,
-} from "../types/myreservations";
+} from "../types/myReservations";
 import { basicAxios } from "./basicAxios";
 
 // 내 예약 리스트 조회
@@ -30,7 +30,7 @@ export const patchMyReservation = async ({
 }: UpdateMyReservationBody): Promise<UpdateMyReservationResponse> => {
   const { data } = await basicAxios.patch<UpdateMyReservationResponse>(
     `/my-reservations/${reservationId}`,
-    {status}
+    { status }
   );
   return data;
 };

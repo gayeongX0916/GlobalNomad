@@ -5,11 +5,14 @@ import EmptyList from "@/assets/svgs/empty_list.svg";
 import { ActivityItem } from "@/components/my-activities/ActivityItem";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
-const activities = [1, 2, 3, 4];
+import { useMyActivitiesList } from "@/lib/hooks/MyActivities/useMyActivitiesList";
+import Link from "next/link";
 
 const MyActivities = () => {
   const router = useRouter();
+  const { data, isLoading } = useMyActivitiesList();
+
+  const list = data?.activities ?? [];
 
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">
@@ -36,11 +39,15 @@ const MyActivities = () => {
             </button>
           </header>
 
-          {activities.length > 0 ? (
+          {isLoading ? (
+            <p className="text-gray-500">불러오는 중…</p>
+          ) : list.length > 0 ? (
             <ul id="reservation-list" className="flex flex-col gap-y-[24px]">
-              {activities.map((id) => (
-                <li key={id}>
-                  <ActivityItem />
+              {list.map((item) => (
+                <li key={item.id}>
+                  <Link href={`/activities/${item.id}`}>
+                    <ActivityItem {...item} />
+                  </Link>
                 </li>
               ))}
             </ul>

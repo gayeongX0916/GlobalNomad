@@ -6,22 +6,35 @@ import { useCallback, useEffect, useRef, useState } from "react";
 // Icons
 import MoreIcon from "@/assets/svgs/more_icon.svg";
 
-type KebabMenu = {
+type KebabMenuItem = {
   key: string;
   label: string;
   onClick: () => void;
 };
 
-const KebabMenuList: KebabMenu[] = [
-  { key: "edit", label: "수정하기", onClick: () => console.log("수정하기") },
-  { key: "delete", label: "삭제하기", onClick: () => console.log("삭제하기") },
-];
+type KebabMenuProps = {
+  className?: string;
+  onDelete: () => void;
+  onEdit: () => void;
+};
 
-export function KebabMenu({ className }: { className?: string }) {
+export function KebabMenu({ className, onDelete, onEdit }: KebabMenuProps) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleIsOpen = useCallback(() => setIsOpen((prev) => !prev), []);
+  const KebabMenuList: KebabMenuItem[] = [
+    { key: "edit", label: "수정하기", onClick: onEdit },
+    {
+      key: "delete",
+      label: "삭제하기",
+      onClick: onDelete,
+    },
+  ];
+
+  const handleIsOpen = useCallback((e?: React.MouseEvent) => {
+    e.preventDefault();
+    setIsOpen((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -35,7 +48,7 @@ export function KebabMenu({ className }: { className?: string }) {
   return (
     <div className="inline-flex relative" ref={ref}>
       <button
-        onClick={handleIsOpen}
+        onClick={(e) => handleIsOpen(e)}
         aria-label="더보기"
         className="cursor-pointer"
       >
@@ -56,7 +69,11 @@ export function KebabMenu({ className }: { className?: string }) {
             <li key={key}>
               <button
                 type="button"
-                onClick={onClick}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onClick();
+                  setIsOpen(false);
+                }}
                 className="cursor-pointer px-[12px] py-[13px] w-[160px] hover:bg-gray-200"
               >
                 {label}
