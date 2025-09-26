@@ -14,8 +14,8 @@ type KebabMenuItem = {
 
 type KebabMenuProps = {
   className?: string;
-  onDelete: () => void;
-  onEdit: () => void;
+  onDelete?: () => void;
+  onEdit?: () => void;
 };
 
 export function KebabMenu({ className, onDelete, onEdit }: KebabMenuProps) {

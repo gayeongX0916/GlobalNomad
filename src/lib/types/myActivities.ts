@@ -14,8 +14,8 @@ export interface ActivitiesListResponse {
 
 export interface MyActivitiesMonthlyBody {
   activityId: number;
-  year: number;
-  month: number;
+  year: string;
+  month: string;
 }
 
 interface ReservationStatus {
@@ -51,7 +51,7 @@ interface ScheduleReservation {
 
 export type MyActivitiesScheduleResponse = ScheduleReservation[];
 
-type MyReservationStatus = "decliend" | "pending" | "confirmed";
+type MyReservationStatus = "declined" | "pending" | "confirmed";
 
 export interface MyActivitiesReservationsBody {
   activityId: number;

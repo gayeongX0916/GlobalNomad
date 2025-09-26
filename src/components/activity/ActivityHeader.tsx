@@ -3,10 +3,6 @@ import LocationIcon from "@/assets/svgs/location_icon.svg";
 import { KebabMenu } from "@/components/ui/KebabMenu/KebabMenu";
 import Image from "next/image";
 
-import exmaple2 from "@/assets/pngs/gangneung.png";
-import exmaple3 from "@/assets/pngs/gangwon.png";
-import example4 from "@/assets/pngs/gyeongju.png";
-import example5 from "@/assets/pngs/jeju.png";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
 
 type ActivityHeaderProps = {
@@ -14,6 +10,22 @@ type ActivityHeaderProps = {
 };
 
 export function ActivityHeader({ activity }: ActivityHeaderProps) {
+  const subImages = activity.subImages.map((image) => image.imageUrl);
+
+  const spanClass = (i: number, n: number) => {
+    if (n >= 4) return "col-span-1 row-span-1";
+    if (n === 3) {
+      return i === 2 ? "col-span-2 row-span-1" : "col-span-1 row-span-1";
+    }
+    if (n === 2) {
+      return "col-span-2 row-span-1";
+    }
+    if (n === 1) {
+      return "col-span-2 row-span-2";
+    }
+    return "";
+  };
+
   return (
     <article
       className="flex flex-col gap-y-[25px] pt-[8px]"
@@ -43,18 +55,34 @@ export function ActivityHeader({ activity }: ActivityHeaderProps) {
       </header>
 
       <div className="grid grid-cols-4 grid-rows-2 gap-x-[8px] gap-y-[8px]">
-        <figure className="relative col-span-2 row-span-2 overflow-hidden rounded-[8px]">
-          <Image
-            src={activity.bannerImageUrl}
-            alt="활동 대표 이미지"
-            fill
-            className="object-cover"
-          />
+        <figure className="col-span-2 row-span-2">
+          <div className="relative overflow-hidden rounded-[8px] aspect-[4/3]">
+            <Image
+              src={activity.bannerImageUrl}
+              alt="활동 대표 이미지"
+              fill
+              className="object-cover"
+            />
+          </div>
         </figure>
-        <Image src={exmaple2} alt="예시" className="rounded-[8px]" />
-        <Image src={exmaple3} alt="예시" className="rounded-[8px]" />
-        <Image src={example4} alt="예시" className="rounded-[8px]" />
-        <Image src={example5} alt="예시" className="rounded-[8px]" />
+        <div className="col-span-2 row-span-2 grid grid-cols-2 grid-rows-2 gap-2">
+          {subImages.map((src, idx) => (
+            <div
+              key={idx}
+              className={`relative overflow-hidden rounded-[8px] ${spanClass(
+                idx,
+                subImages.length
+              )} `}
+            >
+              <Image
+                src={src}
+                alt="보조 이미지"
+                fill
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </article>
   );
