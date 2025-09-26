@@ -14,8 +14,8 @@ export interface ActivitiesListResponse {
 
 export interface MyActivitiesMonthlyBody {
   activityId: number;
-  year: number;
-  month: number;
+  year: string;
+  month: string;
 }
 
 interface ReservationStatus {

@@ -2,11 +2,15 @@ import ChevronDown from "@/assets/svgs/chevron_down.svg";
 import ChevronUp from "@/assets/svgs/chevron_up.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { MenuItem } from "./Dropdown";
+
+type ActivityItem = {
+  id: number;
+  title: string;
+};
 
 type ExperienceDropdownProps = {
-  items: MenuItem[];
-  onSelect?: (label: string) => void;
+  items: ActivityItem[];
+  onSelect?: (v: number) => void;
 };
 
 export function ExperienceDropdown({
@@ -15,6 +19,7 @@ export function ExperienceDropdown({
 }: ExperienceDropdownProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedTitle, setSelectedTitle] = useState("");
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -23,7 +28,7 @@ export function ExperienceDropdown({
 
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
-  });
+  }, []);
 
   return (
     <div className="relative">
@@ -37,7 +42,7 @@ export function ExperienceDropdown({
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
         >
-          체험을 선택하세요
+          {selectedTitle || "체험을 선택하세요"}
           <Image
             src={isOpen ? ChevronUp : ChevronDown}
             alt=""
@@ -51,13 +56,17 @@ export function ExperienceDropdown({
       {isOpen && (
         <ul className="text-lg rounded-[4px] border border-gray-800 text-black flex flex-col divide-y divide-gray-300 md:text-2lg absolute top-15 items-start bg-white z-20 w-full ">
           {items.map((item) => (
-            <li key={item.label} className="w-full">
+            <li key={item.id} className="w-full">
               <button
                 type="button"
-                onClick={() => onSelect(item.label)}
+                onClick={() => {
+                  onSelect(item.id);
+                  setSelectedTitle(item.title);
+                  setIsOpen(false);
+                }}
                 className="cursor-pointer px-[16px] py-[12px]  hover:bg-gray-200 w-full text-left"
               >
-                {item.label}
+                {item.title}
               </button>
             </li>
           ))}
