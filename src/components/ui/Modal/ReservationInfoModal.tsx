@@ -1,7 +1,7 @@
 "use client";
 
 import { ModalProps } from "@/lib/types/modalProps";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateSection } from "@/components/reservation-history/DateSection";
 import { ListSection } from "@/components/reservation-history/ListSection";
 import { Popover, PopoverPanel } from "@headlessui/react";
@@ -17,43 +17,83 @@ import {
 
 // Icons
 import CloseIcon from "@/assets/svgs/close_icon.svg";
+import { useMyActivitiesSchedule } from "@/lib/hooks/MyActivities/useMyActivitiesScheule";
+import { useMyActivitiesReservations } from "@/lib/hooks/MyActivities/useMyActivitiesReservation";
 
 interface ReservationInfoModalProps extends ModalProps {
-  id?: number;
+  activityId: number;
   date: string;
   referenceEl: HTMLElement | null;
 }
 
-export type TabItem = "request" | "confirmed" | "rejected";
+export type TabItem = "pending" | "confirmed" | "declined";
 
 export function ReservationInfoModal({
-  id,
+  activityId,
   date,
   isOpen,
   onClose,
   referenceEl,
 }: ReservationInfoModalProps) {
+  const { data: schedulesRaw } = useMyActivitiesSchedule(
+    { activityId, date },
+    { enabled: !!activityId && !!date }
+  );
+  const schedules = useMemo(() => schedulesRaw ?? [], [schedulesRaw]);
+
+  const totals = useMemo(() => {
+    return schedules.reduce(
+      (acc, row) => {
+        acc.pending += row.count?.pending ?? 0;
+        acc.confirmed += row.count?.confirmed ?? 0;
+        acc.declined += row.count?.declined ?? 0;
+        return acc;
+      },
+      { pending: 0, confirmed: 0, declined: 0 }
+    );
+  }, [schedules]);
+
   const tabItems = [
     {
-      key: "request",
+      key: "pending",
       label: "신청",
-      count: 12,
-      onClick: () => setActive("request"),
+      count: totals.pending,
+      onClick: () => setActive("pending"),
     },
     {
       key: "confirmed",
       label: "확정",
-      count: 0,
+      count: totals.confirmed,
       onClick: () => setActive("confirmed"),
     },
     {
-      key: "rejected",
+      key: "declined",
       label: "거절",
-      count: 0,
-      onClick: () => setActive("rejected"),
+      count: totals.declined,
+      onClick: () => setActive("declined"),
     },
   ];
-  const [active, setActive] = useState<TabItem>("request");
+  const [active, setActive] = useState<TabItem>("pending");
+  const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (selectedScheduleId == null && schedules.length > 0) {
+      setSelectedScheduleId(schedules[0].scheduleId);
+    }
+  }, [schedules, selectedScheduleId]);
+
+  const { data: MyActivitiesReservation } = useMyActivitiesReservations(
+    {
+      activityId,
+      scheduleld: selectedScheduleId,
+      status: active,
+    },
+    {
+      enabled: !!selectedScheduleId,
+    }
+  );
 
   const { x, y, refs, strategy } = useFloating({
     placement: "right-start",
@@ -155,9 +195,19 @@ export function ReservationInfoModal({
                 ))}
               </nav>
 
-              <DateSection date={date} />
+              <DateSection
+                date={date}
+                scheduleData={schedulesRaw}
+                value={selectedScheduleId}
+                onChange={setSelectedScheduleId}
+              />
 
-              <ListSection mode={active} />
+              <ListSection
+                mode={active}
+                scheduleData={MyActivitiesReservation}
+                date={date}
+                scheduleId={selectedScheduleId}
+              />
             </div>
           </PopoverPanel>
         </Popover>
