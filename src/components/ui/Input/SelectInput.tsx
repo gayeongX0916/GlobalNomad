@@ -14,8 +14,8 @@ import CheckIcon from "@/assets/svgs/check_icon.svg";
 type SelectInputProps<T> = {
   placeholder: string;
   items: ReadonlyArray<MenuItem<T>>;
-  value: string;
-  onChange: (v: T) => void;
+  value?: T;
+  onChange?: (v: T) => void;
 };
 
 export function SelectInput<T>({
@@ -35,12 +35,14 @@ export function SelectInput<T>({
     return () => document.removeEventListener("click", handleOnClick);
   }, []);
 
+  const selectedItem = items.find((i) => i.value === value);
+
   return (
     <div ref={ref} className="relative w-full">
       <input
         placeholder={placeholder}
         className="px-[16px] py-[15px] rounded-[4px] border border-gray-800 w-full bg-white"
-        value={value}
+        value={selectedItem ? selectedItem.label : ""}
         readOnly
         onKeyDown={(e) => {
           if (e.key === "ArrowDown") setIsOpen(true);
@@ -65,7 +67,7 @@ export function SelectInput<T>({
       {isOpen && (
         <ul className="absolute left-0 top-full mt-[8px] w-full px-[8px] py-[8px] rounded-[6px] shadow-md flex flex-col gap-y-[2px] bg-white border border-gray-100 z-20">
           {items.map((item) => {
-            const selected = value === item.label;
+            const selected = item.value === value;
             return (
               <li
                 key={item.label}
