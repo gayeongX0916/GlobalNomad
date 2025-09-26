@@ -51,7 +51,7 @@ interface ScheduleReservation {
 
 export type MyActivitiesScheduleResponse = ScheduleReservation[];
 
-type MyReservationStatus = "decliend" | "pending" | "confirmed";
+type MyReservationStatus = "declined" | "pending" | "confirmed";
 
 export interface MyActivitiesReservationsBody {
   activityId: number;
