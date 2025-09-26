@@ -20,6 +20,7 @@ import { Toolbar } from "@/components/reservation-history/Toolbar";
 import { useMyActivitiesList } from "@/lib/hooks/MyActivities/useMyActivitiesList";
 import { useMyActivitiesMonthly } from "@/lib/hooks/MyActivities/useMyActivitiesMonthly";
 import { Chips, Status } from "@/components/ui/Chips/Chips";
+import { format } from "date-fns";
 
 type ActivityItem = {
   id: number;
@@ -86,8 +87,6 @@ const ReservationHistory = () => {
         if (count > 0) {
           evts.push({
             start: date,
-            allDay: true,
-            display: "block",
             extendedProps: { status, count },
           });
         }
@@ -135,8 +134,9 @@ const ReservationHistory = () => {
             <ReservationInfoModal
               isOpen={isOpen}
               onClose={() => setIsOpen(false)}
-              date={String(clickedDate)}
+              date={clickedDate ? format(clickedDate, "yyyy-MM-dd") : ""}
               referenceEl={referenceEl}
+              activityId={selectedActivity}
             />
           </div>
         </section>

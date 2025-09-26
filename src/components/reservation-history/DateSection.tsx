@@ -1,14 +1,45 @@
 // UI
-import { MenuItem } from "../ui/Dropdown/Dropdown";
+import { MyActivitiesScheduleResponse } from "@/lib/types/myActivities";
 import { SelectInput } from "../ui/Input/SelectInput";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import { useMemo } from "react";
+import { MenuItem } from "@/lib/types/ui";
 
-export function DateSection({ date }: { date: string }) {
-  const items: MenuItem[] = [
-    { label: "01:00 ~ 02:00" },
-    { label: "02:00 ~ 03:00" },
-  ];
+type DateSectionProps = {
+  date: string;
+  scheduleData: MyActivitiesScheduleResponse;
+  value?: number;
+  onChange: (v: number) => void;
+};
+
+export function DateSection({
+  date,
+  scheduleData,
+  value,
+  onChange,
+}: DateSectionProps) {
+  const toItem = (
+    s: MyActivitiesScheduleResponse[number]
+  ): MenuItem<number> => ({
+    label: `${s.startTime} ~ ${s.endTime}`,
+    value: s.scheduleId,
+  });
+
+  const { placeholder, items } = useMemo(() => {
+    const arr = scheduleData ?? [];
+    if (arr.length === 0) {
+      return {
+        placeholder: "시간을 선택하세요",
+        items: [],
+      };
+    }
+    const [first, ...rest] = arr;
+    return {
+      placeholder: `${first.startTime} ~ ${first.endTime}`,
+      items: [toItem(first), ...rest.map(toItem)],
+    };
+  }, [scheduleData]);
 
   return (
     <section
@@ -22,7 +53,12 @@ export function DateSection({ date }: { date: string }) {
         <span className="text-xl text-black">
           {format(date, "yyyy년 M월 d일", { locale: ko })}
         </span>
-        <SelectInput placeholder="14:00 ~ 15:00" items={items} />
+        <SelectInput<number>
+          placeholder={placeholder}
+          items={items}
+          onChange={onChange}
+          value={value}
+        />
       </div>
     </section>
   );

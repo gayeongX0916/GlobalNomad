@@ -29,7 +29,7 @@ export function ExperienceDropdown({
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
   }, []);
-
+  
   return (
     <div className="relative">
       <label className="absolute -top-3 left-3 bg-white px-1 text-md text-black z-3">
