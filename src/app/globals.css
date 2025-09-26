@@ -135,3 +135,8 @@ body {
   width: 100%;
   table-layout: fixed;
 }
+
+.fc-h-event {
+  background-color: unset;
+  border: unset;
+}
