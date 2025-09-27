@@ -19,7 +19,6 @@ export function useSignin() {
       setAccessToken(data.accessToken);
       setUserName(data.user.nickname);
       setProfileImageUrl(data.user.profileImageUrl);
-      console.log(data);
 
       if (data.refreshToken) {
         setRefreshCookie(data.refreshToken);
