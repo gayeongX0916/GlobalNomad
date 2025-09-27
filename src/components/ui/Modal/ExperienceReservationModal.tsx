@@ -1,7 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import { ModalProps } from "@/lib/types/modalProps";
 
 // UI
@@ -45,22 +50,22 @@ export function ExperienceReservationModal({
   const handleReservationClick = useCallback(() => {
     createReservation({ activityId, scheduleId: headId, headCount: count });
     onClose();
-  }, [activityId, headId, count, createReservation,onClose]);
+  }, [activityId, headId, count, createReservation, onClose]);
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop
-        className="fixed inset-0"
+        className="fixed inset-0 bg-black/30"
         onClick={onClose}
         aria-hidden="true"
       />
       <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
         <DialogPanel className="w-full h-full border bg-white border-gray-300 rounded-[12px] px-[20px] py-[24px] md:max-w-[450px] md:h-[500px] overflow-x-auto no-scrollbar">
           <header className="pb-[16px]">
-            <h2 className="text-3xl font-bold text-black">
+            <DialogTitle className="text-3xl font-bold text-black">
               <data value="1000">{formatKRW(activity.price)}</data>
               <span className="text-xl text-gray-900"> / 인</span>
-            </h2>
+            </DialogTitle>
           </header>
 
           <section

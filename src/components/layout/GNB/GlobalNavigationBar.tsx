@@ -10,6 +10,8 @@ import exampleIcon from "@/assets/svgs/example_icon.svg";
 import { useAuthStore } from "@/lib/stores/auth";
 import { ProfileDropdown } from "@/components/ui/Dropdown/PropfileDropdown";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { NotificationModal } from "@/components/ui/Modal/NotificationModal";
+import { useMyNotificationsList } from "@/lib/hooks/MyNotifications/useMyNotificationsList";
 
 export function GlobalNavigationBar() {
   const accessToken = useAuthStore((s) => s.accessToken);
@@ -17,6 +19,7 @@ export function GlobalNavigationBar() {
   const profileImageUrl = useAuthStore((s) => s.profileImageUrl);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const profileBoxRef = useRef<HTMLLIElement>(null);
 
   const handleClickOpen = useCallback(() => {
@@ -33,6 +36,10 @@ export function GlobalNavigationBar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-white">
+      <NotificationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       <div className="mx-auto flex h-[70px] items-center justify-between md:px-[40px] px-[16px] lg:px-[80px]">
         <Link href="/" aria-label="홈으로 이동">
           <Image src={Logo} alt="" aria-hidden="true" width={160} height={30} />
@@ -45,6 +52,7 @@ export function GlobalNavigationBar() {
                   type="button"
                   className="cursor-pointer flex"
                   aria-label="알림 보기"
+                  onClick={() => setIsModalOpen(true)}
                 >
                   <Image
                     src={NotificationIcon}

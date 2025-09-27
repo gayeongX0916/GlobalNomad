@@ -7,10 +7,11 @@ import {
   setRefreshCookie,
   deleteRefreshCookie,
 } from "@/lib/utils/cookies";
-import { refreshAxios } from "@/lib/api/basicAxios";
+import { basicAxios, refreshAxios } from "@/lib/api/basicAxios";
 
 export default function AuthBootstrap() {
-  const { setAccessToken, clear } = useAuthStore.getState();
+  const { setAccessToken, setProfileImageUrl, setUserName, clear } =
+    useAuthStore.getState();
 
   useEffect(() => {
     const boot = async () => {
@@ -29,8 +30,11 @@ export default function AuthBootstrap() {
         if (!newAccess) throw new Error("No access token in refresh response");
 
         setAccessToken(newAccess);
-
         if (newRefresh) setRefreshCookie(newRefresh);
+
+        const me = await basicAxios.get("/users/me");
+        setUserName(me.data?.nickname ?? null);
+        setProfileImageUrl(me.data?.profileImageUrl ?? null);
       } catch {
         clear();
         deleteRefreshCookie();
