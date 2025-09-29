@@ -36,7 +36,7 @@ const ActivityDetailPage = () => {
 
         <div className="mt-[80px] flex flex-col">
           <ActivityDescription activity={activity} />
-          <ActivityReview />
+          <ActivityReview activity={activity}/>
         </div>
       </main>
 

@@ -1,4 +1,6 @@
 import Image from "next/image";
+import exampleIcon from "@/assets/svgs/example_icon.svg";
+import { DateFormatToString } from "@/lib/utils/DateFormatToString";
 
 type ReviewItemProps = {
   imageUrl: string;
@@ -16,7 +18,7 @@ export function ActivityReviewItem({
   return (
     <article className="flex gap-x-[16px]">
       <Image
-        src={imageUrl}
+        src={imageUrl ? imageUrl : exampleIcon}
         alt="프로필"
         width={45}
         height={45}
@@ -30,7 +32,9 @@ export function ActivityReviewItem({
             className="h-[17px] border-l border-nomadBlack/50"
             aria-hidden="true"
           />
-          <span className="text-lg text-gray-600">{date}</span>
+          <span className="text-lg text-gray-600">
+            {DateFormatToString(date)}
+          </span>
         </header>
         <p className="text-lg text-nomadBlack">{des}</p>
       </div>

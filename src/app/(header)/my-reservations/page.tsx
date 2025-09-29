@@ -9,6 +9,7 @@ import { MenuItem } from "@/lib/types/ui";
 import { MyReservationStatus } from "@/lib/types/myReservations";
 import { useMyReservationList } from "@/lib/hooks/MyReservations/useMyReservationList";
 import { useMemo, useState } from "react";
+import Link from "next/link";
 
 const items: MenuItem<MyReservationStatus>[] = [
   { label: "예약 신청", value: "pending" },
@@ -57,7 +58,9 @@ const MyReservationsPage = () => {
             <ul id="reservation-list" className="flex flex-col gap-y-[24px]">
               {reservations.map((item) => (
                 <li key={item.id}>
+                  <Link href={`/activities/${item.activity.id}`}>
                   <ReservationItem {...item} />
+                  </Link>
                 </li>
               ))}
             </ul>
