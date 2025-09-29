@@ -49,7 +49,18 @@ export function ReservationItem({
 
   return (
     <article className="flex gap-x-[24px] rounded-[24px] bg-white w-full shadow-lg shadow-black/5">
-      <ReviewModal id={id} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <ReviewModal
+        id={id}
+        title={activity.title}
+        bannerImageUrl={activity.bannerImageUrl}
+        startTime={startTime}
+        endTime={endTime}
+        date={date}
+        totalPrice={totalPrice}
+        headCount={headCount}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
       <Image
         src={activity.bannerImageUrl}
         alt="대표 이미지"
@@ -89,7 +100,7 @@ export function ReservationItem({
                 후기 작성
               </button>
             )}
-            {status === "confirmed" && (
+            {status === "pending" && (
               <button
                 type="button"
                 onClick={handleClickCancel}

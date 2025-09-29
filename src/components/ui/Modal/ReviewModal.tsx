@@ -1,6 +1,11 @@
 "use client";
 
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -10,12 +15,31 @@ import StarIconOff from "@/assets/svgs/star_icon_off.svg";
 import StarIconOn from "@/assets/svgs/star_icon_on.svg";
 import { useCreateMyReservationReviews } from "@/lib/hooks/MyReservations/useCreateMyReservationReviews";
 import CloseIcon from "@/assets/svgs/close_icon.svg";
+import { formatKRW } from "@/lib/utils/formatKRW";
 
 interface ReviewModalProps extends ModalProps {
+  title: string;
+  bannerImageUrl: string;
   id: number;
+  startTime: string;
+  endTime: string;
+  date: string;
+  totalPrice: number;
+  headCount: number;
 }
 
-export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
+export function ReviewModal({
+  id,
+  title,
+  bannerImageUrl,
+  startTime,
+  endTime,
+  isOpen,
+  date,
+  totalPrice,
+  headCount,
+  onClose,
+}: ReviewModalProps) {
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState("");
   const { mutate: createMyReservationReviews, isPending } =
@@ -37,13 +61,13 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop
-        className="fixed inset-0"
+        className="fixed inset-0 bg-black/30"
         onClick={onClose}
         aria-hidden="true"
       />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <DialogPanel className="max-w-[480px] w-[375px] border border-gray-200 bg-white px-[23px] pt-[24px] pb-[32px] rounded-[24px]">
+        <DialogPanel className="max-w-[480px] border border-gray-200 bg-white px-[23px] pt-[24px] pb-[32px] rounded-[24px]">
           <header className="flex items-center justify-between w-full">
             <DialogTitle className="font-bold text-black text-2xl">
               후기 작성
@@ -70,7 +94,7 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
             <section aria-labelledby="review-summary-title">
               <header className="flex gap-x-[24px] items-center">
                 <Image
-                  src={exampleImage}
+                  src={bannerImageUrl}
                   alt="대표 이미지"
                   width={126}
                   height={126}
@@ -81,16 +105,16 @@ export function ReviewModal({ id, isOpen, onClose }: ReviewModalProps) {
                     id="review-summary-title"
                     className="text-xl font-bold text-nomadBlack truncate"
                   >
-                    함께 배우면 즐거운 스트릿 댄스
+                    {title}
                   </h3>
                   <p className="text-2lg text-nomadBlack">
-                    <time dateTime="2023-02-14">2023.2.14</time> ·{" "}
-                    <time dateTime="11:00">11:00</time> -{" "}
-                    <time dateTime="12:30">12:30</time> · 10명
+                    <time dateTime="2023-02-14">{date}</time> ·{" "}
+                    <time dateTime="11:00">{startTime}</time> -{" "}
+                    <time dateTime="12:30">{endTime}</time> · {headCount}명
                   </p>
                   <hr className="border-[#112211]/100" />
                   <p className="text-3xl text-nomadBlack font-bold">
-                    <data value="10000">₩10,000</data>
+                    <data value="10000">{formatKRW(totalPrice)}</data>
                   </p>
                 </div>
               </header>

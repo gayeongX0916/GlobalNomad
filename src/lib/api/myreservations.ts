@@ -42,7 +42,7 @@ export const postMyReservationReviews = async ({
   content,
 }: CreateMyReservationReviewsBody): Promise<CreateMyReservationReviewsResponse> => {
   const { data } = await basicAxios.post<CreateMyReservationReviewsResponse>(
-    `/my-reservations/${reservationId}/review`,
+    `/my-reservations/${reservationId}/reviews`,
     { rating, content }
   );
   return data;
