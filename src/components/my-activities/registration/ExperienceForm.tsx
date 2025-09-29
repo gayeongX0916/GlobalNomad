@@ -15,6 +15,7 @@ import { MenuItem } from "@/lib/types/ui";
 import { useActivityDetail } from "@/lib/hooks/Activities/useActivityDetail";
 import { useCreateActivity } from "@/lib/hooks/Activities/useCreateActivity";
 import { useUpdateMyActivites } from "@/lib/hooks/MyActivities/useUpdateMyActivities";
+import { OpenPostCode } from "./OpenPostCode";
 
 const items: MenuItem<ActivityCategory>[] = [
   { label: "문화 · 예술", value: "문화 · 예술" },
@@ -27,7 +28,7 @@ const items: MenuItem<ActivityCategory>[] = [
 
 type ExperienceFormProps = {
   mode: "edit" | "registration";
-  id: number;
+  id?: number;
 };
 
 export function ExperienceForm({ mode, id }: ExperienceFormProps) {
@@ -197,9 +198,14 @@ export function ExperienceForm({ mode, id }: ExperienceFormProps) {
         placeholder="주소를 입력해주세요"
         label="주소"
         value={form.address}
+        onClick={() =>
+          OpenPostCode((addr) =>
+            setForm((prev) => ({ ...prev, address: addr }))
+          )
+        }
         onChange={(v) => setForm((prev) => ({ ...prev, address: v }))}
       />
-
+      
       <TimeSlotsEditor
         slots={form.schedules}
         onChange={(newSlots) =>
