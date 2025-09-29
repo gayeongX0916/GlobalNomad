@@ -6,6 +6,7 @@ type TextInputProps = {
   value?: string | number;
   disabled?: boolean;
   onChange?: (v: string) => void;
+  onClick?: () => void;
 };
 
 export function TextInput({
@@ -14,6 +15,7 @@ export function TextInput({
   value,
   disabled = false,
   onChange,
+  onClick,
 }: TextInputProps) {
   return (
     <div className="flex flex-col gap-y-[16px]">
@@ -27,6 +29,7 @@ export function TextInput({
         className={`rounded-[4px] border border-gray-800 py-[15px] px-[16px] bg-white`}
         aria-label={label || placeholder || "입력 필드"}
         disabled={disabled}
+        onClick={onClick}
       />
     </div>
   );

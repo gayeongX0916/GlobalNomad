@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 import Providers from "./providers";
 import { ToastProvider } from "@/components/layout/ToastProvider";
 import AuthBootstrap from "./AuthBootstrap";
+import KakaoScript from "@/lib/utils/KakaoScript";
+import { KakaoAddressScript } from "@/lib/utils/KakaoAddressScript";
 
 const pretendard = localFont({
   src: [
@@ -45,6 +47,8 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className="font-sans">
+        <KakaoScript />
+        <KakaoAddressScript />
         <AuthBootstrap />
         <Providers>{children}</Providers>
         <ToastProvider />

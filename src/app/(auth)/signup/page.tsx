@@ -13,7 +13,7 @@ import { LoginInput } from "@/components/ui/Input/LoginInput";
 import Logo from "@/assets/logo/logo_vertical.svg";
 import { useSignUp } from "@/lib/hooks/Users/useSignup";
 import { OauthSection } from "@/components/auth/OauthSection";
-import { buildKakaoAuthUrl } from "@/lib/utils/kakao";
+import { buildKakaoAuthUrl } from "@/lib/utils/KakaoLogin";
 
 type FormState = {
   email: string;
@@ -96,7 +96,7 @@ const SignUpPage = () => {
       e?.preventDefault();
       signUp(form);
     },
-    [form,signUp]
+    [form, signUp]
   );
 
   const handleKakaoClick = () => {

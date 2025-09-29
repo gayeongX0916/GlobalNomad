@@ -13,7 +13,7 @@ import Button from "@/components/ui/Button/Button";
 import Logo from "@/assets/logo/logo_vertical.svg";
 import { useSignin } from "@/lib/hooks/Auth/useSignIn";
 import { OauthSection } from "@/components/auth/OauthSection";
-import { buildKakaoAuthUrl } from "@/lib/utils/kakao";
+import { buildKakaoAuthUrl } from "@/lib/utils/KakaoLogin";
 
 type FormState = {
   email: string;
