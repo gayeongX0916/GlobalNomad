@@ -40,7 +40,7 @@ const ActivityDetailPage = () => {
         </div>
       </main>
 
-      <aside className="border-t border-nomadBlack/30 sticky bottom-0 bg-white w-full h-[80px] flex justify-between items-center px-[40px] lg:px-[80px] py-[10px]">
+      <aside className="z-50 border-t border-nomadBlack/30 sticky bottom-0 bg-white w-full h-[80px] flex justify-between items-center px-[40px] lg:px-[80px] py-[10px]">
         <div className="text-2lg font-bold text-black">
           {formatKRW(activity.price)} /
           <span className="text-green-900">총1인</span>
