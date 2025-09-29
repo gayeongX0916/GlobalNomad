@@ -3,6 +3,7 @@ import Image from "next/image";
 // Icons
 import LocationIcon from "@/assets/svgs/location_icon.svg";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
+import { KakaoMap } from "./KakaoMap";
 
 type ActivityDescriptionProps = {
   activity: GetActivityDetailResponse;
@@ -24,7 +25,10 @@ export function ActivityDescription({ activity }: ActivityDescriptionProps) {
       <hr className="border-nomadBlack/20" />
 
       <section className="flex flex-col gap-y-[8px]">
-        <div className="bg-green-100 aspect-[5/2] w-full rounded-[16px]"></div>
+        <KakaoMap
+          address={activity.address}
+          className="aspect-[5/2] w-full rounded-[16px] border border-gray-200"
+        />
 
         <div className="flex gap-x-[2px]">
           <Image src={LocationIcon} alt="위치" width={18} height={18} />
