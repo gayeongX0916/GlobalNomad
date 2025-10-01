@@ -2,6 +2,7 @@ import Image, { StaticImageData } from "next/image";
 
 // Icons
 import StarIcon from "@/assets/svgs/star_icon_on.svg";
+import { formatKRW } from "@/lib/utils/formatKRW";
 
 type PopularCardProps = {
   rating: number;
@@ -48,7 +49,7 @@ export function PopularCard({
 
         <span>
           <data className="text-lg text-white md:text-xl" value={price}>
-            ₩ {price}
+            {formatKRW(price)}
           </data>
           <span className="text-md md:text-lg text-gray-300"> / 인</span>
         </span>

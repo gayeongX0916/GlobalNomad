@@ -9,11 +9,9 @@ import ArrowLeft from "@/assets/svgs/slider_arrow_left.svg";
 import ArrowRight from "@/assets/svgs/slider_arrow_right.svg";
 import Image from "next/image";
 import { useActivitiesList } from "@/lib/hooks/Activities/useActivitiesList";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export function PopularSlider() {
-  const router = useRouter();
   const { data, isPending, error } = useActivitiesList({
     sort: "most_reviewed",
   });
