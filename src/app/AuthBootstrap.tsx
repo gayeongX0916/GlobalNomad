@@ -10,7 +10,7 @@ import {
 import { basicAxios, refreshAxios } from "@/lib/api/basicAxios";
 
 export default function AuthBootstrap() {
-  const { setAccessToken, setProfileImageUrl, setUserName, clear } =
+  const { setAccessToken, setProfileImageUrl, setUserName, setUserId, clear } =
     useAuthStore.getState();
 
   useEffect(() => {
@@ -33,6 +33,7 @@ export default function AuthBootstrap() {
         if (newRefresh) setRefreshCookie(newRefresh);
 
         const me = await basicAxios.get("/users/me");
+        setUserId(me.data?.id ?? null);
         setUserName(me.data?.nickname ?? null);
         setProfileImageUrl(me.data?.profileImageUrl ?? null);
       } catch {

@@ -4,12 +4,14 @@ import { KebabMenu } from "@/components/ui/KebabMenu/KebabMenu";
 import Image from "next/image";
 
 import { GetActivityDetailResponse } from "@/lib/types/activities";
+import { useAuthStore } from "@/lib/stores/auth";
 
 type ActivityHeaderProps = {
   activity: GetActivityDetailResponse;
 };
 
 export function ActivityHeader({ activity }: ActivityHeaderProps) {
+  const ownerId = useAuthStore((s) => s.userId);
   const subImages = activity.subImages.map((image) => image.imageUrl);
 
   const spanClass = (i: number, n: number) => {
@@ -51,7 +53,7 @@ export function ActivityHeader({ activity }: ActivityHeaderProps) {
             </div>
           </div>
         </div>
-        <KebabMenu className="top-20" />
+        {ownerId === activity.userId && <KebabMenu className="top-20" />}
       </header>
 
       <div className="grid grid-cols-4 grid-rows-2 gap-x-[8px] gap-y-[8px]">
