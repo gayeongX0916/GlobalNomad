@@ -2,6 +2,7 @@ import Image from "next/image";
 
 // Icons
 import StarIcon from "@/assets/svgs/star_icon_on.svg";
+import { formatKRW } from "@/lib/utils/formatKRW";
 
 type ExperienceCardProps = {
   rating: number;
@@ -19,13 +20,13 @@ export function ExperienceCard({
   imageUrl,
 }: ExperienceCardProps) {
   return (
-    <article className="flex flex-col gap-y-[16px] cursor-pointer w-[283px]">
+    <article className="flex flex-col gap-y-[16px] cursor-pointer w-full lg:w-[283px]">
       <Image
         src={imageUrl}
         alt={title}
         width={283}
         height={283}
-        className="w-[283px] h-[283px] object-cover rounded-[20px]"
+        className="lg:w-[283px] lg:h-[283px] w-full h-[250px] object-cover rounded-[20px]"
       />
 
       <div className="flex flex-col gap-y-[13px]">
@@ -47,7 +48,7 @@ export function ExperienceCard({
         </h3>
 
         <span className="text-2xl font-bold text-black">
-          <data value={price}>₩ {price}</data>
+          <data value={price}>{formatKRW(price)}</data>
           <span className="text-xl text-gray-900"> / 인</span>
         </span>
       </div>

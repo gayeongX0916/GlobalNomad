@@ -10,7 +10,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { ModalProps } from "@/lib/types/modalProps";
-import exampleImage from "@/assets/svgs/example.svg";
 import StarIconOff from "@/assets/svgs/star_icon_off.svg";
 import StarIconOn from "@/assets/svgs/star_icon_on.svg";
 import { useCreateMyReservationReviews } from "@/lib/hooks/MyReservations/useCreateMyReservationReviews";

@@ -17,7 +17,7 @@ import CloseIcon from "@/assets/svgs/close_icon.svg";
 import { NumberStepper } from "@/components/activity/NumberStepper";
 import { useActivityAvailableSchedule } from "@/lib/hooks/Activities/useActivityAvailableSchedule";
 import { formatKRW } from "@/lib/utils/formatKRW";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
 import { useCreateReservation } from "@/lib/hooks/Activities/useCreateReservation";
 
@@ -51,6 +51,12 @@ export function ExperienceReservationModal({
     createReservation({ activityId, scheduleId: headId, headCount: count });
     onClose();
   }, [activityId, headId, count, createReservation, onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setCount(0);
+    }
+  }, [isOpen]);
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">

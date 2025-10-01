@@ -4,6 +4,8 @@ import { ExperienceCard } from "./ExperienceCard";
 import { useActivitiesList } from "@/lib/hooks/Activities/useActivitiesList";
 import { ActivityCategory } from "@/lib/types/activities";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { useResponsivePageSize } from "@/lib/hooks/Activities/useResponsivePageSize";
 
 type ExperienceCardProps = {
   category?: ActivityCategory;
@@ -11,12 +13,28 @@ type ExperienceCardProps = {
 };
 
 export function ExperienceGrid({ category, sort }: ExperienceCardProps) {
+  const [page, setPage] = useState(1);
+  const size = useResponsivePageSize();
   const { data, isPending, error } = useActivitiesList({
     category,
     sort,
-    page: 1,
-    size: 8,
+    page,
+    size,
   });
+  const totalPages = useMemo(() => {
+    if (!data) return 1;
+    if (data.totalCount) {
+      return Math.max(1, Math.ceil(data.totalCount / size));
+    }
+  }, [data, size]);
+
+  // if(size===null){
+  //   스켈레톤
+  // }
+
+  useEffect(() => {
+    setPage(1);
+  }, [size, category, sort]);
 
   if (isPending) return <p>로딩 중…</p>;
   if (error || !data) return <p>에러가 발생했어요.</p>;
@@ -38,7 +56,11 @@ export function ExperienceGrid({ category, sort }: ExperienceCardProps) {
         ))}
       </div>
       <div className="flex justify-center">
-        <Pagination />
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </div>
     </section>
   );
