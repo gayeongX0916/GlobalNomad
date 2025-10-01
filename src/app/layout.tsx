@@ -45,13 +45,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={pretendard.variable}>
-      <body className="font-sans">
+    <html lang="ko" className={`${pretendard.variable} h-full`}>
+      <body className="font-sans h-full overflow-hidden">
         <KakaoScript />
         <KakaoAddressScript />
         <AuthBootstrap />
-        <Providers>{children}</Providers>
-        <ToastProvider />
+
+        <div id="app-scroll-root" className="h-dvh overflow-y-scroll">
+          <Providers>{children}</Providers>
+          <ToastProvider />
+        </div>
       </body>
     </html>
   );

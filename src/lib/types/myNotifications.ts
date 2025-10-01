@@ -14,6 +14,9 @@ export type MyNotificationsResponse = {
   totalCount: number;
 };
 
+export type MyNotificationsBody={
+  size:number;
+}
 
 export type deleteMyNotificationsBody={
     notificationId:number;
