@@ -4,17 +4,25 @@ import Image from "next/image";
 import { Pagination } from "@/components/ui/Pagination/Pagination";
 import { useActivityReviews } from "@/lib/hooks/Activities/useActivityReviews";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
+import { useMemo, useState } from "react";
 
 type ActivityReviewProps = {
   activity: GetActivityDetailResponse;
 };
 
 export function ActivityReview({ activity }: ActivityReviewProps) {
+  const [page, setPage] = useState(1);
   const { data, isLoading } = useActivityReviews({
     activityId: activity.id,
-    page: 1,
-    size: 10,
+    page,
+    size: 3,
   });
+  const totalPages = useMemo(() => {
+    if (!data) return 1;
+    if (data.totalCount) {
+      return Math.max(1, Math.ceil(data.totalCount / 3));
+    }
+  }, [data]);
 
   const getSatisfactionLabel = (rating: number): string => {
     if (rating >= 4.5) return "매우 만족";
@@ -76,7 +84,11 @@ export function ActivityReview({ activity }: ActivityReviewProps) {
       </section>
 
       <div className="flex justify-center mt-[50px]">
-        <Pagination />
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </div>
     </article>
   );

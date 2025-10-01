@@ -83,7 +83,11 @@ export function Pagination({
           disabled={currentPage === totalPages}
         >
           <Image
-            src={currentPage === totalPages ? ArrowRight : ArrowRightGreen}
+            src={
+              currentPage === totalPages || totalPages === undefined
+                ? ArrowRight
+                : ArrowRightGreen
+            }
             alt=""
             aria-hidden="true"
             width={15}
