@@ -38,9 +38,15 @@ export function ReservationItem({
 
   const { mutate: updateMyReservation, isPending } = useUpdateMyReservation();
 
-  const handleClickOpen = useCallback(() => setIsOpen(true), []);
+  const handleClickOpen = useCallback((e: React.MouseEvent) => {
+    setIsOpen(true);
+    e.stopPropagation();
+    e.preventDefault();
+  }, []);
 
-  const handleClickCancel = () => {
+  const handleClickCancel = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     updateMyReservation({
       reservationId: id,
       status: "canceled",

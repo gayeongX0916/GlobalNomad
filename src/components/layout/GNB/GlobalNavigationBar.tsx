@@ -22,6 +22,9 @@ export function GlobalNavigationBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const profileBoxRef = useRef<HTMLLIElement>(null);
 
+  const { data, isLoading } = useMyNotificationsList(isModalOpen);
+  const total = data?.totalCount ?? 0;
+
   const handleClickOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
@@ -39,6 +42,9 @@ export function GlobalNavigationBar() {
       <NotificationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        isLoading={isLoading}
+        totalCount={total}
+        data={data}
       />
       <div className="mx-auto flex h-[70px] items-center justify-between md:px-[40px] px-[16px] lg:px-[80px]">
         <Link href="/" aria-label="홈으로 이동">
@@ -47,7 +53,7 @@ export function GlobalNavigationBar() {
         {accessToken ? (
           <nav aria-label="사용자 메뉴">
             <ul className="flex items-center gap-x-[16px]">
-              <li>
+              <li className="relative">
                 <button
                   type="button"
                   className="cursor-pointer flex"
@@ -61,6 +67,12 @@ export function GlobalNavigationBar() {
                     width={22}
                     height={22}
                   />
+                  {total > 0 && (
+                    <span
+                      className="absolute -top-1 -right-0 w-[6px] h-[6px] rounded-full bg-red-500"
+                      aria-hidden="true"
+                    />
+                  )}
                 </button>
               </li>
 

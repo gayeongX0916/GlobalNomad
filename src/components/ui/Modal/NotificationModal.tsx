@@ -1,6 +1,5 @@
 import { ModalProps } from "@/lib/types/modalProps";
 import { NotificationItem } from "../NotificationItem/NotificationItem";
-import { useMyNotificationsList } from "@/lib/hooks/MyNotifications/useMyNotificationsList";
 import {
   Dialog,
   DialogBackdrop,
@@ -9,11 +8,21 @@ import {
 } from "@headlessui/react";
 import Image from "next/image";
 import CloseIcon from "@/assets/svgs/close_icon.svg";
+import { MyNotificationsResponse } from "@/lib/types/myNotifications";
 
-export function NotificationModal({ isOpen, onClose }: ModalProps) {
-  const { data, isLoading } = useMyNotificationsList(isOpen);
-  const total = data?.totalCount ?? 0;
+interface NotificationModalProps extends ModalProps {
+  isLoading: boolean;
+  data: MyNotificationsResponse;
+  totalCount: number;
+}
 
+export function NotificationModal({
+  isOpen,
+  onClose,
+  isLoading,
+  data,
+  totalCount,
+}: NotificationModalProps) {
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop
@@ -24,12 +33,12 @@ export function NotificationModal({ isOpen, onClose }: ModalProps) {
 
       <div className="fixed inset-0 flex items-start justify-end">
         <DialogPanel
-          className="fixed right-[12px]
-          top-[60px] md:max-w-[355px] md:h-[400px] overflow-x-auto no-scrollbar w-full h-full rounded-[10px] bg-green-100 px-[20px] py-[24px] border border-gray-200"
+          className="fixed right-[60px]
+          top-[60px] max-w-[300px] md:max-w-[355px] md:h-[400px] w-full h-full overflow-hidden rounded-[10px] bg-green-100 px-[20px] py-[24px] border border-gray-200"
         >
           <header className="flex items-center justify-between">
             <DialogTitle className="font-bold text-black text-xl">
-              알림 {total}개
+              알림 {totalCount}개
             </DialogTitle>
             <button
               onClick={onClose}
@@ -46,7 +55,7 @@ export function NotificationModal({ isOpen, onClose }: ModalProps) {
             </button>
           </header>
 
-          <div className="flex flex-col gap-y-[8px] mt-[16px]">
+          <div className="flex flex-col gap-y-[8px] mt-[16px] h-full overflow-y-auto no-scrollbar pb-[70px] md:pb-[30px]">
             {isLoading ? (
               <div className="text-sm text-gray-600 py-6 text-center">
                 불러오는 중…

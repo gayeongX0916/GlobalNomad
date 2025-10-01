@@ -4,13 +4,20 @@ import { KebabMenu } from "@/components/ui/KebabMenu/KebabMenu";
 import Image from "next/image";
 
 import { GetActivityDetailResponse } from "@/lib/types/activities";
+import { useAuthStore } from "@/lib/stores/auth";
+import { useRouter } from "next/navigation";
+import { useDeleteMyActivites } from "@/lib/hooks/MyActivities/useDeleteMyActivities";
 
 type ActivityHeaderProps = {
   activity: GetActivityDetailResponse;
 };
 
 export function ActivityHeader({ activity }: ActivityHeaderProps) {
+  const viewerId = useAuthStore((s) => s.userId);
+  const ownerId = activity.userId;
   const subImages = activity.subImages.map((image) => image.imageUrl);
+  const router = useRouter();
+  const { mutate: deleteMyActivities, isPending } = useDeleteMyActivites();
 
   const spanClass = (i: number, n: number) => {
     if (n >= 4) return "col-span-1 row-span-1";
@@ -51,7 +58,22 @@ export function ActivityHeader({ activity }: ActivityHeaderProps) {
             </div>
           </div>
         </div>
-        <KebabMenu className="top-20" />
+        {ownerId === viewerId && (
+          <KebabMenu
+            className="top-20"
+            onEdit={() => {
+              if (isPending) return;
+              router.push(`/my-activities/registration/${activity.id}`);
+            }}
+            onDelete={() => {
+              if (isPending) return; // 중복 클릭 방지
+              // (선택) 확인창
+              if (!confirm("정말 이 활동을 삭제할까요?")) return;
+              deleteMyActivities({ activityId: activity.id });
+              router.push("/");
+            }}
+          />
+        )}
       </header>
 
       <div className="grid grid-cols-4 grid-rows-2 gap-x-[8px] gap-y-[8px]">

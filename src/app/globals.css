@@ -74,6 +74,13 @@ body {
   background: #fafafa;
 }
 
+html {
+  scrollbar-gutter: auto;
+}
+#app-scroll-root {
+  scrollbar-gutter: stable;
+}
+
 .react-datepicker__header--custom {
   background: #fff;
   border: 0;
