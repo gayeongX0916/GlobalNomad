@@ -1,7 +1,6 @@
-'use client'
+"use client";
 
 import Image from "next/image";
-import { useState } from "react";
 
 // Icons
 import ArrowLeft from "@/assets/svgs/arrow_left.svg";
@@ -10,22 +9,38 @@ import ArrowLeftGreen from "@/assets/svgs/arrow_left_green.svg";
 import ArrowRightGreen from "@/assets/svgs/arrow_right_green.svg";
 
 type PaginationProps = {
-  totalPages?: number;
-  initalPage?: number;
-  onChange?: (page: number) => void;
+  totalPages: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 };
 
 export function Pagination({
   totalPages,
-  initalPage,
-  onChange,
+  currentPage,
+  onPageChange,
 }: PaginationProps) {
-  // 선택됐을 때 prev next 버튼 border border-green-900
-  // 숫자 선택됐을 때 bg-green-900 text-white
-  const [page, setPage] = useState(initalPage);
+  const maxVisible = 5;
+  const currenBlock = Math.floor((currentPage - 1) / maxVisible);
+  const startPage = currenBlock * maxVisible + 1;
+  const endPage = Math.min(startPage + maxVisible - 1, totalPages);
 
-  const canPrev = page > 1;
-  const canNext = page < totalPages;
+  const visiblePages = [];
+
+  for (let i = startPage; i <= endPage; i++) {
+    visiblePages.push(i);
+  }
+
+  const gotoPrev = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const gotoNext = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
 
   return (
     <nav aria-label="페이지네이션">
@@ -33,9 +48,11 @@ export function Pagination({
         <button
           className="flex justify-center items-center rounded-[15px] w-[40px] h-[40px] md:w-[55px] md:h-[55px] border border-gray-300 cursor-pointer"
           aria-label="이전 페이지"
+          onClick={gotoPrev}
+          disabled={currentPage === 1}
         >
           <Image
-            src={canPrev ? ArrowLeftGreen : ArrowLeft}
+            src={currentPage === 1 ? ArrowLeft : ArrowLeftGreen}
             alt=""
             aria-hidden="true"
             width={15}
@@ -44,16 +61,29 @@ export function Pagination({
           />
         </button>
 
-        <button className="flex justify-center items-center rounded-[15px] w-[40px] h-[40px] md:w-[55px] md:h-[55px] text-2lg text-green-900 border border-green-900 bg-white cursor-pointer">
-          {page}
-        </button>
+        {visiblePages.map((number) => (
+          <button
+            key={number}
+            className={`flex justify-center items-center rounded-[15px] w-[40px] h-[40px] md:w-[55px] md:h-[55px] text-2lg cursor-pointer
+    ${
+      number === currentPage
+        ? "bg-green-900 text-white border border-green-900"
+        : "text-green-900 border border-green-900 bg-white"
+    }`}
+            onClick={() => onPageChange(number)}
+          >
+            {number}
+          </button>
+        ))}
 
         <button
           className="flex justify-center items-center rounded-[15px] w-[40px] h-[40px] md:w-[55px] md:h-[55px] border border-gray-300 cursor-pointer"
           aria-label="다음 페이지"
+          onClick={gotoNext}
+          disabled={currentPage === totalPages}
         >
           <Image
-            src={canNext ? ArrowRightGreen : ArrowRight}
+            src={currentPage === totalPages ? ArrowRight : ArrowRightGreen}
             alt=""
             aria-hidden="true"
             width={15}
