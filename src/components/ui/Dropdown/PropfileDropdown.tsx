@@ -21,14 +21,14 @@ type ProfileDropdownProps = {
   onSelect: () => void;
 };
 
-export function ProfileDropdown({onSelect}:ProfileDropdownProps) {
+export function ProfileDropdown({ onSelect }: ProfileDropdownProps) {
   const clearAccessToken = useAuthStore((s) => s.clear);
   const router = useRouter();
 
   const handleLogout = () => {
     clearAccessToken();
     deleteRefreshCookie();
-    router.push("/");
+    router.push("/signin");
   };
 
   const menuItems = [
