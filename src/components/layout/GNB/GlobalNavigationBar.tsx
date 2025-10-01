@@ -22,7 +22,7 @@ export function GlobalNavigationBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const profileBoxRef = useRef<HTMLLIElement>(null);
 
-  const { data, isLoading } = useMyNotificationsList(isModalOpen);
+  const { data, isLoading } = useMyNotificationsList(!!accessToken);
   const total = data?.totalCount ?? 0;
 
   const handleClickOpen = useCallback(() => {

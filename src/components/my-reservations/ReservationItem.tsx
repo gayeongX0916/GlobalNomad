@@ -115,6 +115,11 @@ export function ReservationItem({
                 {isPending ? "취소 중..." : "예약 취소"}
               </button>
             )}
+            {reviewSubmitted && (
+              <div className="px-[12px] py-[8px] bg-gray-500 rounded-[6px] w-[144px] text-center text-white text-lg font-bold">
+                후기 작성 완료
+              </div>
+            )}
           </div>
         </div>
       </div>
