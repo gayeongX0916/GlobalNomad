@@ -6,6 +6,7 @@ import { ActivityCategory } from "@/lib/types/activities";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useResponsivePageSize } from "@/lib/hooks/Activities/useResponsivePageSize";
+import { ExperienceGridSkeleton } from "../skeletons/ExperienceGridSkeleton";
 
 type ExperienceCardProps = {
   category?: ActivityCategory;
@@ -28,15 +29,12 @@ export function ExperienceGrid({ category, sort }: ExperienceCardProps) {
     }
   }, [data, size]);
 
-  // if(size===null){
-  //   스켈레톤
-  // }
-
   useEffect(() => {
     setPage(1);
   }, [size, category, sort]);
 
-  if (isPending) return <p>로딩 중…</p>;
+  if (size == null) return <ExperienceGridSkeleton count={8} />;
+  if (isPending) return <ExperienceGridSkeleton count={size} />;
   if (error || !data) return <p>에러가 발생했어요.</p>;
 
   return (

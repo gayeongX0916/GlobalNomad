@@ -1,4 +1,3 @@
-// hooks/useResponsivePageSize.ts
 import { useEffect, useState } from "react";
 
 export function useResponsivePageSize() {

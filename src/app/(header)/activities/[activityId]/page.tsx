@@ -1,11 +1,13 @@
 "use client";
 
-// Icons
-import { useCallback, useState } from "react";
+// UI
 import { ActivityHeader } from "@/components/activity/ActivityHeader";
 import { ActivityDescription } from "@/components/activity/ActivityDescription";
 import { ActivityReview } from "@/components/activity/ActivityReview";
 import { ExperienceReservationModal } from "@/components/ui/Modal/ExperienceReservationModal";
+import { ActivityDetailSkeleton } from "@/components/skeletons/ActivityDetailSkeleton";
+
+import { useCallback, useState } from "react";
 import { useActivityDetail } from "@/lib/hooks/Activities/useActivityDetail";
 import { useParams } from "next/navigation";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
@@ -20,7 +22,12 @@ const ActivityDetailPage = () => {
 
   const activity: GetActivityDetailResponse = data;
 
-  if (isPending) return <main>로딩 중…</main>;
+  if (isPending)
+    return (
+      <>
+        <ActivityDetailSkeleton />
+      </>
+    );
   if (error || !data) return <main>에러가 발생했어요.</main>;
 
   return (
@@ -36,7 +43,7 @@ const ActivityDetailPage = () => {
 
         <div className="mt-[80px] flex flex-col">
           <ActivityDescription activity={activity} />
-          <ActivityReview activity={activity}/>
+          <ActivityReview activity={activity} />
         </div>
       </main>
 

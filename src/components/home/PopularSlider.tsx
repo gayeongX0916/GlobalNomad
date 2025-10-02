@@ -10,13 +10,14 @@ import ArrowRight from "@/assets/svgs/slider_arrow_right.svg";
 import Image from "next/image";
 import { useActivitiesList } from "@/lib/hooks/Activities/useActivitiesList";
 import Link from "next/link";
+import { PopularSliderSkeleton } from "../skeletons/PopularSliderSkeleton";
 
 export function PopularSlider() {
   const { data, isPending, error } = useActivitiesList({
     sort: "most_reviewed",
   });
 
-  if (isPending) return <p>로딩 중…</p>;
+  if (isPending) return <PopularSliderSkeleton />;
   if (error || !data) return <p>에러가 발생했어요.</p>;
 
   return (
