@@ -5,6 +5,7 @@ import { Pagination } from "@/components/ui/Pagination/Pagination";
 import { useActivityReviews } from "@/lib/hooks/Activities/useActivityReviews";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
 import { useMemo, useState } from "react";
+import { ActivityReviewSkeleton } from "../skeletons/ActivityReviewSkeleton";
 
 type ActivityReviewProps = {
   activity: GetActivityDetailResponse;
@@ -33,7 +34,7 @@ export function ActivityReview({ activity }: ActivityReviewProps) {
   };
 
   if (isLoading) {
-    return <p>후기를 불러오는 중...</p>;
+    return <ActivityReviewSkeleton />;
   }
 
   return (
