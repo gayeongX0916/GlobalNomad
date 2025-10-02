@@ -9,11 +9,15 @@ import {
 import Image from "next/image";
 import CloseIcon from "@/assets/svgs/close_icon.svg";
 import { MyNotificationsResponse } from "@/lib/types/myNotifications";
+import { useMemo } from "react";
 
 interface NotificationModalProps extends ModalProps {
   isLoading: boolean;
-  data: MyNotificationsResponse;
+  data: MyNotificationsResponse[];
   totalCount: number;
+  hasNextPage: boolean; 
+  isFetchingNextPage: boolean;
+  onLoadMore: () => void;
 }
 
 export function NotificationModal({
@@ -22,7 +26,14 @@ export function NotificationModal({
   isLoading,
   data,
   totalCount,
+  hasNextPage,
+  isFetchingNextPage,
+  onLoadMore,
 }: NotificationModalProps) {
+  const notifications = useMemo(
+    () => data?.flatMap((p) => p.notifications) ?? [],
+    [data]
+  );
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop
@@ -60,15 +71,33 @@ export function NotificationModal({
               <div className="text-sm text-gray-600 py-6 text-center">
                 불러오는 중…
               </div>
-            ) : data?.notifications?.length ? (
-              data.notifications.map((item) => (
-                <NotificationItem
-                  key={item.id}
-                  id={item.id}
-                  content={item.content}
-                  createdAt={item.createdAt}
-                />
-              ))
+            ) : notifications.length ? (
+              <>
+                {notifications.map((item) => (
+                  <NotificationItem
+                    key={item.id}
+                    id={item.id}
+                    content={item.content}
+                    createdAt={item.createdAt}
+                  />
+                ))}
+                {hasNextPage && (
+                  <button
+                    type="button"
+                    onClick={onLoadMore}
+                    disabled={isFetchingNextPage}
+                    className="text-sm text-gray-500 hover:bg-black/5 disabled:opacity-60 pb-[5px]"
+                    aria-live="polite"
+                  >
+                    {isFetchingNextPage ? "불러오는 중…" : "더 보기"}
+                  </button>
+                )}
+                {!hasNextPage && (
+                  <div className="py-2 text-center text-xs text-gray-500">
+                    마지막 알림까지 확인했어요.
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-sm text-gray-600 py-6 text-center">
                 새로운 알림이 없습니다.

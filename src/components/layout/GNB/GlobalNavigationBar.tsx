@@ -9,7 +9,7 @@ import NotificationIcon from "@/assets/svgs/notification_icon.svg";
 import exampleIcon from "@/assets/svgs/example_icon.svg";
 import { useAuthStore } from "@/lib/stores/auth";
 import { ProfileDropdown } from "@/components/ui/Dropdown/PropfileDropdown";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { NotificationModal } from "@/components/ui/Modal/NotificationModal";
 import { useMyNotificationsList } from "@/lib/hooks/MyNotifications/useMyNotificationsList";
 
@@ -22,8 +22,12 @@ export function GlobalNavigationBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const profileBoxRef = useRef<HTMLLIElement>(null);
 
-  const { data, isLoading } = useMyNotificationsList(!!accessToken);
-  const total = data?.totalCount ?? 0;
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useMyNotificationsList({
+      enabled: !!accessToken,
+      size: 5,
+    });
+  const total = data?.pages[0].totalCount ?? 0;
 
   const handleClickOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -44,7 +48,10 @@ export function GlobalNavigationBar() {
         onClose={() => setIsModalOpen(false)}
         isLoading={isLoading}
         totalCount={total}
-        data={data}
+        data={data?.pages}
+        hasNextPage={!!hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        onLoadMore={() => fetchNextPage()}
       />
       <div className="mx-auto flex h-[70px] items-center justify-between md:px-[40px] px-[16px] lg:px-[80px]">
         <Link href="/" aria-label="홈으로 이동">
