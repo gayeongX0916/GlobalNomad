@@ -6,10 +6,13 @@ import {
 import { basicAxios } from "./basicAxios";
 
 // 내 알림 리스트 조회
-export const getMyNotifications =
-  async (): Promise<MyNotificationsResponse> => {
+export const getMyNotifications = async ({
+  cursorId,
+  size = 10,
+}: MyNotificationsBody): Promise<MyNotificationsResponse> => {
+  const cursorParam = cursorId != null ? `&cursorId=${cursorId}` : "";
   const { data } = await basicAxios.get<MyNotificationsResponse>(
-      "/my-notifications?size=10"
+    `/my-notifications?size=${size}${cursorParam}`
   );
   return data;
 };

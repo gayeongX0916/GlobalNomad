@@ -15,6 +15,7 @@ export type MyNotificationsResponse = {
 };
 
 export type MyNotificationsBody={
+  cursorId:number;
   size:number;
 }
 
