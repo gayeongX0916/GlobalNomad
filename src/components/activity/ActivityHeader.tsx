@@ -7,6 +7,8 @@ import { GetActivityDetailResponse } from "@/lib/types/activities";
 import { useAuthStore } from "@/lib/stores/auth";
 import { useRouter } from "next/navigation";
 import { useDeleteMyActivites } from "@/lib/hooks/MyActivities/useDeleteMyActivities";
+import { ConfirmModal } from "../ui/Modal/ConfirmModal";
+import { useState } from "react";
 
 type ActivityHeaderProps = {
   activity: GetActivityDetailResponse;
@@ -18,6 +20,10 @@ export function ActivityHeader({ activity }: ActivityHeaderProps) {
   const subImages = activity.subImages.map((image) => image.imageUrl);
   const router = useRouter();
   const { mutate: deleteMyActivities, isPending } = useDeleteMyActivites();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openDeleteConfirm = () => setIsOpen(true);
+  const closeDeleteConfirm = () => setIsOpen(false);
 
   const spanClass = (i: number, n: number) => {
     if (n >= 4) return "col-span-1 row-span-1";
@@ -33,11 +39,24 @@ export function ActivityHeader({ activity }: ActivityHeaderProps) {
     return "";
   };
 
+  const handleConfirmDelete = () => {
+    deleteMyActivities({ activityId: activity.id });
+    router.push("/");
+  };
+
   return (
     <article
       className="flex flex-col gap-y-[25px] pt-[8px]"
       aria-labelledby="activity-title"
     >
+      <ConfirmModal
+        isOpen={isOpen}
+        onCancel={closeDeleteConfirm}
+        onConfirm={handleConfirmDelete}
+        title="정말 삭제하시겠습니까?"
+        confirmText={isPending ? "삭제 중..." : "삭제하기"}
+        cancelText="취소하기"
+      />
       <header className="flex justify-between">
         <div className="flex flex-col gap-y-[10px]">
           <span className="text-md text-nomadBlack">{activity.category}</span>
@@ -66,11 +85,8 @@ export function ActivityHeader({ activity }: ActivityHeaderProps) {
               router.push(`/my-activities/registration/${activity.id}`);
             }}
             onDelete={() => {
-              if (isPending) return; // 중복 클릭 방지
-              // (선택) 확인창
-              if (!confirm("정말 이 활동을 삭제할까요?")) return;
-              deleteMyActivities({ activityId: activity.id });
-              router.push("/");
+              if (isPending) return;
+              openDeleteConfirm();
             }}
           />
         )}
