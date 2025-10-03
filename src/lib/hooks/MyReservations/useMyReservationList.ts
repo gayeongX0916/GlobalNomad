@@ -1,12 +1,18 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getMyReservationList } from "@/lib/api/myReservations";
 import { MyReservationListBody } from "@/lib/types/myReservations";
-import { useQuery } from "@tanstack/react-query";
 
-export function useMyReservationList(params: MyReservationListBody) {
-  const { status } = params;
+export function useMyReservationList(
+  params: Omit<MyReservationListBody, "cursorId">
+) {
+  const { status, size = 10 } = params;
 
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["myreservation", status ?? null],
-    queryFn: () => getMyReservationList(params),
+    initialPageParam: null,
+    queryFn: ({ pageParam }) =>
+      getMyReservationList({ status, size, cursorId: pageParam }),
+    getNextPageParam: (nextPageParam) => nextPageParam.cursorId ?? null,
+    refetchOnWindowFocus: false,
   });
 }
