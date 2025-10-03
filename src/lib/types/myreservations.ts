@@ -7,6 +7,8 @@ export type MyReservationStatus =
 
 export interface MyReservationListBody {
   status: MyReservationStatus;
+  cursorId?: number | null;
+  size?: number;
 }
 
 export interface ActivitySummary {
