@@ -1,9 +1,17 @@
 import { getMyActivitiesList } from "@/lib/api/myActivities";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
-export function useMyActivitiesList() {
-  return useQuery({
+type useMyActivitiesListProps = {
+  size?: number;
+};
+
+export function useMyActivitiesList({ size = 8 }: useMyActivitiesListProps) {
+  return useInfiniteQuery({
     queryKey: ["MyActivities"],
-    queryFn: () => getMyActivitiesList(),
+    queryFn: ({ pageParam }: { pageParam: number | null }) =>
+      getMyActivitiesList({ size, cursorId: pageParam }),
+    initialPageParam: null,
+    getNextPageParam: (nextPageParam) => nextPageParam.cursorId ?? null,
+    refetchOnWindowFocus: false,
   });
 }
