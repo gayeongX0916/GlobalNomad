@@ -7,12 +7,64 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMyActivitiesList } from "@/lib/hooks/MyActivities/useMyActivitiesList";
 import Link from "next/link";
+import { useMemo, useRef, useEffect } from "react";
+import { Spinner } from "@/components/ui/Spinner/Spinner";
 
 const MyActivities = () => {
   const router = useRouter();
-  const { data, isLoading } = useMyActivitiesList();
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useMyActivitiesList({ size: 8 });
 
-  const list = data?.activities ?? [];
+  const list = useMemo(
+    () => data?.pages.flatMap((p) => p.activities) ?? [],
+    [data]
+  );
+
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+    const el = sentinelRef.current;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "400px 0px",
+        threshold: 0,
+      }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  if (isLoading) {
+    return (
+      <main className="flex justify-center items-center h-[400px]">
+        <Spinner size="56px" />
+      </main>
+    );
+  }
+
+  if (isError) {
+    return (
+      <main className="flex justify-center items-center h-[400px]">
+        <p className="text-red-600">불러오는 중 오류가 발생했어요.</p>
+      </main>
+    );
+  }
 
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">
@@ -39,23 +91,29 @@ const MyActivities = () => {
             </button>
           </header>
 
-          {isLoading ? (
-            <p className="text-gray-500">불러오는 중…</p>
-          ) : list.length > 0 ? (
-            <ul id="reservation-list" className="flex flex-col gap-y-[24px]">
-              {list.map((item) => (
-                <li key={item.id}>
-                  <Link href={`/activities/${item.id}`}>
-                    <ActivityItem {...item} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {list.length > 0 ? (
+            <>
+              <ul id="reservation-list" className="flex flex-col gap-y-[24px]">
+                {list.map((item) => (
+                  <li key={item.id}>
+                    <Link href={`/activities/${item.id}`}>
+                      <ActivityItem {...item} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex justify-center mt-[24px] min-h-[40px]">
+                {isFetchingNextPage && <Spinner size="35px" />}
+              </div>
+
+              <div ref={sentinelRef} className="h-1" />
+            </>
           ) : (
             <div className="flex flex-col items-center gap-y-[12px] lg:gap-y-[20px] pt-[40px]">
               <Image
                 src={EmptyList}
-                alt="예약 내역 없음"
+                alt="내 체험 없음"
                 className="w-[200px] h-[200px] lg:w-[240px] lg:h-[240px]"
               />
               <p className="text-2xl text-gray-800">
