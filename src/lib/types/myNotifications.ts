@@ -1,4 +1,4 @@
-export type Notification = {
+export interface Notification {
   id: number;
   teamId: string;
   userId: number;
@@ -6,19 +6,19 @@ export type Notification = {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-};
+}
 
-export type MyNotificationsResponse = {
+export interface MyNotificationsResponse {
   cursorId: number;
   notifications: Notification[];
   totalCount: number;
-};
-
-export type MyNotificationsBody={
-  cursorId:number;
-  size:number;
 }
 
-export type deleteMyNotificationsBody={
-    notificationId:number;
+export interface MyNotificationsBody {
+  cursorId: number;
+  size: number;
+}
+
+export interface deleteMyNotificationsBody {
+  notificationId: number;
 }

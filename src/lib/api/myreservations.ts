@@ -13,10 +13,12 @@ export const getMyReservationList = async (
   params: MyReservationListBody
 ): Promise<MyReservationListResponse> => {
   const { data } = await basicAxios.get<MyReservationListResponse>(
-    `/my-reservations?size=10`,
+    `/my-reservations`,
     {
       params: {
+        size: params.size ?? 6,
         status: params.status,
+        cursorId: params.cursorId ?? null,
       },
     }
   );

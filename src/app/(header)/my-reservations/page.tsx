@@ -5,11 +5,12 @@ import { ReservationItem } from "@/components/my-reservations/ReservationItem";
 import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
 import EmptyList from "@/assets/svgs/empty_list.svg";
 import Image from "next/image";
+import Link from "next/link";
+import { useMemo, useRef, useEffect, useState } from "react";
+import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { MenuItem } from "@/lib/types/ui";
 import { MyReservationStatus } from "@/lib/types/myReservations";
 import { useMyReservationList } from "@/lib/hooks/MyReservations/useMyReservationList";
-import { useMemo, useState } from "react";
-import Link from "next/link";
 
 const items: MenuItem<MyReservationStatus>[] = [
   { label: "예약 신청", value: "pending" },
@@ -19,12 +20,64 @@ const items: MenuItem<MyReservationStatus>[] = [
   { label: "체험 완료", value: "completed" },
 ];
 
-const MyReservationsPage = () => {
-  const [status, setStatus] = useState(undefined);
-  const { data, isLoading } = useMyReservationList({ status });
+export default function MyReservationsPage() {
+  const [status, setStatus] = useState<MyReservationStatus | undefined>(
+    undefined
+  );
 
-  const reservations = useMemo(() => data?.reservations ?? [], [data]);
-  const hasData = reservations.length > 0;
+  const {
+    data,
+    isLoading,
+    isError,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useMyReservationList({ status, size: 10 });
+
+  const reservations = useMemo(
+    () => data?.pages.flatMap((p) => p.reservations) ?? [],
+    [data]
+  );
+
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+
+    const el = sentinelRef.current;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      {
+        root: null,
+        rootMargin: "400px 0px",
+        threshold: 0,
+      }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, status]);
+
+  if (isLoading) {
+    return (
+      <main className="flex justify-center items-center h-[400px]">
+        <Spinner size="56px" />
+      </main>
+    );
+  }
+
+  if (isError) {
+    return (
+      <main className="flex justify-center items-center h-[400px]">
+        <p className="text-red-600">불러오는 중 오류가 발생했어요.</p>
+      </main>
+    );
+  }
 
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">
@@ -52,21 +105,25 @@ const MyReservationsPage = () => {
             </Dropdown>
           </header>
 
-          {/* {isLoading&& 스켈레톤} */}
+          {reservations.length > 0 ? (
+            <>
+              <ul id="reservation-list" className="flex flex-col gap-y-[24px]">
+                {reservations.map((item) => (
+                  <li key={item.id}>
+                    <Link href={`/activities/${item.activity.id}`}>
+                      <ReservationItem {...item} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
 
-          {!isLoading && hasData && (
-            <ul id="reservation-list" className="flex flex-col gap-y-[24px]">
-              {reservations.map((item) => (
-                <li key={item.id}>
-                  <Link href={`/activities/${item.activity.id}`}>
-                  <ReservationItem {...item} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+              <div className="flex justify-center mt-[24px] min-h-[40px]">
+                {isFetchingNextPage && <Spinner size="35px" />}
+              </div>
 
-          {!isLoading && !hasData && (
+              <div ref={sentinelRef} className="h-1" />
+            </>
+          ) : (
             <div className="flex flex-col items-center gap-y-[12px] lg:gap-y-[20px] pt-[40px]">
               <Image
                 src={EmptyList}
@@ -82,6 +139,4 @@ const MyReservationsPage = () => {
       </div>
     </main>
   );
-};
-
-export default MyReservationsPage;
+}

@@ -1,4 +1,5 @@
 import {
+  ActivitiesListBody,
   ActivitiesListResponse,
   DeleteMyActivitiesBody,
   MyActivitiesMonthlyBody,
@@ -15,13 +16,16 @@ import {
 import { basicAxios } from "./basicAxios";
 
 // 내 체험 리스트 조회
-export const getMyActivitiesList =
-  async (): Promise<ActivitiesListResponse> => {
-    const { data } = await basicAxios.get<ActivitiesListResponse>(
-      "/my-activities?size=20"
-    );
-    return data;
-  };
+export const getMyActivitiesList = async ({
+  cursorId,
+  size = 10,
+}:ActivitiesListBody): Promise<ActivitiesListResponse> => {
+  const cursorParam = cursorId != null ? `&cursorId=${cursorId}` : "";
+  const { data } = await basicAxios.get<ActivitiesListResponse>(
+    `/my-activities?size=${size}${cursorParam}`
+  );
+  return data;
+};
 
 // 내 체험 월별 예약 현황 조회
 export const getMyActivitiesMonthly = async ({

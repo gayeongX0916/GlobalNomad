@@ -6,6 +6,11 @@ import {
   ActivitySubImage,
 } from "./activities";
 
+export interface ActivitiesListBody{
+  cursorId:number;
+  size:number;
+}
+
 export interface ActivitiesListResponse {
   activities: Activity[];
   totalCount: number;
