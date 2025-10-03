@@ -6,6 +6,8 @@ import { KebabMenu } from "../ui/KebabMenu/KebabMenu";
 import { formatKRW } from "@/lib/utils/formatKRW";
 import { useDeleteMyActivites } from "@/lib/hooks/MyActivities/useDeleteMyActivities";
 import { useRouter } from "next/navigation";
+import { ConfirmModal } from "../ui/Modal/ConfirmModal";
+import { useState } from "react";
 
 type ActivityItemProps = {
   id: number;
@@ -26,14 +28,26 @@ export function ActivityItem({
 }: ActivityItemProps) {
   const router = useRouter();
   const { mutate: DeleteMyActivities, isPending } = useDeleteMyActivites();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleDelete = () => {
+  const openDeleteConfirm = () => setIsOpen(true);
+  const closeDeleteConfirm = () => setIsOpen(false);
+
+  const handleConfirmDelete = () => {
     if (isPending) return;
     DeleteMyActivities({ activityId: id });
   };
 
   return (
     <article className="flex gap-x-[24px] rounded-[24px] bg-white w-full shadow-lg shadow-black/5">
+      <ConfirmModal
+        isOpen={isOpen}
+        title="정말 삭제하시겠습니까?"
+        confirmText={isPending ? "삭제 중..." : "삭제하기"}
+        cancelText="취소하기"
+        onCancel={closeDeleteConfirm}
+        onConfirm={handleConfirmDelete}
+      />
       <Image
         src={bannerImageUrl}
         alt="대표 이미지"
@@ -60,7 +74,7 @@ export function ActivityItem({
             </span>
             <KebabMenu
               className="top-10"
-              onDelete={handleDelete}
+              onDelete={openDeleteConfirm}
               onEdit={() => router.push(`/my-activities/registration/${id}`)}
             />
           </footer>

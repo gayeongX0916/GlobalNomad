@@ -15,7 +15,10 @@ import { formatKRW } from "@/lib/utils/formatKRW";
 
 const ActivityDetailPage = () => {
   const { activityId } = useParams();
-  const { data, isPending, error } = useActivityDetail(Number(activityId));
+  const { data, isPending, error } = useActivityDetail({
+    activityId: Number(activityId),
+    enabled: true,
+  });
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = useCallback(() => setIsOpen(true), []);
