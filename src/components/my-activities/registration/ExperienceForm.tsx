@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 // UI
 import { TimeSlotsEditor } from "./TimeSlotsEditor";
@@ -32,8 +32,9 @@ type ExperienceFormProps = {
 };
 
 export function ExperienceForm({ mode, id }: ExperienceFormProps) {
+  const isEdit = mode === "edit" && typeof id === "number";
   // 수정하기 위한 체험 상세 조회
-  const { data } = useActivityDetail(id);
+  const { data } = useActivityDetail({ activityId: id, enabled: isEdit });
   const { mutate: CreateActivity, isPending: createPending } =
     useCreateActivity();
   const { mutate: UpdateActivity, isPending: updatePending } =
@@ -205,7 +206,7 @@ export function ExperienceForm({ mode, id }: ExperienceFormProps) {
         }
         onChange={(v) => setForm((prev) => ({ ...prev, address: v }))}
       />
-      
+
       <TimeSlotsEditor
         slots={form.schedules}
         onChange={(newSlots) =>

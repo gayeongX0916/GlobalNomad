@@ -84,13 +84,15 @@ export function ActivityReview({ activity }: ActivityReviewProps) {
         </ul>
       </section>
 
-      <div className="flex justify-center mt-[50px]">
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      </div>
+      {data.reviews.length > 0 && (
+        <div className="flex justify-center mt-[50px]">
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </div>
+      )}
     </article>
   );
 }
