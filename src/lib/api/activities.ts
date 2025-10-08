@@ -28,6 +28,7 @@ export const getActivitiesList = async (
         sort: params.sort,
         page: params.page,
         size: params.size,
+        keyword:params.keyword,
       },
     }
   );
