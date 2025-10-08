@@ -13,8 +13,9 @@ import { ActivityCategory, ActivitySort } from "@/lib/types/activities";
 import { MenuItem } from "@/lib/types/ui";
 
 const dropdownList: MenuItem<ActivitySort>[] = [
-  { label: "가격 낮은 순", value: "price_asc" },
-  { label: "가격 높은 순", value: "price_desc" },
+  { value: "price_asc", label: "낮은 가격순" },
+  { value: "price_desc", label: "높은 가격순" },
+  { value: "most_reviewed", label: "리뷰 많은 순" },
 ];
 
 export default function Page() {

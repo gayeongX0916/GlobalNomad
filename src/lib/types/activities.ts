@@ -29,6 +29,7 @@ export interface ActivityListBody {
   sort?: ActivitySort;
   page?: number;
   size?: number;
+  keyword?:string;
 }
 
 export interface GetActivitiesListResponse {

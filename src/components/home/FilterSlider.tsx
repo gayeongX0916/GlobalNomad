@@ -32,7 +32,7 @@ export function FilterSlider({ onChangeCategory }: FilterSliderProps) {
         {categoryList.map((list) => (
           <SwiperSlide
             key={list.name}
-            className="!w-[80px] md:!w-[120px] lg:!w-[130px]"
+            className="!w-[80px] md:!w-[120px] lg:!w-[130px] py-[4px]"
           >
             <CategoryButton onClick={() => onChangeCategory(list.name)}>
               {list.name}

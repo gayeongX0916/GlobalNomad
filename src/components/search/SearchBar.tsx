@@ -17,7 +17,8 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!value.trim()) return;
-    router.push(`/search?query=${encodeURIComponent(value)}&page=1`);
+    const qs = new URLSearchParams({ query: value.trim() });
+    router.push(`/search?${qs.toString()}`);
   };
 
   return (
