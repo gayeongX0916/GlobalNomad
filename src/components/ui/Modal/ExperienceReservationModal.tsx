@@ -20,6 +20,7 @@ import { formatKRW } from "@/lib/utils/formatKRW";
 import { useCallback, useEffect, useState } from "react";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
 import { useCreateReservation } from "@/lib/hooks/Activities/useCreateReservation";
+import { toast } from "react-toastify";
 
 interface ExperienceReservationModalProps extends ModalProps {
   activity: GetActivityDetailResponse;
@@ -37,7 +38,7 @@ export function ExperienceReservationModal({
   );
   const activityId = activity.id;
 
-  const { data, isPending, error } = useActivityAvailableSchedule({
+  const { data, isLoading, isError } = useActivityAvailableSchedule({
     activityId,
     year,
     month,
@@ -100,12 +101,12 @@ export function ExperienceReservationModal({
               </button>
             </div>
 
-            {error ? (
-              <div className="text-red-600">에러가 발생했어요.</div>
+            {isError ? (
+              toast.error("에러가 발생했어요.")
             ) : (
               <SchedulePicker
                 data={data ?? []}
-                isLoading={isPending}
+                isLoading={isLoading}
                 onChange={setHeadId}
                 onCalendarMonthChange={(y, m) => {
                   setYear(String(y));

@@ -1,17 +1,25 @@
 import { getMyActivitiesReservations } from "@/lib/api/myActivities";
 import { MyActivitiesReservationsBody, MyActivitiesReservationsResponse } from "@/lib/types/myActivities";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryError } from "../useQueryError";
 
-export function useMyActivitiesReservations(params:MyActivitiesReservationsBody,options?:Omit<
-    UseQueryOptions<MyActivitiesReservationsResponse, Error>,
-    "queryKey" | "queryFn"
-  >){
-    const {activityId,scheduleld,status}=params;
+type UseMyActivitiesReservationsProps = MyActivitiesReservationsBody & {
+  enabled?: boolean;
+};
 
-    return useQuery({
-        queryKey:["MyActivities","Reservations",activityId,scheduleld,status],
-        queryFn:()=>getMyActivitiesReservations(params),
-        ...options
-    })
+export function useMyActivitiesReservations({
+  activityId,
+  scheduleId, 
+  status,
+  enabled = true,
+}: UseMyActivitiesReservationsProps) {
+  const query = useQuery<MyActivitiesReservationsResponse>({
+    queryKey: ["MyActivities", "reservations", activityId, scheduleId, status],
+    queryFn: () => getMyActivitiesReservations({ activityId, scheduleId, status }),
+    enabled,
+  });
 
+  useQueryError(query.error);
+
+  return query;
 }

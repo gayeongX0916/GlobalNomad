@@ -44,17 +44,13 @@ const ReservationHistory = () => {
     (new Date().getMonth() + 1).toString().padStart(2, "0")
   );
 
-  const { data: MyActivitiesMonthly } = useMyActivitiesMonthly(
-    {
-      activityId: selectedActivity ?? undefined,
-      year,
-      month,
-    },
-    {
-      enabled: !!selectedActivity,
-    }
-  );
-
+  const { data: MyActivitiesMonthly } = useMyActivitiesMonthly({
+    activityId: selectedActivity || undefined,
+    year,
+    month,
+    enabled: !!selectedActivity, 
+  });
+  
   useEffect(() => {
     if (calendarRef.current) {
       setApi(calendarRef.current.getApi());

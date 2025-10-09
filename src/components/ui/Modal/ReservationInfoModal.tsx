@@ -35,10 +35,11 @@ export function ReservationInfoModal({
   onClose,
   referenceEl,
 }: ReservationInfoModalProps) {
-  const { data: schedulesRaw } = useMyActivitiesSchedule(
-    { activityId, date },
-    { enabled: !!activityId && !!date }
-  );
+  const { data: schedulesRaw } = useMyActivitiesSchedule({
+    activityId,
+    date,
+    enabled: !!activityId && !!date,
+  });
   const schedules = useMemo(() => schedulesRaw ?? [], [schedulesRaw]);
 
   const totals = useMemo(() => {
@@ -84,16 +85,12 @@ export function ReservationInfoModal({
     }
   }, [schedules, selectedScheduleId]);
 
-  const { data: MyActivitiesReservation } = useMyActivitiesReservations(
-    {
-      activityId,
-      scheduleld: selectedScheduleId,
-      status: active,
-    },
-    {
-      enabled: !!selectedScheduleId,
-    }
-  );
+  const { data: MyActivitiesReservation } = useMyActivitiesReservations({
+    activityId,
+    scheduleId: selectedScheduleId ?? undefined,
+    status: active,
+    enabled: !!selectedScheduleId,
+  });
 
   const { x, y, refs, strategy } = useFloating({
     placement: "right-start",

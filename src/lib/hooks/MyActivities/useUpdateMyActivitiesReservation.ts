@@ -1,4 +1,3 @@
-// useUpdateMyActivitiesReservation.ts
 import { patchMyActivitiesReservations } from "@/lib/api/myActivities";
 import { extractErrorMessage } from "@/lib/utils/ErrorMessage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -21,14 +20,14 @@ export function useUpdateMyActivitiesReservation() {
       toast.success("예약 상태가 변경되었습니다.");
       // 스케줄 카운트(탭)
       qc.invalidateQueries({
-        queryKey: ["MyActivities", "Schedule", vars.activityId, vars.date],
+        queryKey: ["MyActivities", "schedule", vars.activityId, vars.date],
       });
       // 목록(세 상태 모두)
       ["pending", "confirmed", "declined"].forEach((s) =>
         qc.invalidateQueries({
           queryKey: [
             "MyActivities",
-            "Reservations",
+            "reservations",
             vars.activityId,
             vars.scheduleId,
             s,

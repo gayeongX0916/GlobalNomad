@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useResponsivePageSize } from "@/lib/hooks/Activities/useResponsivePageSize";
 import { ExperienceGridSkeleton } from "../skeletons/ExperienceGridSkeleton";
+import { toast } from "react-toastify";
 
 type ExperienceCardProps = {
   category?: ActivityCategory;
@@ -16,7 +17,7 @@ type ExperienceCardProps = {
 export function ExperienceGrid({ category, sort }: ExperienceCardProps) {
   const [page, setPage] = useState(1);
   const size = useResponsivePageSize();
-  const { data, isPending, error } = useActivitiesList({
+  const { data, isLoading, isError } = useActivitiesList({
     category,
     sort,
     page,
@@ -34,8 +35,10 @@ export function ExperienceGrid({ category, sort }: ExperienceCardProps) {
   }, [size, category, sort]);
 
   if (size == null) return <ExperienceGridSkeleton count={8} />;
-  if (isPending) return <ExperienceGridSkeleton count={size} />;
-  if (error || !data) return <p>에러가 발생했어요.</p>;
+  if (isLoading) return <ExperienceGridSkeleton count={size} />;
+  if (isError || !data) {
+    toast.error("에러가 발생했어요");
+  }
 
   return (
     <section aria-label="모든 체험">

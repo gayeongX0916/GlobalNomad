@@ -60,7 +60,7 @@ type MyReservationStatus = "declined" | "pending" | "confirmed";
 
 export interface MyActivitiesReservationsBody {
   activityId: number;
-  scheduleld: number;
+  scheduleId: number;
   status: MyReservationStatus;
 }
 

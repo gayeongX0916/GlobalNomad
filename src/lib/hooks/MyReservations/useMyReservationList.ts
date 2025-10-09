@@ -8,11 +8,11 @@ export function useMyReservationList(
   const { status, size = 10 } = params;
 
   return useInfiniteQuery({
-    queryKey: ["myreservation", status ?? null],
+    queryKey: ["myreservation", status ?? null, size],
     initialPageParam: null,
     queryFn: ({ pageParam }) =>
       getMyReservationList({ status, size, cursorId: pageParam }),
-    getNextPageParam: (nextPageParam) => nextPageParam.cursorId ?? null,
+    getNextPageParam: (lastPage) => lastPage?.cursorId ?? null,
     refetchOnWindowFocus: false,
   });
 }

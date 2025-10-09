@@ -7,8 +7,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMyActivitiesList } from "@/lib/hooks/MyActivities/useMyActivitiesList";
 import Link from "next/link";
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useCallback } from "react";
 import { Spinner } from "@/components/ui/Spinner/Spinner";
+import { toast } from "react-toastify";
 
 const MyActivities = () => {
   const router = useRouter();
@@ -19,6 +20,7 @@ const MyActivities = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    refetch,
   } = useMyActivitiesList({ size: 8 });
 
   const list = useMemo(
@@ -28,6 +30,14 @@ const MyActivities = () => {
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
+  const onLoadMore = useCallback(async () => {
+    try {
+      await fetchNextPage();
+    } catch {
+      toast.error("다음 페이지를 불러오지 못했어요. 다시 시도해 주세요.");
+    }
+  }, [fetchNextPage]);
+
   useEffect(() => {
     if (!sentinelRef.current) return;
     const el = sentinelRef.current;
@@ -36,7 +46,7 @@ const MyActivities = () => {
       (entries) => {
         const entry = entries[0];
         if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+          onLoadMore();
         }
       },
       {
@@ -48,7 +58,7 @@ const MyActivities = () => {
 
     io.observe(el);
     return () => io.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [hasNextPage, isFetchingNextPage, onLoadMore]);
 
   if (isLoading) {
     return (
@@ -58,10 +68,13 @@ const MyActivities = () => {
     );
   }
 
-  if (isError) {
+  if (isError && (!data || data.pages.length === 0)) {
     return (
-      <main className="flex justify-center items-center h-[400px]">
+      <main className="flex flex-col items-center justify-center h-[400px] gap-3">
         <p className="text-red-600">불러오는 중 오류가 발생했어요.</p>
+        <button className="px-4 py-2 border rounded" onClick={() => refetch()}>
+          다시 시도
+        </button>
       </main>
     );
   }

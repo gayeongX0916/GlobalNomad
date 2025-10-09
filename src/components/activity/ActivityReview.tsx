@@ -13,7 +13,7 @@ type ActivityReviewProps = {
 
 export function ActivityReview({ activity }: ActivityReviewProps) {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useActivityReviews({
+  const { data, isLoading, isError, refetch } = useActivityReviews({
     activityId: activity.id,
     page,
     size: 3,
@@ -35,6 +35,22 @@ export function ActivityReview({ activity }: ActivityReviewProps) {
 
   if (isLoading) {
     return <ActivityReviewSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex flex-col justify-center items-center h-[200px] gap-2">
+        <p className="text-red-600 text-lg">
+          후기를 불러오는 중 오류가 발생했어요.
+        </p>
+        <button
+          onClick={() => refetch()}
+          className="px-[12px] py-[4px] border rounded text-sm"
+        >
+          다시 시도
+        </button>
+      </div>
+    );
   }
 
   return (

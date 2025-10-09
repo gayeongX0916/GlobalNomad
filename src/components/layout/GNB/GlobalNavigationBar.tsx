@@ -7,9 +7,10 @@ import Link from "next/link";
 import Logo from "@/assets/logo/logo_horizontal.svg";
 import NotificationIcon from "@/assets/svgs/notification_icon.svg";
 import exampleIcon from "@/assets/svgs/example_icon.svg";
+
 import { useAuthStore } from "@/lib/stores/auth";
 import { ProfileDropdown } from "@/components/ui/Dropdown/PropfileDropdown";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { NotificationModal } from "@/components/ui/Modal/NotificationModal";
 import { useMyNotificationsList } from "@/lib/hooks/MyNotifications/useMyNotificationsList";
 
