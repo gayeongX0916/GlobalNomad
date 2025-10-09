@@ -24,17 +24,17 @@ type UpdateUserPayload = {
 };
 
 const Mypage = () => {
-  const { data, isLoading } = useUserMe();
+  const { data } = useUserMe();
   const { mutate: updateUser, isPending } = useUpdateUserMe();
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<MeForm>({
     nickname: "",
     newPassword: "",
     confirm: "",
     profileImageUrl: null,
   });
 
-  const [error, setError] = useState({
+  const [error, setError] = useState<Record<BlurField, string>>({
     nickname: "",
     newPassword: "",
     confirm: "",
@@ -42,13 +42,12 @@ const Mypage = () => {
 
   useEffect(() => {
     if (!data) return;
-    setForm((prev) => ({
-      ...prev,
+    setForm({
       nickname: data.nickname ?? "",
-      profileImageUrl: data.profileImageUrl ?? null,
       newPassword: "",
       confirm: "",
-    }));
+      profileImageUrl: data.profileImageUrl ?? null,
+    });
   }, [data]);
 
   const handleChange =
@@ -103,8 +102,6 @@ const Mypage = () => {
 
     updateUser(payload);
   };
-
-  if (isLoading || !data) return <div>로딩 중...</div>;
 
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">
