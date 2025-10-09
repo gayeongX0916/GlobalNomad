@@ -6,11 +6,12 @@ import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
 import EmptyList from "@/assets/svgs/empty_list.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useRef, useEffect, useState } from "react";
+import { useMemo, useRef, useEffect, useState, useCallback } from "react";
 import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { MenuItem } from "@/lib/types/ui";
 import { MyReservationStatus } from "@/lib/types/myReservations";
 import { useMyReservationList } from "@/lib/hooks/MyReservations/useMyReservationList";
+import { toast } from "react-toastify";
 
 const items: MenuItem<MyReservationStatus>[] = [
   { label: "예약 신청", value: "pending" },
@@ -28,10 +29,11 @@ export default function MyReservationsPage() {
   const {
     data,
     isLoading,
-    isError,
     hasNextPage,
+    isError,
     fetchNextPage,
     isFetchingNextPage,
+    refetch,
   } = useMyReservationList({ status, size: 10 });
 
   const reservations = useMemo(
@@ -41,6 +43,14 @@ export default function MyReservationsPage() {
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
+  const onLoadMore = useCallback(async () => {
+    try {
+      await fetchNextPage();
+    } catch {
+      toast.error("다음 페이지를 불러오지 못했어요. 다시 시도해 주세요.");
+    }
+  }, [fetchNextPage]);
+
   useEffect(() => {
     if (!sentinelRef.current) return;
 
@@ -49,7 +59,7 @@ export default function MyReservationsPage() {
       (entries) => {
         const entry = entries[0];
         if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+          onLoadMore();
         }
       },
       {
@@ -61,7 +71,7 @@ export default function MyReservationsPage() {
 
     io.observe(el);
     return () => io.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, status]);
+  }, [hasNextPage, isFetchingNextPage, onLoadMore]);
 
   if (isLoading) {
     return (
@@ -71,10 +81,13 @@ export default function MyReservationsPage() {
     );
   }
 
-  if (isError) {
+  if (isError && (!data || data.pages.length === 0)) {
     return (
-      <main className="flex justify-center items-center h-[400px]">
+      <main className="flex flex-col items-center justify-center h-[400px] gap-3">
         <p className="text-red-600">불러오는 중 오류가 발생했어요.</p>
+        <button className="px-4 py-2 border rounded" onClick={() => refetch()}>
+          다시 시도
+        </button>
       </main>
     );
   }
@@ -130,9 +143,7 @@ export default function MyReservationsPage() {
                 alt="예약 내역 없음"
                 className="w-[200px] h-[200px] lg:w-[240px] lg:h-[240px]"
               />
-              <p className="text-2xl text-gray-800">
-                아직 등록한 체험이 없어요
-              </p>
+              <p className="text-2xl text-gray-800">예약 내역이 아직 없어요</p>
             </div>
           )}
         </section>
