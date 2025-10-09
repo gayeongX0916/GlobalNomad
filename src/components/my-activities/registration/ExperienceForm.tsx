@@ -16,6 +16,8 @@ import { useActivityDetail } from "@/lib/hooks/Activities/useActivityDetail";
 import { useCreateActivity } from "@/lib/hooks/Activities/useCreateActivity";
 import { useUpdateMyActivites } from "@/lib/hooks/MyActivities/useUpdateMyActivities";
 import { OpenPostCode } from "./OpenPostCode";
+import { toast } from "react-toastify";
+import { Spinner } from "@/components/ui/Spinner/Spinner";
 
 const items: MenuItem<ActivityCategory>[] = [
   { label: "문화 · 예술", value: "문화 · 예술" },
@@ -34,7 +36,10 @@ type ExperienceFormProps = {
 export function ExperienceForm({ mode, id }: ExperienceFormProps) {
   const isEdit = mode === "edit" && typeof id === "number";
   // 수정하기 위한 체험 상세 조회
-  const { data } = useActivityDetail({ activityId: id, enabled: isEdit });
+  const { data, isLoading, isError } = useActivityDetail({
+    activityId: id,
+    enabled: isEdit,
+  });
   const { mutate: CreateActivity, isPending: createPending } =
     useCreateActivity();
   const { mutate: UpdateActivity, isPending: updatePending } =
@@ -147,6 +152,16 @@ export function ExperienceForm({ mode, id }: ExperienceFormProps) {
     : mode === "registration"
     ? "등록하기"
     : "수정하기";
+
+  if (isEdit && isLoading)
+    return (
+      <div className="flex items-center justify-center w-full h-[calc(100vh-200px)]">
+        <Spinner size="56px" />
+      </div>
+    );
+  if (isEdit && isError) {
+    toast.error("체험 정보를 불러오지 못했어요.");
+  }
 
   return (
     <form
