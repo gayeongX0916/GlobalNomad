@@ -1,22 +1,24 @@
 import { getMyActivitiesMonthly } from "@/lib/api/myActivities";
-import {
-  MyActivitiesMonthlyBody,
-  MyActivitiesMonthlyResponse,
-} from "@/lib/types/myActivities";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { MyActivitiesMonthlyBody } from "@/lib/types/myActivities";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryError } from "../useQueryError";
 
-export function useMyActivitiesMonthly(
-  params: MyActivitiesMonthlyBody,
-  options?: Omit<
-    UseQueryOptions<MyActivitiesMonthlyResponse, Error>,
-    "queryKey" | "queryFn"
-  >
-) {
-  const { activityId, year, month } = params;
+type UseMyActivitiesMonthlyProps = MyActivitiesMonthlyBody & {
+  enabled?: boolean;
+};
 
-  return useQuery({
+export function useMyActivitiesMonthly({
+  activityId,
+  year,
+  month,
+  enabled = true,
+}: UseMyActivitiesMonthlyProps) {
+  const query = useQuery({
     queryKey: ["MyActivities", "Monthly", activityId, year, month],
-    queryFn: () => getMyActivitiesMonthly(params),
-    ...options,
+    queryFn: () => getMyActivitiesMonthly({ activityId, year, month }),
+    enabled,
   });
+
+  useQueryError(query.error);
+  return query;
 }

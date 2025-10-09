@@ -53,11 +53,11 @@ export const getMyActivitiesSchedule = async ({
 // 내 체험 예약 시간대별 예약 내역 조회
 export const getMyActivitiesReservations = async ({
   activityId,
-  scheduleld,
+  scheduleId,
   status,
 }: MyActivitiesReservationsBody): Promise<MyActivitiesReservationsResponse> => {
   const { data } = await basicAxios.get<MyActivitiesReservationsResponse>(
-    `/my-activities/${activityId}/reservations?size=10&scheduleId=${scheduleld}&status=${status}`
+    `/my-activities/${activityId}/reservations?size=10&scheduleId=${scheduleId}&status=${status}`
   );
   return data;
 };

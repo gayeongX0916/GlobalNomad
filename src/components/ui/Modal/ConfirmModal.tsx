@@ -26,7 +26,7 @@ export function ConfirmModal({
       <DialogBackdrop className="fixed inset-0 bg-black/50" />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <DialogPanel className="w-[360px] rounded-[16px] bg-white p-[24px] flex items-center flex-col">
+        <DialogPanel className="min-w-[360px] max-w-[500px] rounded-[16px] bg-white p-[24px] flex items-center flex-col text-center">
           <div className="flex justify-center items-center mb-[12px]">
             <Image
               src={CheckIcon}

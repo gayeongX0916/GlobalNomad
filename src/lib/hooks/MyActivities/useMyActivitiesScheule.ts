@@ -3,20 +3,25 @@ import {
   MyActivitiesScheduleBody,
   MyActivitiesScheduleResponse,
 } from "@/lib/types/myActivities";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryError } from "../useQueryError";
 
-export function useMyActivitiesSchedule(
-  params: MyActivitiesScheduleBody,
-  options?: Omit<
-    UseQueryOptions<MyActivitiesScheduleResponse, Error>,
-    "queryKey" | "queryFn"
-  >
-) {
-  const { activityId, date } = params;
+type UseMyActivitiesScheduleProps = MyActivitiesScheduleBody & {
+  enabled?: boolean;
+};
 
-  return useQuery({
-    queryKey: ["MyActivities", "Schedule", activityId, date],
-    queryFn: () => getMyActivitiesSchedule(params),
-    ...options,
+export function useMyActivitiesSchedule({
+  activityId,
+  date,
+  enabled = true,
+}: UseMyActivitiesScheduleProps) {
+  const query = useQuery<MyActivitiesScheduleResponse>({
+    queryKey: ["MyActivities", "schedule", activityId, date],
+    queryFn: () => getMyActivitiesSchedule({ activityId, date }),
+    enabled,
   });
+
+  useQueryError(query.error);
+
+  return query;
 }
