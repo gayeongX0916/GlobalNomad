@@ -12,10 +12,11 @@ import { useActivityDetail } from "@/lib/hooks/Activities/useActivityDetail";
 import { useParams } from "next/navigation";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
 import { formatKRW } from "@/lib/utils/formatKRW";
+import { toast } from "react-toastify";
 
 const ActivityDetailPage = () => {
   const { activityId } = useParams();
-  const { data, isPending, error } = useActivityDetail({
+  const { data, isLoading, isError } = useActivityDetail({
     activityId: Number(activityId),
     enabled: true,
   });
@@ -25,13 +26,16 @@ const ActivityDetailPage = () => {
 
   const activity: GetActivityDetailResponse = data;
 
-  if (isPending)
+  if (isLoading)
     return (
       <>
         <ActivityDetailSkeleton />
       </>
     );
-  if (error || !data) return <main>에러가 발생했어요.</main>;
+
+  if (isError || !data){
+    toast.error("에러가 발생했어요.")
+  };
 
   return (
     <>
