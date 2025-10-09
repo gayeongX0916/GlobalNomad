@@ -11,6 +11,7 @@ import { ExperienceCard } from "@/components/home/ExperienceCard";
 import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { useResponsiveSearchPageSize } from "@/lib/hooks/Activities/useResponsiveSearchPageSize";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
@@ -23,7 +24,11 @@ const SearchPage = () => {
     setPage(1);
   }, [qFromUrl]);
 
-  const { data, isLoading } = useActivitiesList({ keyword, page, size });
+  const { data, isLoading, isError } = useActivitiesList({
+    keyword,
+    page,
+    size,
+  });
   const totalCount = data?.totalCount;
   const totalPages = useMemo(() => {
     if (!data) return 1;
@@ -38,6 +43,10 @@ const SearchPage = () => {
         <Spinner size="56px" />
       </main>
     );
+  }
+
+  if (isError || !data) {
+    toast.error("에러가 발생했어요");
   }
 
   return (

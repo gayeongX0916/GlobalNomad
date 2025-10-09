@@ -7,13 +7,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
 import { useActivitiesList } from "@/lib/hooks/Activities/useActivitiesList";
+import { toast } from "react-toastify";
 
 export function HeroSlider() {
-  const { data } = useActivitiesList();
+  const { data, isLoading, isError } = useActivitiesList();
   const activities = data?.activities ?? [];
 
-  if (activities.length === 0) {
+  if (activities.length === 0 || isLoading) {
     return <div className="w-full aspect-[5/2] lg:aspect-[7/2]" />;
+  }
+
+  if (isError || !data) {
+    toast.error("에러가 발생했어요");
   }
 
   return (

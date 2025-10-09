@@ -11,14 +11,17 @@ import Image from "next/image";
 import { useActivitiesList } from "@/lib/hooks/Activities/useActivitiesList";
 import Link from "next/link";
 import { PopularSliderSkeleton } from "../skeletons/PopularSliderSkeleton";
+import { toast } from "react-toastify";
 
 export function PopularSlider() {
-  const { data, isPending, error } = useActivitiesList({
+  const { data, isLoading, isError } = useActivitiesList({
     sort: "most_reviewed",
   });
 
-  if (isPending) return <PopularSliderSkeleton />;
-  if (error || !data) return <p>에러가 발생했어요.</p>;
+  if (isLoading) return <PopularSliderSkeleton />;
+  if (isError || !data) {
+    toast.error("에러가 발생했어요");
+  }
 
   return (
     <section className="w-full" aria-label="인기 체험 캐러셀">
