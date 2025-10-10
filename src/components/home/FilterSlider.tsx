@@ -3,6 +3,7 @@
 // UI
 import { CategoryButton } from "@/components/ui/Button/CategoryButton";
 import { ActivityCategory } from "@/lib/types/activities";
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const categoryList: { name: ActivityCategory }[] = [
@@ -19,6 +20,16 @@ type FilterSliderProps = {
 };
 
 export function FilterSlider({ onChangeCategory }: FilterSliderProps) {
+  const [selected, setSelected] = useState<ActivityCategory | undefined>(
+    undefined
+  );
+
+  const handleClick = (name: ActivityCategory) => {
+    const newValue = selected === name ? undefined : name;
+    setSelected(newValue);
+    onChangeCategory(newValue);
+  };
+
   return (
     <section className="w-full">
       <Swiper
@@ -34,7 +45,7 @@ export function FilterSlider({ onChangeCategory }: FilterSliderProps) {
             key={list.name}
             className="!w-[80px] md:!w-[120px] lg:!w-[130px] py-[4px]"
           >
-            <CategoryButton onClick={() => onChangeCategory(list.name)}>
+            <CategoryButton onClick={() => handleClick(list.name)}>
               {list.name}
             </CategoryButton>
           </SwiperSlide>
