@@ -43,7 +43,7 @@ export function ExperienceGrid({ category, sort }: ExperienceCardProps) {
   return (
     <section aria-label="모든 체험">
       <h3 className="text-3xl font-bold text-black mb-[32px]">🛼 모든 체험</h3>
-      <div className="grid grid-cols-2 grid-rows-2 gap-x-[7px] gap-y-[5px] md:grid-cols-3 md:grid-rows-3 md:gap-x-[15px] md:gap-y-[30px] lg:grid-cols-4 lg:grid-rows-2 lg:gap-x-[20px] lg:gap-y-[40px] mb-[60px]">
+      <div className="grid grid-cols-2 grid-rows-2 gap-x-[10px] gap-y-[10px] md:grid-cols-3 md:grid-rows-3 md:gap-x-[15px] md:gap-y-[30px] lg:grid-cols-4 lg:grid-rows-2 lg:gap-x-[20px] lg:gap-y-[40px] mb-[60px]">
         {data.activities.map((item) => (
           <Link href={`/activities/${item.id}`} key={item.id}>
             <ExperienceCard

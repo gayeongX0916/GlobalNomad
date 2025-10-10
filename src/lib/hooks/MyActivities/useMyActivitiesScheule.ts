@@ -4,7 +4,6 @@ import {
   MyActivitiesScheduleResponse,
 } from "@/lib/types/myActivities";
 import { useQuery } from "@tanstack/react-query";
-import { useQueryError } from "../useQueryError";
 
 type UseMyActivitiesScheduleProps = MyActivitiesScheduleBody & {
   enabled?: boolean;
@@ -15,13 +14,9 @@ export function useMyActivitiesSchedule({
   date,
   enabled = true,
 }: UseMyActivitiesScheduleProps) {
-  const query = useQuery<MyActivitiesScheduleResponse>({
+  return useQuery<MyActivitiesScheduleResponse>({
     queryKey: ["MyActivities", "schedule", activityId, date],
     queryFn: () => getMyActivitiesSchedule({ activityId, date }),
     enabled,
   });
-
-  useQueryError(query.error);
-
-  return query;
 }

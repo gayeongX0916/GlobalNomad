@@ -128,7 +128,7 @@ const Mypage = () => {
             mode="text"
             label="이메일"
             disabled={true}
-            value={data.email}
+            value={data?.email}
             className="text-xl"
           />
           <LoginInput

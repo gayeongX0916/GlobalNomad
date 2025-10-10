@@ -1,73 +1,38 @@
-"use client";
+import { notFound } from "next/navigation";
+import type { GetActivityDetailResponse } from "@/lib/types/activities";
+import { getActivitiesList } from "@/lib/api/activities";
+import ActivityDetailClient from "@/components/activity/ActivityDetailClient";
 
-// UI
-import { ActivityHeader } from "@/components/activity/ActivityHeader";
-import { ActivityDescription } from "@/components/activity/ActivityDescription";
-import { ActivityReview } from "@/components/activity/ActivityReview";
-import { ExperienceReservationModal } from "@/components/ui/Modal/ExperienceReservationModal";
-import { ActivityDetailSkeleton } from "@/components/skeletons/ActivityDetailSkeleton";
+export const dynamicParams = true;
 
-import { useCallback, useState } from "react";
-import { useActivityDetail } from "@/lib/hooks/Activities/useActivityDetail";
-import { useParams } from "next/navigation";
-import { GetActivityDetailResponse } from "@/lib/types/activities";
-import { formatKRW } from "@/lib/utils/formatKRW";
-import { toast } from "react-toastify";
+export async function generateStaticParams() {
+  const list = await getActivitiesList({ page: 1, size: 50 });
+  return list.activities.map((a) => ({ activityId: String(a.id) }));
+}
 
-const ActivityDetailPage = () => {
-  const { activityId } = useParams();
-  const { data, isLoading, isError } = useActivityDetail({
-    activityId: Number(activityId),
-    enabled: true,
-  });
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClick = useCallback(() => setIsOpen(true), []);
-
-  const activity: GetActivityDetailResponse = data;
-
-  if (isLoading)
-    return (
-      <>
-        <ActivityDetailSkeleton />
-      </>
-    );
-
-  if (isError || !data){
-    toast.error("에러가 발생했어요.")
-  };
-
-  return (
-    <>
-      <ExperienceReservationModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        activity={activity}
-      />
-
-      <main className="w-full px-[16px] md:px-[24px] lg:max-w-[1200px] lg:mx-auto pb-[300px]">
-        <ActivityHeader activity={activity} />
-
-        <div className="mt-[80px] flex flex-col">
-          <ActivityDescription activity={activity} />
-          <ActivityReview activity={activity} />
-        </div>
-      </main>
-
-      <aside className="z-50 border-t border-nomadBlack/30 sticky bottom-0 bg-white w-full h-[80px] flex justify-between items-center px-[40px] lg:px-[80px] py-[10px]">
-        <div className="text-2lg font-bold text-black">
-          {formatKRW(activity.price)} /
-          <span className="text-green-900">총1인</span>
-        </div>
-        <button
-          className="bg-nomadBlack text-white text-lg font-semibold border-none w-[120px] h-[56px] rounded-[5px] cursor-pointer"
-          onClick={handleClick}
-        >
-          체험 예약하기
-        </button>
-      </aside>
-    </>
+export async function getActivityDetail(
+  id: number
+): Promise<GetActivityDetailResponse | null> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/activities/${id}`,
+    {
+      next: { revalidate: 300, tags: [`activity:${id}`] },
+    }
   );
-};
 
-export default ActivityDetailPage;
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`getActivityDetail failed: ${res.status}`);
+  return res.json();
+}
+
+type PageProps = { params: { activityId: string } };
+
+export default async function Page({ params }: PageProps) {
+  const id = Number(params.activityId);
+  if (Number.isNaN(id)) notFound();
+
+  const activity = await getActivityDetail(id);
+  if (!activity) notFound();
+
+  return <ActivityDetailClient activity={activity} />;
+}

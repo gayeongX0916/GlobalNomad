@@ -9,8 +9,8 @@ export function useCreateActivity() {
 
   return useMutation({
     mutationFn: postActivities,
-    onSuccess: () => {
-      router.push("/");
+    onSuccess: (created) => {
+      router.push(`/activities/${created.id}`);
       toast.success("체험 등록에 성공했습니다.");
     },
     onError: (error) => {

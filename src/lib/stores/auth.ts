@@ -32,6 +32,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   clear: () =>
     set({
       accessToken: null,
+      userId: null,
       username: null,
       profileImageUrl: null,
     }),
