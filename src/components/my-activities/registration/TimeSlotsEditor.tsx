@@ -72,7 +72,8 @@ export function TimeSlotsEditor({ slots, onChange }: TimeSlotsEditorProps) {
           </div>
           <button
             type="button"
-            className="relative top-[20px] cursor-pointer"
+            className="relative top-[20px] cursor-pointer md:w-[56px] md:h-[56px] 
+            w-[40px] h-[40px]"
             aria-label="시간대 추가"
             onClick={handleAdd}
             disabled={!date || !startTime || !endTime}
@@ -81,8 +82,8 @@ export function TimeSlotsEditor({ slots, onChange }: TimeSlotsEditorProps) {
               src={PlusIcon}
               alt=""
               aria-hidden="true"
-              width={56}
-              height={56}
+              fill
+              className="object-contain"
             />
           </button>
         </div>
