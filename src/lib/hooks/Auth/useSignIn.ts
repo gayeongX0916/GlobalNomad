@@ -11,12 +11,14 @@ export function useSignin() {
 
   const setAccessToken = useAuthStore((s) => s.setAccessToken);
   const setUserName = useAuthStore((s) => s.setUserName);
+  const setUserId=useAuthStore((s)=>s.setUserId);
   const setProfileImageUrl = useAuthStore((s) => s.setProfileImageUrl);
 
   return useMutation({
     mutationFn: postSignIn,
     onSuccess: (data) => {
       setAccessToken(data.accessToken);
+      setUserId(data.user.id)
       setUserName(data.user.nickname);
       setProfileImageUrl(data.user.profileImageUrl);
 
