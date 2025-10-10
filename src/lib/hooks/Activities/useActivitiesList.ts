@@ -9,9 +9,9 @@ export function useActivitiesList(params?: Partial<ActivityListBody>) {
       params?.category ?? null,
       params?.sort ?? null,
       params?.page ?? 1,
-      params?.size ?? 8,
+      params?.size ?? null,
       params?.keyword ?? null,
     ],
-    queryFn: () => getActivitiesList(params ?? {}), // 👈 빈 객체로 fallback
+    queryFn: () => getActivitiesList(params ?? {}),
   });
 }
