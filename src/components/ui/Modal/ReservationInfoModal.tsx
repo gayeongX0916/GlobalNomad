@@ -19,6 +19,8 @@ import {
 import CloseIcon from "@/assets/svgs/close_icon.svg";
 import { useMyActivitiesSchedule } from "@/lib/hooks/MyActivities/useMyActivitiesScheule";
 import { useMyActivitiesReservations } from "@/lib/hooks/MyActivities/useMyActivitiesReservation";
+import { Spinner } from "../Spinner/Spinner";
+import { ErrorView } from "../ErrorView/ErrorView";
 
 interface ReservationInfoModalProps extends ModalProps {
   activityId: number;
@@ -35,11 +37,17 @@ export function ReservationInfoModal({
   onClose,
   referenceEl,
 }: ReservationInfoModalProps) {
-  const { data: schedulesRaw } = useMyActivitiesSchedule({
+  const {
+    data: schedulesRaw,
+    isError: isSchedulesError,
+    isFetching: isSchedulesFetching,
+    refetch: isSchedulesRefetch,
+  } = useMyActivitiesSchedule({
     activityId,
     date,
     enabled: !!activityId && !!date,
   });
+
   const schedules = useMemo(() => schedulesRaw ?? [], [schedulesRaw]);
 
   const totals = useMemo(() => {
@@ -54,27 +62,16 @@ export function ReservationInfoModal({
     );
   }, [schedules]);
 
-  const tabItems = [
-    {
-      key: "pending",
-      label: "신청",
-      count: totals.pending,
-      onClick: () => setActive("pending"),
-    },
-    {
-      key: "confirmed",
-      label: "확정",
-      count: totals.confirmed,
-      onClick: () => setActive("confirmed"),
-    },
-    {
-      key: "declined",
-      label: "거절",
-      count: totals.declined,
-      onClick: () => setActive("declined"),
-    },
-  ];
   const [active, setActive] = useState<TabItem>("pending");
+  const tabItems = useMemo(
+    () => [
+      { key: "pending" as const, label: "신청", count: totals.pending },
+      { key: "confirmed" as const, label: "확정", count: totals.confirmed },
+      { key: "declined" as const, label: "거절", count: totals.declined },
+    ],
+    [totals]
+  );
+
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(
     null
   );
@@ -85,7 +82,13 @@ export function ReservationInfoModal({
     }
   }, [schedules, selectedScheduleId]);
 
-  const { data: MyActivitiesReservation } = useMyActivitiesReservations({
+  const {
+    data: reservations,
+    isError: isReservationsError,
+    isFetching: isReservationsFetching,
+    isLoading: isReservationsLoading,
+    refetch: isReservationsRefetch,
+  } = useMyActivitiesReservations({
     activityId,
     scheduleId: selectedScheduleId ?? undefined,
     status: active,
@@ -102,7 +105,8 @@ export function ReservationInfoModal({
       size({
         apply({ availableHeight, elements }) {
           Object.assign(elements.floating.style, {
-            maxHeight: `${Math.max(availableHeight, 480)}px`,
+            maxHeight: `${availableHeight}px`,
+            minHeight: "480px",
             overflowY: "auto",
           });
         },
@@ -125,6 +129,7 @@ export function ReservationInfoModal({
         onClick={onClose}
         aria-hidden="true"
       />
+
       <div
         ref={refs.setFloating}
         style={
@@ -172,10 +177,10 @@ export function ReservationInfoModal({
 
             <div className="flex flex-col gap-y-[24px]">
               <nav className="border-b border-gray-300 flex gap-x-[12px]">
-                {tabItems.map(({ key, label, count, onClick }) => (
+                {tabItems.map(({ key, label, count }) => (
                   <button
                     key={key}
-                    onClick={onClick}
+                    onClick={() => setActive(key)}
                     type="button"
                     className={`${
                       active === key
@@ -186,25 +191,46 @@ export function ReservationInfoModal({
                     {label}
                     <span className="pl-[4px]">{count}</span>
                     {active === key && (
-                      <span className="absolute left-0 bottom-0 w-full h-1 bg-green-900 rounded-full"></span>
+                      <span className="absolute left-0 bottom-0 w-full h-1 bg-green-900 rounded-full" />
                     )}
                   </button>
                 ))}
               </nav>
 
-              <DateSection
-                date={date}
-                scheduleData={schedulesRaw}
-                value={selectedScheduleId}
-                onChange={setSelectedScheduleId}
-              />
+              {isSchedulesError ? (
+                <ErrorView
+                  message="스케줄을 불러오는 중 오류가 발생했어요."
+                  refetch={isSchedulesRefetch}
+                  isFetching={isSchedulesFetching}
+                />
+              ) : (
+                <DateSection
+                  date={date}
+                  scheduleData={schedulesRaw}
+                  value={selectedScheduleId}
+                  onChange={setSelectedScheduleId}
+                />
+              )}
 
-              <ListSection
-                mode={active}
-                scheduleData={MyActivitiesReservation}
-                date={date}
-                scheduleId={selectedScheduleId}
-              />
+              {isReservationsLoading ? (
+                <div className="py-[24px] flex justify-center">
+                  <Spinner size="24px" />
+                </div>
+              ) : isReservationsError ? (
+                <ErrorView
+                  message="예약 정보를 불러오는 중 오류가 발생했어요."
+                  isFetching={isReservationsFetching}
+                  refetch={isReservationsRefetch}
+                />
+              ) : (
+                <ListSection
+                  mode={active}
+                  scheduleData={reservations}
+                  date={date}
+                  scheduleId={selectedScheduleId}
+                  onActionSuccess={onClose}
+                />
+              )}
             </div>
           </PopoverPanel>
         </Popover>
