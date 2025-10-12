@@ -6,6 +6,7 @@ import { useActivityReviews } from "@/lib/hooks/Activities/useActivityReviews";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
 import { useMemo, useState } from "react";
 import { ActivityReviewSkeleton } from "../skeletons/ActivityReviewSkeleton";
+import { ErrorView } from "../ui/ErrorView/ErrorView";
 
 type ActivityReviewProps = {
   activity: GetActivityDetailResponse;
@@ -13,7 +14,7 @@ type ActivityReviewProps = {
 
 export function ActivityReview({ activity }: ActivityReviewProps) {
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError, refetch } = useActivityReviews({
+  const { data, isLoading, isError, refetch, isFetching } = useActivityReviews({
     activityId: activity.id,
     page,
     size: 3,
@@ -32,26 +33,6 @@ export function ActivityReview({ activity }: ActivityReviewProps) {
     if (rating >= 1.5) return "불만족";
     return "매우 불만족";
   };
-
-  if (isLoading) {
-    return <ActivityReviewSkeleton />;
-  }
-
-  if (isError) {
-    return (
-      <div className="flex flex-col justify-center items-center h-[200px] gap-2">
-        <p className="text-red-600 text-lg">
-          후기를 불러오는 중 오류가 발생했어요.
-        </p>
-        <button
-          onClick={() => refetch()}
-          className="px-[12px] py-[4px] border rounded text-sm"
-        >
-          다시 시도
-        </button>
-      </div>
-    );
-  }
 
   return (
     <article className="mt-[40px]" aria-labelledby="activity-review">
@@ -86,18 +67,30 @@ export function ActivityReview({ activity }: ActivityReviewProps) {
 
       <section>
         <h3 className="sr-only">리뷰 목록</h3>
-        <ul>
-          {data.reviews.map((item, idx) => (
-            <li key={idx} className="border-b border-nomadBlack/20 py-[24px]">
-              <ActivityReviewItem
-                imageUrl={item.user.profileImageUrl}
-                name={item.user.nickname}
-                date={item.createdAt}
-                des={item.content}
-              />
-            </li>
-          ))}
-        </ul>
+        {isLoading ? (
+          <ActivityReviewSkeleton />
+        ) : isError ? (
+          <ErrorView
+            message="후기를 불러오는 중 오류가 발생했어요."
+            refetch={refetch}
+            isFetching={isFetching}
+          />
+        ) : data.reviews.length === 0 ? (
+          <p className="py-[24px] text-gray-700">아직 후기가 없습니다.</p>
+        ) : (
+          <ul>
+            {data.reviews.map((item, idx) => (
+              <li key={idx} className="border-b border-nomadBlack/20 py-[24px]">
+                <ActivityReviewItem
+                  imageUrl={item.user.profileImageUrl}
+                  name={item.user.nickname}
+                  date={item.createdAt}
+                  des={item.content}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       {data.reviews.length > 0 && (
