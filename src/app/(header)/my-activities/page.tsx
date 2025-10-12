@@ -1,15 +1,20 @@
 "use client";
 
-import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
-import EmptyList from "@/assets/svgs/empty_list.svg";
-import { ActivityItem } from "@/components/my-activities/ActivityItem";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMyActivitiesList } from "@/lib/hooks/MyActivities/useMyActivitiesList";
 import Link from "next/link";
 import { useMemo, useRef, useEffect, useCallback } from "react";
-import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { toast } from "react-toastify";
+
+// Icons
+import EmptyList from "@/assets/svgs/empty_list.svg";
+
+// UI
+import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
+import { ActivityItem } from "@/components/my-activities/ActivityItem";
+import { useMyActivitiesList } from "@/lib/hooks/MyActivities/useMyActivitiesList";
+import { Spinner } from "@/components/ui/Spinner/Spinner";
+import { ErrorView } from "@/components/ui/ErrorView/ErrorView";
 
 const MyActivities = () => {
   const router = useRouter();
@@ -21,6 +26,7 @@ const MyActivities = () => {
     hasNextPage,
     isFetchingNextPage,
     refetch,
+    isFetching,
   } = useMyActivitiesList({ size: 8 });
 
   const list = useMemo(
@@ -70,12 +76,11 @@ const MyActivities = () => {
 
   if (isError && (!data || data.pages.length === 0)) {
     return (
-      <main className="flex flex-col items-center justify-center h-[400px] gap-3">
-        <p className="text-red-600">불러오는 중 오류가 발생했어요.</p>
-        <button className="px-4 py-2 border rounded" onClick={() => refetch()}>
-          다시 시도
-        </button>
-      </main>
+      <ErrorView
+        message="내 체험 관리를 불러오는 중 오류가 발생했어요."
+        refetch={refetch}
+        isFetching={isFetching}
+      />
     );
   }
 
