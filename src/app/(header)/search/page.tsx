@@ -1,19 +1,21 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+
 // UI
 import { SearchBar } from "@/components/search/SearchBar";
 import { Pagination } from "@/components/ui/Pagination/Pagination";
 import { HeroSlider } from "@/components/home/HeroSlider";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
 import { useActivitiesList } from "@/lib/hooks/Activities/useActivitiesList";
 import { ExperienceCard } from "@/components/home/ExperienceCard";
 import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { useResponsiveSearchPageSize } from "@/lib/hooks/Activities/useResponsiveSearchPageSize";
-import Link from "next/link";
-import { toast } from "react-toastify";
+import { ErrorView } from "@/components/ui/ErrorView/ErrorView";
 
 const SearchPage = () => {
+  const [searchValue, setSearchValue] = useState("");
   const searchParams = useSearchParams();
   const qFromUrl = searchParams.get("query") ?? "";
   const [page, setPage] = useState(1);
@@ -24,7 +26,7 @@ const SearchPage = () => {
     setPage(1);
   }, [qFromUrl]);
 
-  const { data, isLoading, isError } = useActivitiesList({
+  const { data, isLoading, isError, refetch, isFetching } = useActivitiesList({
     keyword,
     page,
     size,
@@ -46,14 +48,20 @@ const SearchPage = () => {
   }
 
   if (isError || !data) {
-    toast.error("에러가 발생했어요");
+    return (
+      <ErrorView
+        message="검색 결과를 불러오는 중 오류가 발생했어요."
+        refetch={refetch}
+        isFetching={isFetching}
+      />
+    );
   }
 
   return (
     <main className="pb-[300px]">
       <HeroSlider />
       <div className="w-full px-[16px] md:px-[24px] lg:max-w-[1200px] lg:mx-auto relative -translate-y-[30px] z-10">
-        <SearchBar />
+        <SearchBar value={searchValue} onChange={setSearchValue} />
 
         <div className="mt-[40px] flex flex-col gap-y-[24px]">
           <div className="flex flex-col gap-y-[12px]">
