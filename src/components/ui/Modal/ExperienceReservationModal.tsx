@@ -20,7 +20,8 @@ import { formatKRW } from "@/lib/utils/formatKRW";
 import { useCallback, useEffect, useState } from "react";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
 import { useCreateReservation } from "@/lib/hooks/Activities/useCreateReservation";
-import { toast } from "react-toastify";
+import { Spinner } from "../Spinner/Spinner";
+import { ErrorView } from "../ErrorView/ErrorView";
 
 interface ExperienceReservationModalProps extends ModalProps {
   activity: GetActivityDetailResponse;
@@ -38,11 +39,12 @@ export function ExperienceReservationModal({
   );
   const activityId = activity.id;
 
-  const { data, isLoading, isError } = useActivityAvailableSchedule({
-    activityId,
-    year,
-    month,
-  });
+  const { data, isLoading, isError, refetch, isFetching } =
+    useActivityAvailableSchedule({
+      activityId,
+      year,
+      month,
+    });
   const [headId, setHeadId] = useState(0);
   const [count, setCount] = useState(1);
   const { mutate: createReservation, isPending: isCreating } =
@@ -66,7 +68,7 @@ export function ExperienceReservationModal({
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <DialogPanel className="w-full h-full border bg-white border-gray-300 rounded-[12px] px-[20px] py-[24px] md:max-w-[450px] md:h-[500px] overflow-x-auto no-scrollbar">
           <header className="pb-[16px]">
             <DialogTitle className="text-3xl font-bold text-black">
@@ -101,12 +103,19 @@ export function ExperienceReservationModal({
               </button>
             </div>
 
-            {isError ? (
-              toast.error("에러가 발생했어요.")
+            {isLoading ? (
+              <div className="flex justify-center py-10">
+                <Spinner size="24px" />
+              </div>
+            ) : isError ? (
+              <ErrorView
+                message="스케줄을 불러오는 중 오류가 발생했어요."
+                refetch={refetch}
+                isFetching={isFetching}
+              />
             ) : (
               <SchedulePicker
                 data={data ?? []}
-                isLoading={isLoading}
                 onChange={setHeadId}
                 onCalendarMonthChange={(y, m) => {
                   setYear(String(y));
