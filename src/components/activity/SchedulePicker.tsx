@@ -10,14 +10,12 @@ type SchedulePickerProps = {
   data: ActivitySchedule[];
   onChange: (id: number) => void;
   onCalendarMonthChange?: (year: number, month: number) => void;
-  isLoading?: boolean;
 };
 
 export function SchedulePicker({
   data,
   onChange,
   onCalendarMonthChange,
-  isLoading = false,
 }: SchedulePickerProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<ActivityTime | null>(null);
@@ -35,12 +33,12 @@ export function SchedulePicker({
     return day?.times ?? [];
   }, [data, selectKey]);
 
+  const includeDates = useMemo(() => data.map((d) => parseISO(d.date)), [data]);
+
   const handleSelectSlot = (t: ActivityTime) => {
     setSelectedSlot(t);
     onChange(t.id);
   };
-
-  const includeDates = useMemo(() => data.map((d) => parseISO(d.date)), [data]);
 
   return (
     <div>
@@ -51,6 +49,7 @@ export function SchedulePicker({
         <h3 id="date-picker-title" className="sr-only">
           날짜 선택
         </h3>
+
         <DatePicker
           selected={selectedDate}
           onSelect={(day) => {
@@ -63,7 +62,7 @@ export function SchedulePicker({
               viewDate.getMonth() + 1
             );
           }}
-          openToDate={new Date()}
+          openToDate={selectedDate ?? new Date()}
           includeDates={includeDates}
           dateFormat="yyyy-MM-dd"
           inline
@@ -89,8 +88,10 @@ export function SchedulePicker({
           예약 가능한 시간
         </h3>
 
-        {isLoading ? (
-          "로딩 중입니다."
+        {includeDates.length === 0 ? (
+          <p className="mt-[8px] text-lg text-gray-800">
+            예약 가능한 날짜가 없습니다.
+          </p>
         ) : timesFromSelectedDate.length === 0 ? (
           <p className="mt-[8px] text-lg text-gray-800">
             예약 가능한 시간이 없습니다.
