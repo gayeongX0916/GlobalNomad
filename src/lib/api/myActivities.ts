@@ -57,7 +57,7 @@ export const getMyActivitiesReservations = async ({
   status,
 }: MyActivitiesReservationsBody): Promise<MyActivitiesReservationsResponse> => {
   const { data } = await basicAxios.get<MyActivitiesReservationsResponse>(
-    `/my-activities/${activityId}/reservations?size=10&scheduleId=${scheduleId}&status=${status}`
+    `/my-activities/${activityId}/reservations?size=50&scheduleId=${scheduleId}&status=${status}`
   );
   return data;
 };
