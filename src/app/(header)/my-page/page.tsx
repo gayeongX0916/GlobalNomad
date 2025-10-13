@@ -9,6 +9,7 @@ import { validateFields } from "@/lib/utils/validateFields";
 import { LoginInput } from "@/components/ui/Input/LoginInput";
 import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { ErrorView } from "@/components/ui/ErrorView/ErrorView";
+import { useAuthStore } from "@/lib/stores/auth";
 
 type MeForm = {
   nickname: string;
@@ -26,7 +27,10 @@ type UpdateUserPayload = {
 };
 
 const Mypage = () => {
-  const { data, isLoading, isError, refetch, isFetching } = useUserMe();
+  const accessToken = useAuthStore((s) => s.accessToken);
+  const { data, isLoading, isError, refetch, isFetching } = useUserMe(
+    {enabled:!!accessToken}
+  );
   const { mutate: updateUser, isPending } = useUpdateUserMe();
 
   const [form, setForm] = useState<MeForm>({
@@ -104,24 +108,6 @@ const Mypage = () => {
 
     updateUser(payload);
   };
-
-  // if (isLoading) {
-  //   return (
-  //     <main className="flex justify-center items-center h-[400px]">
-  //       <Spinner size="56px" />
-  //     </main>
-  //   );
-  // }
-
-  // if (isError) {
-  //   return (
-  //     <ErrorView
-  //       message="내 정보를 불러오는 중 오류가 발생했어요."
-  //       refetch={refetch}
-  //       isFetching={isFetching}
-  //     />
-  //   );
-  // }
 
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">

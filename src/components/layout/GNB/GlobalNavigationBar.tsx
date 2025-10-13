@@ -13,11 +13,11 @@ import { ProfileDropdown } from "@/components/ui/Dropdown/PropfileDropdown";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { NotificationModal } from "@/components/ui/Modal/NotificationModal";
 import { useMyNotificationsList } from "@/lib/hooks/MyNotifications/useMyNotificationsList";
+import { useUserMe } from "@/lib/hooks/Users/useUserMe";
 
 export function GlobalNavigationBar() {
   const accessToken = useAuthStore((s) => s.accessToken);
-  const userName = useAuthStore((s) => s.username);
-  const profileImageUrl = useAuthStore((s) => s.profileImageUrl);
+  const { data: me } = useUserMe({ enabled: !!accessToken });
 
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -94,16 +94,16 @@ export function GlobalNavigationBar() {
                   onClick={handleClickOpen}
                 >
                   <Image
-                    src={profileImageUrl ?? exampleIcon}
+                    src={me?.profileImageUrl ?? exampleIcon}
                     alt=""
                     aria-hidden="true"
                     className={
-                      profileImageUrl
+                      me?.profileImageUrl
                         ? "rounded-full w-[32px] h-[32px] object-cover"
                         : "w-[28px] h-[28px] rounded-full"
                     }
                   />
-                  <span className="text-lg text-black">{userName}</span>
+                  <span className="text-lg text-black">{me?.nickname}</span>
                 </button>
                 {isOpen && (
                   <div className="absolute -right-[30px] top-full z-50 mt-[10px]">
