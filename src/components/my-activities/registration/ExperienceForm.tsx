@@ -87,8 +87,6 @@ export function ExperienceForm({ mode, id }: ExperienceFormProps) {
       return;
     }
 
-    if (!data) return;
-
     // ----- 서브 이미지 diff -----
     const existingSubImages = data.subImages ?? []; // {id, imageUrl}[]
     const existingUrlsSet = new Set(
@@ -159,6 +157,7 @@ export function ExperienceForm({ mode, id }: ExperienceFormProps) {
         <Spinner size="56px" />
       </div>
     );
+    
   if (isEdit && isError) {
     toast.error("체험 정보를 불러오지 못했어요.");
   }

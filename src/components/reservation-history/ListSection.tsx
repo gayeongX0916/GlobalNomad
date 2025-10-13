@@ -9,17 +9,19 @@ type ListSectionProps = {
   scheduleData: MyActivitiesReservationsResponse;
   date: string;
   scheduleId: number;
+  onActionSuccess: () => void;
 };
 
 type PendingAction =
   | { type: "confirm"; activityId: number; reservationId: number }
-  | { type: "decline"; activityId: number; reservationId: number }
+  | { type: "decline"; activityId: number; reservationId: number };
 
 export function ListSection({
   mode,
   scheduleData,
   date,
   scheduleId,
+  onActionSuccess,
 }: ListSectionProps) {
   const list = useMemo(() => scheduleData?.reservations ?? [], [scheduleData]);
 
@@ -56,9 +58,20 @@ export function ListSection({
         scheduleId,
         date,
       },
-      { onSettled: () => setPendingAction(null) }
+      {
+        onSettled: () => {
+          setPendingAction(null);
+          onActionSuccess();
+        },
+      }
     );
-  }, [pendingAction, updateMyActivitiesReservation, scheduleId, date]);
+  }, [
+    pendingAction,
+    updateMyActivitiesReservation,
+    scheduleId,
+    date,
+    onActionSuccess,
+  ]);
 
   const handleDecline = useCallback(() => {
     if (!pendingAction) return;
@@ -72,9 +85,20 @@ export function ListSection({
         scheduleId,
         date,
       },
-      { onSettled: () => setPendingAction(null) }
+      {
+        onSettled: () => {
+          setPendingAction(null);
+          onActionSuccess();
+        },
+      }
     );
-  }, [pendingAction, updateMyActivitiesReservation, scheduleId, date]);
+  }, [
+    pendingAction,
+    updateMyActivitiesReservation,
+    scheduleId,
+    date,
+    onActionSuccess,
+  ]);
 
   return (
     <section

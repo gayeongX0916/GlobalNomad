@@ -7,6 +7,8 @@ import { useUpdateUserMe } from "@/lib/hooks/Users/useUpdateUserMe";
 import { useCallback, useEffect, useState } from "react";
 import { validateFields } from "@/lib/utils/validateFields";
 import { LoginInput } from "@/components/ui/Input/LoginInput";
+import { Spinner } from "@/components/ui/Spinner/Spinner";
+import { ErrorView } from "@/components/ui/ErrorView/ErrorView";
 
 type MeForm = {
   nickname: string;
@@ -24,7 +26,7 @@ type UpdateUserPayload = {
 };
 
 const Mypage = () => {
-  const { data } = useUserMe();
+  const { data, isLoading, isError, refetch, isFetching } = useUserMe();
   const { mutate: updateUser, isPending } = useUpdateUserMe();
 
   const [form, setForm] = useState<MeForm>({
@@ -103,6 +105,24 @@ const Mypage = () => {
     updateUser(payload);
   };
 
+  if (isLoading) {
+    return (
+      <main className="flex justify-center items-center h-[400px]">
+        <Spinner size="56px" />
+      </main>
+    );
+  }
+
+  if (isError) {
+    return (
+      <ErrorView
+        message="내 정보를 불러오는 중 오류가 발생했어요."
+        refetch={refetch}
+        isFetching={isFetching}
+      />
+    );
+  }
+
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">
       <div className="mx-auto flex max-w-[1200px] w-full gap-x-[24px]">
@@ -128,7 +148,7 @@ const Mypage = () => {
             mode="text"
             label="이메일"
             disabled={true}
-            value={data?.email}
+            value={data?.email ?? ""}
             className="text-xl"
           />
           <LoginInput

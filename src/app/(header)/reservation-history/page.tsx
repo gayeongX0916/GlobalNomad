@@ -20,6 +20,8 @@ import { useMyActivitiesList } from "@/lib/hooks/MyActivities/useMyActivitiesLis
 import { useMyActivitiesMonthly } from "@/lib/hooks/MyActivities/useMyActivitiesMonthly";
 import { Chips, Status } from "@/components/ui/Chips/Chips";
 import { format } from "date-fns";
+import { ErrorView } from "@/components/ui/ErrorView/ErrorView";
+import { Spinner } from "@/components/ui/Spinner/Spinner";
 
 type ActivityItem = {
   id: number;
@@ -27,8 +29,16 @@ type ActivityItem = {
 };
 
 const ReservationHistory = () => {
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useMyActivitiesList({ size: 6 });
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetching,
+    refetch,
+  } = useMyActivitiesList({ size: 6 });
 
   const calendarRef = useRef<FullCalendar>(null);
   const [api, setApi] = useState<CalendarApi | null>(null);
@@ -44,13 +54,19 @@ const ReservationHistory = () => {
     (new Date().getMonth() + 1).toString().padStart(2, "0")
   );
 
-  const { data: MyActivitiesMonthly } = useMyActivitiesMonthly({
+  const {
+    data: MyActivitiesMonthly,
+    isLoading: monthlyLoading,
+    isError: monthlyError,
+    isFetching: monthlyFetching,
+    refetch: monthlyRefetch,
+  } = useMyActivitiesMonthly({
     activityId: selectedActivity || undefined,
     year,
     month,
-    enabled: !!selectedActivity, 
+    enabled: !!selectedActivity,
   });
-  
+
   useEffect(() => {
     if (calendarRef.current) {
       setApi(calendarRef.current.getApi());
@@ -107,6 +123,16 @@ const ReservationHistory = () => {
     return <Chips status={status} count={count} />;
   };
 
+  if (isError) {
+    return (
+      <ErrorView
+        message="내 체험 관리를 불러오는 중 오류가 발생했어요."
+        refetch={refetch}
+        isFetching={isFetching}
+      />
+    );
+  }
+
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">
       <div className="mx-auto flex max-w-[1200px] w-full gap-x-[24px]">
@@ -131,20 +157,33 @@ const ReservationHistory = () => {
           <div className="flex flex-col gap-y-[18px]">
             <Toolbar api={api} />
 
-            <FullCalendar
-              ref={calendarRef}
-              plugins={[dayGridPlugin, interactionPlugin]}
-              initialView="dayGridMonth"
-              headerToolbar={false}
-              titleFormat={{ year: "numeric", month: "long" }}
-              height="auto"
-              fixedWeekCount={false}
-              datesSet={handleDatesSet}
-              dateClick={handleDateClick}
-              dayCellClassNames={() => ["cursor-pointer"]}
-              events={events}
-              eventContent={renderEventContent}
-            />
+            {monthlyError && (
+              <ErrorView
+                message="월별 예약 데이터를 불러오는 중 문제가 발생했어요."
+                refetch={monthlyRefetch}
+                isFetching={monthlyFetching}
+              />
+            )}
+            {monthlyLoading ? (
+              <div className="flex justify-center py-4">
+                <Spinner size="36px" />
+              </div>
+            ) : (
+              <FullCalendar
+                ref={calendarRef}
+                plugins={[dayGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                headerToolbar={false}
+                titleFormat={{ year: "numeric", month: "long" }}
+                height="auto"
+                fixedWeekCount={false}
+                datesSet={handleDatesSet}
+                dateClick={handleDateClick}
+                dayCellClassNames={() => ["cursor-pointer"]}
+                events={events}
+                eventContent={renderEventContent}
+              />
+            )}
 
             <ReservationInfoModal
               isOpen={isOpen}

@@ -1,17 +1,22 @@
 "use client";
 
-import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
-import { ReservationItem } from "@/components/my-reservations/ReservationItem";
-import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
-import EmptyList from "@/assets/svgs/empty_list.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useRef, useEffect, useState, useCallback } from "react";
+import { toast } from "react-toastify";
+
+// Icons
+import EmptyList from "@/assets/svgs/empty_list.svg";
+
+// UI
+import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideNavigationMenu";
+import { ReservationItem } from "@/components/my-reservations/ReservationItem";
+import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
 import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { MenuItem } from "@/lib/types/ui";
 import { MyReservationStatus } from "@/lib/types/myReservations";
 import { useMyReservationList } from "@/lib/hooks/MyReservations/useMyReservationList";
-import { toast } from "react-toastify";
+import { ErrorView } from "@/components/ui/ErrorView/ErrorView";
 
 const items: MenuItem<MyReservationStatus>[] = [
   { label: "예약 신청", value: "pending" },
@@ -34,6 +39,7 @@ export default function MyReservationsPage() {
     fetchNextPage,
     isFetchingNextPage,
     refetch,
+    isFetching,
   } = useMyReservationList({ status, size: 10 });
 
   const reservations = useMemo(
@@ -83,12 +89,11 @@ export default function MyReservationsPage() {
 
   if (isError && (!data || data.pages.length === 0)) {
     return (
-      <main className="flex flex-col items-center justify-center h-[400px] gap-3">
-        <p className="text-red-600">불러오는 중 오류가 발생했어요.</p>
-        <button className="px-4 py-2 border rounded" onClick={() => refetch()}>
-          다시 시도
-        </button>
-      </main>
+      <ErrorView
+        message="예약 내역을 불러오는 중 오류가 발생했어요."
+        refetch={refetch}
+        isFetching={isFetching}
+      />
     );
   }
 
