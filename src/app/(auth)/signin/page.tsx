@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { validateFields } from "@/lib/utils/validateFields";
 import Link from "next/link";
 
@@ -31,6 +31,7 @@ type FieldList = {
 
 const SignInPage = () => {
   const { mutate: signIn, isPending } = useSignin();
+
   const [form, setForm] = useState<FormState>({
     email: "",
     password: "",
@@ -39,20 +40,24 @@ const SignInPage = () => {
     email: "",
     password: "",
   });
-  const formList: FieldList[] = [
-    {
-      name: "email",
-      label: "이메일",
-      placeholder: "이메일을 입력해 주세요.",
-      mode: "text",
-    },
-    {
-      name: "password",
-      label: "비밀번호",
-      placeholder: "비밀번호를 입력해 주세요.",
-      mode: "password",
-    },
-  ];
+
+  const formList: FieldList[] = useMemo(
+    () => [
+      {
+        name: "email",
+        label: "이메일",
+        placeholder: "이메일을 입력해 주세요.",
+        mode: "text",
+      },
+      {
+        name: "password",
+        label: "비밀번호",
+        placeholder: "비밀번호를 입력해 주세요.",
+        mode: "password",
+      },
+    ],
+    []
+  );
 
   const handleChange = useCallback(
     (name: FieldKey) => (value: string) => {
@@ -81,9 +86,9 @@ const SignInPage = () => {
     [form, signIn]
   );
 
-  const handleKakaoClick = () => {
+  const handleKakaoClick = useCallback(() => {
     window.location.href = buildKakaoAuthUrl("in");
-  };
+  }, []);
 
   const handleGuestLogin = () => {
     signIn({ email: "test@naver.com", password: "123456789" });
