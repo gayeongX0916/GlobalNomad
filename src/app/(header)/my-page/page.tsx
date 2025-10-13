@@ -105,91 +105,104 @@ const Mypage = () => {
     updateUser(payload);
   };
 
-  if (isLoading) {
-    return (
-      <main className="flex justify-center items-center h-[400px]">
-        <Spinner size="56px" />
-      </main>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <main className="flex justify-center items-center h-[400px]">
+  //       <Spinner size="56px" />
+  //     </main>
+  //   );
+  // }
 
-  if (isError) {
-    return (
-      <ErrorView
-        message="내 정보를 불러오는 중 오류가 발생했어요."
-        refetch={refetch}
-        isFetching={isFetching}
-      />
-    );
-  }
+  // if (isError) {
+  //   return (
+  //     <ErrorView
+  //       message="내 정보를 불러오는 중 오류가 발생했어요."
+  //       refetch={refetch}
+  //       isFetching={isFetching}
+  //     />
+  //   );
+  // }
 
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">
-      <div className="mx-auto flex max-w-[1200px] w-full gap-x-[24px]">
-        <div className="shrink-0 hidden md:block">
-          <SideNavigationMenu
-            profileImageUrl={form.profileImageUrl}
-            onChange={(url) =>
-              setForm((prev) => ({ ...prev, profileImageUrl: url }))
-            }
-          />
-        </div>
-        <section className="flex flex-col gap-y-[32px] flex-1">
-          <h3 className="text-3xl text-black font-bold">내 정보</h3>
-          <div className="flex justify-center md:hidden">
-            <ProfileUpload
+      {isLoading ? (
+        <main className="flex justify-center items-center h-[400px]">
+          <Spinner size="56px" />
+        </main>
+      ) : isError ? (
+        <ErrorView
+          message="내 정보를 불러오는 중 오류가 발생했어요."
+          refetch={refetch}
+          isFetching={isFetching}
+        />
+      ) : (
+        <div className="mx-auto flex max-w-[1200px] w-full gap-x-[24px]">
+          <div className="shrink-0 hidden md:block">
+            <SideNavigationMenu
               profileImageUrl={form.profileImageUrl}
               onChange={(url) =>
                 setForm((prev) => ({ ...prev, profileImageUrl: url }))
               }
             />
           </div>
-          <LoginInput
-            mode="text"
-            label="이메일"
-            disabled={true}
-            value={data?.email ?? ""}
-            className="text-xl"
-          />
-          <LoginInput
-            mode="text"
-            label="닉네임"
-            value={form.nickname}
-            onChange={handleChange("nickname")}
-            className="text-xl"
-            onBlur={handleBlur("nickname")}
-            errorMessage={error["nickname"]}
-          />
-          <LoginInput
-            mode="password"
-            label="비밀번호"
-            placeholder="8자 이상 입력해 주세요."
-            value={form.newPassword}
-            onChange={handleChange("newPassword")}
-            className="text-xl"
-            onBlur={handleBlur("newPassword")}
-            errorMessage={error["newPassword"]}
-          />
-          <LoginInput
-            mode="password"
-            label="비밀번호 재입력"
-            placeholder="비밀번호를 한번 더 입력해 주세요."
-            value={form.confirm}
-            onChange={handleChange("confirm")}
-            className="text-xl"
-            onBlur={handleBlur("confirm")}
-            errorMessage={error["confirm"]}
-          />
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={isPending || !hasChanges()}
-            className="w-full py-[11px] rounded-[4px] bg-nomadBlack text-white text-lg font-bold flex justify-center items-center cursor-pointer"
-          >
-            {isPending ? "수정 중..." : "수정하기"}
-          </button>
-        </section>
-      </div>
+
+          <section className="flex flex-col gap-y-[32px] flex-1">
+            <h3 className="text-3xl text-black font-bold">내 정보</h3>
+            <div className="flex justify-center md:hidden">
+              <ProfileUpload
+                profileImageUrl={form.profileImageUrl}
+                onChange={(url) =>
+                  setForm((prev) => ({ ...prev, profileImageUrl: url }))
+                }
+              />
+            </div>
+            <LoginInput
+              mode="text"
+              label="이메일"
+              disabled={true}
+              value={data?.email ?? ""}
+              className="text-xl"
+            />
+            <LoginInput
+              mode="text"
+              label="닉네임"
+              value={form.nickname}
+              onChange={handleChange("nickname")}
+              className="text-xl"
+              onBlur={handleBlur("nickname")}
+              errorMessage={error["nickname"]}
+            />
+            <LoginInput
+              mode="password"
+              label="비밀번호"
+              placeholder="8자 이상 입력해 주세요."
+              value={form.newPassword}
+              onChange={handleChange("newPassword")}
+              className="text-xl"
+              onBlur={handleBlur("newPassword")}
+              errorMessage={error["newPassword"]}
+            />
+            <LoginInput
+              mode="password"
+              label="비밀번호 재입력"
+              placeholder="비밀번호를 한번 더 입력해 주세요."
+              value={form.confirm}
+              onChange={handleChange("confirm")}
+              className="text-xl"
+              onBlur={handleBlur("confirm")}
+              errorMessage={error["confirm"]}
+            />
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={isPending || !hasChanges()}
+              className="w-full py-[11px] rounded-[4px] bg-nomadBlack text-white text-lg font-bold flex justify-center items-center cursor-pointer"
+            >
+              {isPending ? "수정 중..." : "수정하기"}
+            </button>
+          </section>
+        </div>
+      )}
     </main>
   );
 };
