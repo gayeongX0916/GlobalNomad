@@ -3,7 +3,7 @@
 // UI
 import { CategoryButton } from "@/components/ui/Button/CategoryButton";
 import { ActivityCategory } from "@/lib/types/activities";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const categoryList: { name: ActivityCategory }[] = [
@@ -24,11 +24,14 @@ export function FilterSlider({ onChangeCategory }: FilterSliderProps) {
     undefined
   );
 
-  const handleClick = (name: ActivityCategory) => {
-    const newValue = selected === name ? undefined : name;
-    setSelected(newValue);
-    onChangeCategory(newValue);
-  };
+  const handleClick = useCallback(
+    (name: ActivityCategory) => {
+      const newValue = selected === name ? undefined : name;
+      setSelected(newValue);
+      onChangeCategory(newValue);
+    },
+    [selected, onChangeCategory]
+  );
 
   return (
     <section className="w-full">
