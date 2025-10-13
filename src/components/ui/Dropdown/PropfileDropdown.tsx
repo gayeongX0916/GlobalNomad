@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useAuthStore } from "@/lib/stores/auth";
 import { deleteRefreshCookie } from "@/lib/utils/cookies";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 type ProfileDropdownProps = {
   onSelect: () => void;
@@ -24,11 +25,16 @@ type ProfileDropdownProps = {
 export function ProfileDropdown({ onSelect }: ProfileDropdownProps) {
   const clearAccessToken = useAuthStore((s) => s.clear);
   const router = useRouter();
+  const qc = useQueryClient();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await qc.cancelQueries({ queryKey: ["user","me"] });
+    qc.removeQueries({ queryKey: ["user", "me"], exact: true });
+
     clearAccessToken();
     deleteRefreshCookie();
-    router.push("/signin");
+
+    router.push("/");
   };
 
   const menuItems = [

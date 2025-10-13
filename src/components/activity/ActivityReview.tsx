@@ -57,7 +57,7 @@ export function ActivityReview({ activity }: ActivityReviewProps) {
 
         <div className="flex gap-x-[16px]">
           <span className="text-[50px] text-nomadBlack font-semibold">
-            {data.averageRating}
+            {data.averageRating?.toFixed(1)}
           </span>
 
           <div className="flex flex-col gap-y-[8px]">

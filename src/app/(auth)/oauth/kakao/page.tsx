@@ -8,6 +8,7 @@ import { useAuthStore } from "@/lib/stores/auth";
 import { setRefreshCookie } from "@/lib/utils/cookies";
 import axios from "axios";
 import { Spinner } from "@/components/ui/Spinner/Spinner";
+import { buildKakaoAuthUrl } from "@/lib/utils/KakaoLogin";
 
 export default function KakaoCallbackPage() {
   const router = useRouter();
@@ -17,6 +18,10 @@ export default function KakaoCallbackPage() {
   const next = sp.get("next") || "/";
   const setAccessToken = useAuthStore((s) => s.setAccessToken);
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+
+  const setUserId = useAuthStore((s) => s.setUserId);
+  const setUserName = useAuthStore((s) => s.setUserName);
+  const setProfileImageUrl = useAuthStore((s) => s.setProfileImageUrl);
 
   useEffect(() => {
     (async () => {
@@ -66,9 +71,20 @@ export default function KakaoCallbackPage() {
 
         setAccessToken(payload.accessToken);
         setRefreshCookie(payload.refreshToken);
+        setUserId(payload.user.id);
+        setUserName(payload.user.nickname);
+        setProfileImageUrl(payload.user.profileImageUrl ?? null);
+
         router.replace(next);
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
+          if (err.response?.status === 409) {
+            toast.info(
+              "이미 가입된 계정입니다. 카카오로 다시 로그인해 주세요."
+            );
+            router.replace(buildKakaoAuthUrl("in")); // 새 인가코드 받으러 이동
+            return;
+          }
           const msg =
             err.response?.data?.message ||
             err.response?.data?.error_description ||
@@ -79,7 +95,17 @@ export default function KakaoCallbackPage() {
         router.replace("/");
       }
     })();
-  }, [code, redirectUri, router, state, next, setAccessToken]);
+  }, [
+    code,
+    redirectUri,
+    router,
+    state,
+    next,
+    setAccessToken,
+    setUserId,
+    setUserName,
+    setProfileImageUrl,
+  ]);
 
   return (
     <main className="flex justify-center items-center h-[400px]">

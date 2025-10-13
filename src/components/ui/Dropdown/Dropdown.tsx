@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import {
+  memo,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ArrowDown from "@/assets/svgs/arrow_down.svg";
 import { MenuItem } from "@/lib/types/ui";
 
@@ -11,8 +18,8 @@ type DropdownProps<T> = {
   onSelect?: (value: T) => void;
 };
 
-export function Dropdown<T>({ children, items, onSelect }: DropdownProps<T>) {
-  const ref = useRef(null);
+function DropdownComp<T>({ children, items, onSelect }: DropdownProps<T>) {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDocumentClick = useCallback((e: MouseEvent) => {
@@ -27,6 +34,13 @@ export function Dropdown<T>({ children, items, onSelect }: DropdownProps<T>) {
   }, [handleDocumentClick]);
 
   const handleIsOpen = useCallback(() => setIsOpen((prev) => !prev), []);
+  const handleSelect = useCallback(
+    (val: T) => {
+      onSelect?.(val);
+      setIsOpen(false);
+    },
+    [onSelect]
+  );
 
   return (
     <div
@@ -54,11 +68,8 @@ export function Dropdown<T>({ children, items, onSelect }: DropdownProps<T>) {
             <li key={item.label}>
               <button
                 type="button"
-                onClick={() => {
-                  onSelect(item.value);
-                  setIsOpen(false);
-                }}
-                className="cursor-pointer px-[12px] py-[18px]  hover:bg-gray-200 w-full"
+                onClick={() => handleSelect(item.value)}
+                className="cursor-pointer px-[12px] py-[18px] hover:bg-gray-200 w-full"
               >
                 {item.label}
               </button>
@@ -69,3 +80,5 @@ export function Dropdown<T>({ children, items, onSelect }: DropdownProps<T>) {
     </div>
   );
 }
+
+export const Dropdown = memo(DropdownComp) as typeof DropdownComp;
