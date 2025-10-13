@@ -66,24 +66,6 @@ const MyActivities = () => {
     return () => io.disconnect();
   }, [hasNextPage, isFetchingNextPage, onLoadMore]);
 
-  if (isLoading) {
-    return (
-      <main className="flex justify-center items-center h-[400px]">
-        <Spinner size="56px" />
-      </main>
-    );
-  }
-
-  if (isError && (!data || data.pages.length === 0)) {
-    return (
-      <ErrorView
-        message="내 체험 관리를 불러오는 중 오류가 발생했어요."
-        refetch={refetch}
-        isFetching={isFetching}
-      />
-    );
-  }
-
   return (
     <main className="pb-[200px] pt-[70px] px-[16px] md:px-[32px]">
       <div className="mx-auto flex max-w-[1200px] w-full gap-x-[24px]">
@@ -109,7 +91,17 @@ const MyActivities = () => {
             </button>
           </header>
 
-          {list.length > 0 ? (
+          {isLoading ? (
+            <main className="flex justify-center items-center h-[400px]">
+              <Spinner size="56px" />
+            </main>
+          ) : isError && !data ? (
+            <ErrorView
+              message="내 체험 관리를 불러오는 중 오류가 발생했어요."
+              refetch={refetch}
+              isFetching={isFetching}
+            />
+          ) : list.length > 0 ? (
             <>
               <ul id="reservation-list" className="flex flex-col gap-y-[24px]">
                 {list.map((item) => (

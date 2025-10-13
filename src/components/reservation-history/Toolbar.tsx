@@ -8,8 +8,6 @@ import { ko } from "date-fns/locale";
 import PrevIcon from "@/assets/svgs/prev_icon.svg";
 import NextIcon from "@/assets/svgs/next_icon.svg";
 
-
-
 type Api = ReturnType<FullCalendar["getApi"]> | null;
 
 export function Toolbar({ api }: { api: Api }) {

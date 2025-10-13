@@ -107,7 +107,9 @@ const SignUpPage = () => {
     <main className="px-[12px] w-full md:px-[50px] lg:max-w-[640px] lg:mx-auto pt-[100px] pb-[50px]">
       <header className="mb-[56px] flex justify-center">
         <h1 className="sr-only">회원가입</h1>
-        <Image src={Logo} alt="GlobalNomad 로고" />
+        <Link href="/">
+          <Image src={Logo} alt="GlobalNomad 로고" />
+        </Link>
       </header>
 
       <form

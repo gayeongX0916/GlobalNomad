@@ -1,10 +1,14 @@
-import StarIcon from "@/assets/svgs/star_icon_on.svg";
-import { ActivityReviewItem } from "./ActivityReviewItem";
 import Image from "next/image";
+import { useMemo, useState } from "react";
+
+// Icons
+import StarIcon from "@/assets/svgs/star_icon_on.svg";
+
+// UI
+import { ActivityReviewItem } from "./ActivityReviewItem";
 import { Pagination } from "@/components/ui/Pagination/Pagination";
 import { useActivityReviews } from "@/lib/hooks/Activities/useActivityReviews";
 import { GetActivityDetailResponse } from "@/lib/types/activities";
-import { useMemo, useState } from "react";
 import { ActivityReviewSkeleton } from "../skeletons/ActivityReviewSkeleton";
 import { ErrorView } from "../ui/ErrorView/ErrorView";
 
@@ -12,9 +16,21 @@ type ActivityReviewProps = {
   activity: GetActivityDetailResponse;
 };
 
+const EMPTY = {
+  averageRating: 0,
+  totalCount: 0,
+  reviews: [],
+};
+
 export function ActivityReview({ activity }: ActivityReviewProps) {
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError, refetch, isFetching } = useActivityReviews({
+  const {
+    data = EMPTY,
+    isLoading,
+    isError,
+    refetch,
+    isFetching,
+  } = useActivityReviews({
     activityId: activity.id,
     page,
     size: 3,

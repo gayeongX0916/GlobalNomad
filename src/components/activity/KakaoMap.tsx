@@ -26,12 +26,6 @@ export function KakaoMap({ address, className, level = 3 }: KakaoMapProps) {
         level,
       });
 
-      // 컨테이너 크기 변화(예: 탭/모달 열릴 때) 대응
-      // const ro = new ResizeObserver(() => {
-      // maps.event.trigger(map, "resize"); });
-      // ro.observe(mapRef.current);
-      // cleanup = () => ro.disconnect();
-
       const geocoder = new maps.services.Geocoder();
       /* eslint-disable @typescript-eslint/no-explicit-any */
       geocoder.addressSearch(address, (result: any[], status: string) => {

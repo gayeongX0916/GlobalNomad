@@ -21,6 +21,7 @@ const SearchPage = () => {
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState(qFromUrl);
   const size = useResponsiveSearchPageSize();
+
   useEffect(() => {
     setKeyword(qFromUrl);
     setPage(1);
@@ -39,24 +40,6 @@ const SearchPage = () => {
     }
   }, [data, size]);
 
-  if (isLoading) {
-    return (
-      <main className="flex justify-center items-center h-[400px]">
-        <Spinner size="56px" />
-      </main>
-    );
-  }
-
-  if (isError || !data) {
-    return (
-      <ErrorView
-        message="검색 결과를 불러오는 중 오류가 발생했어요."
-        refetch={refetch}
-        isFetching={isFetching}
-      />
-    );
-  }
-
   return (
     <main className="pb-[300px]">
       <HeroSlider />
@@ -72,28 +55,45 @@ const SearchPage = () => {
             <span className="text-lg">총 {totalCount}개의 결과</span>
           </div>
 
-          <div className="grid grid-cols-2 grid-rows-2 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-4 lg:grid-rows-4 gap-x-[7px] gap-y-[5px] md:gap-x-[15px] md:gap-y-[30px] lg:gap-x-[20px] lg:gap-y-[40px]">
-            {data.activities.map((activity) => (
-              <Link href={`/activities/${activity.id}`} key={activity.id}>
-                <ExperienceCard
-                  key={activity.id}
-                  rating={activity.rating}
-                  reviewCount={activity.reviewCount}
-                  title={activity.title}
-                  price={activity.price}
-                  imageUrl={activity.bannerImageUrl}
-                />
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex justify-center mt-[20px]">
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              onPageChange={setPage}
+          {isLoading ? (
+            <div className="flex justify-center items-center h-[300px]">
+              <Spinner size="56px" />
+            </div>
+          ) : isError || !data ? (
+            <ErrorView
+              message="검색 결과를 불러오는 중 오류가 발생했어요."
+              refetch={refetch}
+              isFetching={isFetching}
             />
-          </div>
+          ) : data.activities.length === 0 ? (
+            <p className="py-[24px] text-gray-700 text-center">
+              검색 결과가 없습니다.
+            </p>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 grid-rows-2 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-4 lg:grid-rows-4 gap-x-[7px] gap-y-[5px] md:gap-x-[15px] md:gap-y-[30px] lg:gap-x-[20px] lg:gap-y-[40px]">
+                {data.activities.map((activity) => (
+                  <Link href={`/activities/${activity.id}`} key={activity.id}>
+                    <ExperienceCard
+                      rating={activity.rating}
+                      reviewCount={activity.reviewCount}
+                      title={activity.title}
+                      price={activity.price}
+                      imageUrl={activity.bannerImageUrl}
+                    />
+                  </Link>
+                ))}
+              </div>
+
+              <div className="flex justify-center mt-[20px]">
+                <Pagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  onPageChange={setPage}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </main>

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useAuthStore } from "@/lib/stores/auth";
 import { setRefreshCookie } from "@/lib/utils/cookies";
 import axios from "axios";
+import { Spinner } from "@/components/ui/Spinner/Spinner";
 
 export default function KakaoCallbackPage() {
   const router = useRouter();
@@ -56,10 +57,9 @@ export default function KakaoCallbackPage() {
             payload = await signUp();
           } catch (err: unknown) {
             if (axios.isAxiosError(err) && err.response?.status === 409) {
-              // 이미 가입된 유저 → 로그인 시도
               payload = await signIn();
             } else {
-              throw err; // 바깥 catch로 넘김
+              throw err;
             }
           }
         }
@@ -68,13 +68,22 @@ export default function KakaoCallbackPage() {
         setRefreshCookie(payload.refreshToken);
         router.replace(next);
       } catch (err: unknown) {
-        if(axios.isAxiosError(err)){
-          toast.error(err?.response?.data?.message ?? "연결 중 오류");
+        if (axios.isAxiosError(err)) {
+          const msg =
+            err.response?.data?.message ||
+            err.response?.data?.error_description ||
+            err.response?.data ||
+            "연결 중 오류";
+          toast.error(String(msg));
         }
         router.replace("/");
       }
     })();
   }, [code, redirectUri, router, state, next, setAccessToken]);
 
-  return <main className="p-8">{/* 스켈레톤 둘 예정 */}</main>;
+  return (
+    <main className="flex justify-center items-center h-[400px]">
+      <Spinner size="56px" />
+    </main>
+  );
 }
