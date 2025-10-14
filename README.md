@@ -52,7 +52,7 @@ GlobalNomad는 **캘린더 뷰 SDK와 지도 뷰 SDK를 활용하여 예약 가�
 - **성능 최적화**
   - useMemo, useCallback, React.memo 적극 활용
   - Zustand 리렌더 최소화
-  - SSG(Static Site Generation) + ISR(Incremental Static Regeneration) 적용(tags 활용)
+  - **SSG(Static Site Generation) + ISR(Incremental Static Regeneration) 적용(tags 활용)**
   - generateStaticParams로 초기 50개 체험 페이지 미리 렌더링
 
 ## 🚀 배포 링크
