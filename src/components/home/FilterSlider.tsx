@@ -48,7 +48,10 @@ export function FilterSlider({ onChangeCategory }: FilterSliderProps) {
             key={list.name}
             className="!w-[80px] md:!w-[120px] lg:!w-[130px] py-[4px]"
           >
-            <CategoryButton onClick={() => handleClick(list.name)}>
+            <CategoryButton
+              active={selected === list.name}
+              onClick={() => handleClick(list.name)}
+            >
               {list.name}
             </CategoryButton>
           </SwiperSlide>
