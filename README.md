@@ -5,9 +5,9 @@ GlobalNomad는 캘린더 뷰 SDK와 지도 뷰 SDK를 활용하여 예약 가능
 
 ## 🛠 기술 스택
 <p align="left"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white"/> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black"/> <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white"/> </p>
-- 상태 관리 : Zustand (accessToken 상태 및 persist 유지)
-- 데이터 관리 : TanStack Query (useQuery / useMutation 기반 hooks 구조화)
-- API 통신 : Axios 기반 커스텀 API 클라이언트 (Swagger 문서 참고)
+- **상태 관리** : Zustand (accessToken 상태 및 persist 유지)
+- **데이터 관리** : TanStack Query (useQuery / useMutation 기반 hooks 구조화)
+- **API 통신** : Axios 기반 커스텀 API 클라이언트 (Swagger 문서 참고)
 
 ## 📂 폴더 구조
 - app/ – Next.js App Router 기반 페이지 구조
@@ -48,6 +48,7 @@ GlobalNomad는 캘린더 뷰 SDK와 지도 뷰 SDK를 활용하여 예약 가능
   - generateStaticParams로 초기 50개 체험 페이지 미리 렌더링
 
 ## 🚀 배포 링크
+- [GlobalNomad 바로가기](https://globalnomad-zeta.vercel.app/)
 ## 🎨 디자인 & 문서
 - [Figma 디자인](https://www.figma.com/design/0mPBOCUduoHqA28vmt9arZ/GlobalNomad?node-id=0-1&p=f&t=dOQ20knI8Uwr8ybX-0)
 - [Swagger API 문서](https://sp-globalnomad-api.vercel.app/docs/#/)
