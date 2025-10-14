@@ -4,7 +4,7 @@ import { SideNavigationMenu } from "@/components/layout/SideNavigationMenu/SideN
 import { ExperienceForm } from "@/components/my-activities/registration/ExperienceForm";
 import { useParams } from "next/navigation";
 
-export const MyActivitiesRegistrationEditPage = () => {
+const MyActivitiesRegistrationEditPage = () => {
   const { activityId } = useParams();
 
   return (
