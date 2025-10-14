@@ -25,10 +25,11 @@ async function getActivityDetail(
   return res.json();
 }
 
-type PageProps = { params: { activityId: string } };
+type PageProps = { params: Promise<{ activityId: string }> };
 
 export default async function Page({ params }: PageProps) {
-  const id = Number(params.activityId);
+  const { activityId } = await params;
+  const id = Number(activityId);
   if (Number.isNaN(id)) notFound();
 
   const activity = await getActivityDetail(id);
