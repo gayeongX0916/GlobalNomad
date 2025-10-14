@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   return list.activities.map((a) => ({ activityId: String(a.id) }));
 }
 
-export async function getActivityDetail(
+async function getActivityDetail(
   id: number
 ): Promise<GetActivityDetailResponse | null> {
   const res = await fetch(

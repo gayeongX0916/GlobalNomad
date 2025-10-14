@@ -43,7 +43,7 @@ export default function AuthBootstrap() {
     };
 
     boot();
-  }, []);
+  }, [clear,setAccessToken,setProfileImageUrl,setUserId,setUserName]);
 
   return null;
 }
