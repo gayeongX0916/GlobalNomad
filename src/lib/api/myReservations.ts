@@ -5,7 +5,7 @@ import {
   MyReservationListResponse,
   UpdateMyReservationBody,
   UpdateMyReservationResponse,
-} from "../types/myreservations";
+} from "../types/myReservations";
 import { basicAxios } from "./basicAxios";
 
 // 내 예약 리스트 조회
