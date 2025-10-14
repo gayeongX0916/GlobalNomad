@@ -1,14 +1,11 @@
 import Image from "next/image";
 
 // Icons
-import {
-  MyReservationItem,
-  MyReservationStatus,
-} from "@/lib/types/myReservations";
 import { formatKRW } from "@/lib/utils/formatKRW";
 import { ReviewModal } from "../ui/Modal/ReviewModal";
 import { useCallback, useState } from "react";
 import { useUpdateMyReservation } from "@/lib/hooks/MyReservations/useUpdateMyReservation";
+import { MyReservationItem, MyReservationStatus } from "@/lib/types/myReservations";
 
 const STATUS_LABEL: Record<MyReservationStatus, string> = {
   pending: "예약 신청",
