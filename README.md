@@ -28,30 +28,31 @@ GlobalNomad는 **캘린더 뷰 SDK와 지도 뷰 SDK를 활용하여 예약 가�
 
 ## ✨ 주요 기능
 - **인증/권한**
-  - Kakao 간편 로그인 구현 (/oauth/kakao)
+  - **Kakao 간편 로그인 구현**
   - Access Token(Zustand) + Refresh Token(쿠키) 관리
-  - Axios 인터셉터로 Authorization 자동 주입
+  - Axios 인터셉터로 `Authorization: Bearer <token>` 자동 주입
   - 401 응답 시 자동 로그아웃 및 리다이렉트
-  - Next.js Middleware로 비로그인 시 /signin 강제 이동
+  - Next.js Middleware로 보호 라우트 접근 시 refreshToken을 검사해 비로그인 사용자를 /signin으로 리다이렉트
   
 - **데이터/상태 관리**
   - TanStack Query 기반 비동기 상태 관리
   - extractErrorMessage() 유틸로 일관된 에러 메시지 처리
   - ErrorView 컴포넌트로 에러 및 재시도 UI 제공
-  - Pagination으로 대량 데이터 효율적 탐색
+  - 페이지네이션으로 대량 데이터 효율적 탐색
   - useMutation + toast 알림 처리
   
 - **UI/UX**
-  - Skeleton, Spinner 로딩 상태 표시
+  - 스켈레톤 UI, 스피너 로딩 상태 표시
   - 반응형 UI 구성
-  - Kakao Map SDK 연동 (주소, 위치, 지도 표시)
-  - 캘린더 SDK 기반 예약 가능 날짜 관리
-  - Toast 알림, 모달, 탭, 드래그 등 인터랙션 구성
+  - **Kakao Map SDK 연동** (주소, 위치, 지도 표시)
+  - **캘린더 SDK 기반 예약 가능 날짜 관리**
+  - not-found 페이지 제공
+  - Toast 알림, 모달 둥 인터랙션 구성
   
 - **성능 최적화**
   - useMemo, useCallback, React.memo 적극 활용
   - Zustand 리렌더 최소화
-  - SSG(Static Site Generation) + ISR(Incremental Static Regeneration) 적용 (revalidate: 300)
+  - SSG(Static Site Generation) + ISR(Incremental Static Regeneration) 적용(tags 활용)
   - generateStaticParams로 초기 50개 체험 페이지 미리 렌더링
 
 ## 🚀 배포 링크
