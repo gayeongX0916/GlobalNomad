@@ -40,7 +40,7 @@ GlobalNomad는 **캘린더 뷰 SDK와 지도 뷰 SDK를 활용하여 예약 가�
   - ErrorView 컴포넌트로 에러 및 재시도 UI 제공
   - 페이지네이션으로 대량 데이터 효율적 탐색
   - useMutation + toast 알림 처리
-  - useInfiniteQuery로 무한스크롤 처리# GlobalNomad
+  - useInfiniteQuery로 무한스크롤 처리
 
 ## 📌 프로젝트 개요
 GlobalNomad는 **캘린더 뷰 SDK와 지도 뷰 SDK를 활용하여 예약 가능한 날짜를 설정하고 체험 상품을 예약**할 수 있는 웹 어플리케이션입니다. 사용자는 판매자이자 체험자가 될 수 있으며, 복잡한 UI와 다양한 예약·관리 기능을 통해 실무에 가까운 경험을 제공합니다.
